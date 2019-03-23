@@ -4,6 +4,8 @@
 - static analysis, formal verification
 - building a programming language and a static analyzer
     - incrementally adding type system features to a toy language and examining the costs/benefits
+- building a type checker
+    - maybe try it for HCL (Terraform)?
 
 # Possible titles
 - Tools of software engineering: (advanced)? type systems
@@ -340,7 +342,9 @@ Type theory is the study of type systems.
 "a nyelv ne engedje, hogy futás közben az adatok "jelöletlenül" változtassák a típusukat"
 
 # Type checking
-...
+Type checking is the process of verifying that the constraints posed by the type system are not violated
+by the program. Type checking can be done by automated tools called the typecheckers, which are usually
+built into compilers or linkers.
 
 http://www.cse.chalmers.se/edu/year/2015/course/DAT150/lectures/proglang-07.html
 
@@ -362,6 +366,13 @@ in programs. The most popular of these consistency checks is called static typin
 >
 > [@leroy-phd]
 
+...
+
+Static type systems help us detect programming errors even before we could run our programs.
+It is not just the simple mistakes (like forgetting toconvert a string to a number) that can be caught by a type checker.
+A language with a rich set of types offers the opportunity to encode complex information about structure in terms of types
+but it requires attention and willingness from the programmer to make good use of the language's facilities.
+
 Static type systems are "conservative", meaning that they sometimes reject programs that actually behave
 well at run time. For example
 
@@ -376,10 +387,13 @@ static analysis cannot deftermine that this is the case.
 
 ...
 
-> Not having static type system information makes it hard to model control flow in the compiler,
-> which leads to overly conservative optimizers.
->
-> [@duffy-error-model]
+## Benefits of Static Types
+- performance
+- documentation
+- tools and analysis
+- correctness
+
+[@debating-type-systems]
 
 ...
 
@@ -458,12 +472,6 @@ http://wphomes.soic.indiana.edu/jsiek/what-is-gradual-typing/
 # Generics
 - https://docs.oracle.com/javase/tutorial/java/generics/index.html
 - where do they fit in?
-
-# Benefits of Static Types: http://blogs.perl.org/users/ovid/2010/08/what-to-know-before-debating-type-systems.html
-- performance
-- documentation
-- tools and analysis
-- correctness
 
 # Errors
 ... Why talk about errors? ...
@@ -646,7 +654,8 @@ If a language's type system doesn't allow casts between incompatible pointer typ
 same location in memory which in turn guarantees that load/store operations through those pointers cannot interfere.
 This allows the compiler to do more aggressive instruction scheduling.
 
-Type information is also useful in the optimization of method dispatch in object-oriented languages:
+Type information is also useful in the optimization of method dispatch in object-oriented languages.
+[@leroy-intro-tic98]
 
 > General method dispatch is an expensive operation, involving a run-time lookup of the code associated to the method in
 > the object’s method suite, followed by a costly indirect jump to that code. In a class-based language, if the actual
@@ -655,9 +664,12 @@ Type information is also useful in the optimization of method dispatch in object
 >
 > [@leroy-intro-tic98 p. 1]
 
+...
 
-
-[@leroy-intro-tic98]
+> Not having static type system information makes it hard to model control flow in the compiler,
+> which leads to overly conservative optimizers.
+>
+> [@duffy-error-model]
 
 # Run-time type information
 
@@ -709,5 +721,6 @@ on writing a language from scratch:
 - convert markdown to other document types: https://pandoc.org/
 - https://github.com/tompollard/phd_thesis_markdown
 - MLA citation guidelines: http://www.easybib.com/guides/citation-guides/mla-format/
+- `.bib` format documentation: http://bib-it.sourceforge.net/help/fieldsAndEntryTypes.php#article
 
 # References
