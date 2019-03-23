@@ -1,5 +1,3 @@
-[See @Leroy-Rouaix-applets]
-
 # Planned main themes
 - "software" + "engineering"
 - type systems in programming languages
@@ -82,14 +80,15 @@ By the 1960s, computer performance was growing rapidly. The intuitive programmin
 "code-and-fix" style of programming people used started to become more and more inadequate,
 software projects ran over budget and schedule, the resulting programs were unreliable, insecure and inefficient,
 the complexity of the systems was unmanageable.
-(University of Cape Town, [Software Engineering][cape-town])
-(Chris Kimble, [Information Systems and Strategy, Session 2, The Software Crisis][kimble])
+
+[@software-engineering-cape-town]
+[@kimble-software-crisis]
 
 > The standard model in software development is, and has always been, to follow the test-debug cycle.
 > I call it the standard model not because of any virtues, but because of the lack of alternatives,
 > unless it would be to prove software correct, a notion universally rejected as utterly unrealistic [...]
 >
-> (Maarten van Emden, 2017: [Is Software Engineering Possible?][is-se-possible])
+> [@is-se-possible]
 
 This phenomenon later became known as the software crisis.
 To address these issues, The NATO Software Engineering Conferences were held in 1968 and 1969.
