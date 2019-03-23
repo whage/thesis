@@ -97,7 +97,7 @@ To address these issues, The NATO Software Engineering Conferences were held in 
 > for software grounded in the application of engineering. [...]
 > The conferences played a major role in gaining general acceptance for the term software engineering.
 >
-> (Wikipedia, [NATO Software Engineering Conferences][wiki-nato-conferences])
+> [@wiki-nato-conferences]
 
 The main themes of the first conference were the following:
     - design strategies and techniques
@@ -115,13 +115,13 @@ The second one discussed:
     - large systems
     - working papers (publications)
 
-([NATO Science Committe][nato-68], 1968)
+[@nato-69]
 ...
 
 > Coining the term 'software engineer', with the word 'engineer' being something people can relate to and see it
 > as a respectable profession, I think can help a bit in conveying that yes, what we do is a real and important job.
 >
-> (Anonymous, https://news.ycombinator.com/item?id=14527776)
+> [@hn-joe-z]
 
 ...
 
@@ -134,7 +134,7 @@ The second one discussed:
 >    - Solving these equations using high-speed processors
 >    - Using the solutions to these equations to predict the behavior of the physical system
 >
-> (Alan Deutsch: Static verification of dynamic properties, 2003, p.1)
+> [@deutsch-static-verification]
 
 ...
 
@@ -144,7 +144,7 @@ The second one discussed:
 > A high percentage of bridges folded, over time. How do you "engineer" what you can't measure
 > (such as whether a metal beam is fatally flawed by a large crack inside)? You don't. We're getting there slowly.
 >
-> (Anonymous, https://news.ycombinator.com/item?id=14527776)
+> [@hn-nomentatus]
 
 # Software quality, regulations
 ...
@@ -153,7 +153,7 @@ The second one discussed:
 > Maybe statistical correctness is okay for scripting languages, but for the lowest levels of an operating system,
 > or any mission critical application or service, this isn’t an appropriate solution.
 >
-> (Joe Duffy, 2016: [The Error Model][duffy-error-model])
+> [@duffy-error-model]
 
 ## Software certification - **?do we need this section?**
 https://en.wikipedia.org/wiki/DO-178B
@@ -176,13 +176,13 @@ Testing represents only a small sampling of all possible computations and theref
 adequate to assure the expected behaviour under all possible conditions. Still, testing is the preferred method to
 "show" that a program satisfies its requirements, primarily because formal methods are not nearly as scalable.
 The level of detail needed to create a formal specification of a program can be overwhelming.
-(Hailpern and Santhamam, 2001)
+[@debugging-testing-verification]
 
 # Static analysis
 > Static program analysis is the automatic determination of run-time properties of programs, which considers
 > run-time errors at compilation time automatically, without code instrumentation or user interaction.
 >
-> (Vorobyov & Krishnan: Comparing Model Checking and Static Program Analysis: A Case Study in Error Detection Approaches, 2010, p.1)
+> [@vorobyov-krishnan]
 
 **TODO: find some good papers on static analysis!**
 **TODO: static analysis vs formal verification - how are they different?**
@@ -213,7 +213,7 @@ Formal verification is the process of proving or disproving that a program meets
 > verification is routinely used by only small pockets of the industrial software community, particularly
 > in the areas of protocol verification and embedded systems.
 > 
-> (Hailpern and Santhamam, 2001: Software Debugging, Testing, and Verification, p. 4)
+> [@debugging-testing-verification]
 
 
 
@@ -238,7 +238,7 @@ Formal verification is the process of proving or disproving that a program meets
 - if the state space is not finite, approxiamations are necessary
 - bounded model checking: the number of explored states are bounded, bugs can exist beyond the bound
 - a sufficiently abstract model must be providd so the model checker can avoid less meaningful parts of the state space
-(Vorobyov & Krishnan, 2010)
+[@vorobyov-krishnan]
 
 ## Prerequisites of formal verification (what it costs)
 ...
@@ -269,7 +269,7 @@ where software are reasonably small, tools for producing verified software syste
 > The problem with proofs, though, is the same as the problem with documentation.
 > When the code is being maintained by three programmers and changing seven times per day, maintaining the correctness proofs falls behind.
 >
-> [(blogs.perl.org)][debating-type-systems-by-chris-smith]
+> [@debating-type-systems]
 
 # The cost of formal methods
 ...
@@ -292,7 +292,7 @@ tadaaaa: TYPE SYSTEMS!
 > Modern software engineering recognizes a broad range of formal methods for helping ensure that a system behaves correctly [...]
 > by far the most popular and best established lightweight formal methods are type systems.
 >
-> (Pierce: Types and Programming Languages, 2002, p.1)
+> [@pierce-types-and-prog]
 
 A type system is a set of rules that associate a property called a **type** to various constructs in a computer program.
 The main purpose of type systems is to reduce possibilities for bugs in computer programs by defining valid operations
@@ -302,7 +302,7 @@ attempts to prove that no operation violates them.
 Such a violation is called a **type error**. It is an inconsistency in a program according to the type system's rules.
 Exactly what constitutes a type error is defined by the type system of the language.
 
-(Wikipedia, https://en.wikipedia.org/wiki/Type_system)
+[@wiki-type-systems]
 
 
 
@@ -312,7 +312,7 @@ Exactly what constitutes a type error is defined by the type system of the langu
 
 > When a programming language evolves a more elaborate type system, it gains a more finely grained rule set [...]
 >
-> (Wikipedia, https://en.wikipedia.org/wiki/Type_system)
+> [@wiki-type-systems]
 
 
 
@@ -347,7 +347,7 @@ http://www.cse.chalmers.se/edu/year/2015/course/DAT150/lectures/proglang-07.html
 ## Static type checking
 Programmers make errors. Advanced programming languages should allow the automatic checking of inconsistencies
 in programs. The most popular of these consistency checks is called static typing.
-(Leroy, 1992)
+[@leroy-phd]
 
 > ... [static typing] ... consists in detecting a
 > large family of errors: the application of operations to objects over which they are not defined (the
@@ -360,7 +360,7 @@ in programs. The most popular of these consistency checks is called static typin
 > too complex to be recognized as such by the type system used. From this tension follows the search
 > for more and more expressive type systems [...]
 >
-> (Xavier Leroy: Polymorphic typing of an algorithmic language, 1992, p.3)
+> [@leroy-phd]
 
 Static type systems are "conservative", meaning that they sometimes reject programs that actually behave
 well at run time. For example
@@ -372,20 +372,20 @@ if <complex test> then 5 else <type error>
 will always be rejected as ill-typed even if `<complex test>` always evaluates to true, because
 static analysis cannot deftermine that this is the case.
 
-(Pierce, 2002)
+[@pierce-types-and-prog]
 
 ...
 
 > Not having static type system information makes it hard to model control flow in the compiler,
 > which leads to overly conservative optimizers.
 >
-> (Joe Duffy, 2016: [The Error Model][duffy-error-model])
+> [@duffy-error-model]
 
 ...
 
 > After all, compiler-imposed constraints on data types encouraged rigorous coding and precise thinking.
 > 
-> (https://www.oracle.com/technetwork/java/effective-exceptions-092345.html)
+> [@oracle-generics]
 
 ## Dynamic type checking
 ...
@@ -417,7 +417,7 @@ https://en.wikipedia.org/wiki/Type_system#Dynamic_type_checking_and_runtime_type
 > However, type inference algorithms - techniques for looking at source code with no type declarations at all,
 > and deciding what the types of its variables are - have existed for many years now
 >
-> [http://blogs.perl.org/users/ovid/2010/08/what-to-know-before-debating-type-systems.html]
+> [@debating-type-systems]
 
 ...
 
@@ -453,7 +453,7 @@ http://wphomes.soic.indiana.edu/jsiek/what-is-gradual-typing/
 > that a variable holds. The difference? Types are proven at compile-time through rigorous and composable inductive rules [...]
 > Contracts are proven at compile-time where possible and at runtime otherwise [...]
 >
-> (Joe Duffy, 2016: [The Error Model][duffy-error-model])
+> [@duffy-error-model]
 
 # Generics
 - https://docs.oracle.com/javase/tutorial/java/generics/index.html
@@ -470,7 +470,7 @@ http://wphomes.soic.indiana.edu/jsiek/what-is-gradual-typing/
 
 > The problem of how to signal to the caller of your function that something went wrong.
 >
-> https://dave.cheney.net/2012/01/18/why-go-gets-exceptions-right
+> [@go-gets-exceptions-right]
 
 - http://blogs.perl.org/users/ovid/2010/08/what-to-know-before-debating-type-systems.html (when talking about Haskell's `lookup` fn)
 - http://joeduffyblog.com/2016/02/07/the-error-model/
@@ -500,7 +500,7 @@ language's point of view). It is also very easy to forget to handle these values
 > [...] Due to a lack of type safety or by faulty or no type checking,
 > we can accidentally use return values indicating errors as if they were computation results.
 >
-> (Danny van Heumen, 2016: [Error handling in modern languages][heumen-error-handling])
+> [@heumen-error-handling]
 
 For example, the `fork()` function in the C standard library returns `-1` in case of an error.
 That return value can be used with the `kill()` function to kill a process which also takes an integer, 
@@ -513,8 +513,8 @@ give back anything else to the caller, then other function parameters must be de
 or have it mutate a global (non-local) variable somewhere in the outer scope but that leads to other problems.
 
 One might use the return value for the result of the computation and
-explicitly pass an error "object" to the function which can be filled with the details of the error,
-if any (Heumen, 2016).
+explicitly pass an error "object" to the function which can be filled with the details of the error, if any.
+[@heumen-why-i-prefer]
 
 ### Note about returned error values
 We'll later see more variations on "errors as return values".
@@ -523,7 +523,7 @@ Regardless of the nature of the value, we can state the following about returned
 - not propagated further, unless explicitly done so by the programmer
 - every information about the error is available at the call site
 - error handling is localized to one specific function call
-([Danny Van Heumen][heumen-why-i-prefer], 2016)
+[@heumen-why-i-prefer]
 
 An "exception mechanism" is fundamentally different, which we'll discuss below.
 
@@ -532,7 +532,7 @@ An "exception mechanism" is fundamentally different, which we'll discuss below.
 > in a function by the programmer, it is automatically propagated upwards in the call graph until a funtion that "knows" how
 > to deal with the exception is found.
 >
-> (Xavier Leroy: Type-based analysis of unaught exeptions, 2000, p.1)
+> [@leroy-type-based-analysis]
 
 Characteristics of exceptions:
 - the mechanism is provided by the runtime **?TRUE?**
@@ -540,12 +540,12 @@ Characteristics of exceptions:
 - they automatically propagate through multiple levels up the call stack
 - exact information about the error is likely not available where it is handled
 - error handling can be - carelessly - done in "batch": the same `try/catch` for multiple lines of code
-([Danny Van Heumen][heumen-why-i-prefer], 2016)
+[@heumen-why-i-prefer]
 
 > Throwing an exception is usually ridiculously expensive. This is almost always due to the gathering of a stack trace [...]
 > If the error is caught and handled, however, you don’t even need that information at runtime.
 >
-> (Joe Duffy, 2016: [The Error Model][duffy-error-model])
+> [@duffy-error-model]
 
 **duffy-error-model talks a lot about exceptions!**
 ...
@@ -554,10 +554,10 @@ Characteristics of exceptions:
 > It turns out that they don’t have to be. And, when done right, they get error handling code and data off hot paths
 > which increases I-cache and TLB performance [...]
 >
-> (Joe Duffy, 2016: [The Error Model][duffy-error-model])
+> [@duffy-error-model]
 
 **TODO**
-papers: (references found [here][duffy-error-model])
+papers: (references found in Duffy: Error model)
     - "Exception handling in CLU" by Barbara Liskov - http://csg.csail.mit.edu/pubs/memos/Memo-155/Memo-155-3.pdf
     - "Exception handling: issues and a proposed notation" by John B. Goodenough - http://web.eecs.umich.edu/~weimerw/2006-615/reading/goodenough-exceptions.pdf
 
@@ -568,7 +568,7 @@ papers: (references found [here][duffy-error-model])
 > In this model, any function call – and sometimes any statement – can throw an exception, transferring control non-locally
 > somewhere else. Where? Who knows. There are no annotations or type system artifacts to guide your analysis.
 >
-> (Joe Duffy, 2016: [The Error Model][duffy-error-model])
+> [@duffy-error-model]
 
 #### Checked exceptions
 In a checked exceptiosn model (java), functions that may throw exceptions must be explicitly annotated.
@@ -576,13 +576,13 @@ The caller has 3 options:
 - throw the exceptions to its caller
 - stop the flow of exceptions by handling them
 - transform the exception types (throw a "parent" type)
-(Joe Duffy, 2016: [The Error Model][duffy-error-model])
+[@duffy-error-model]
 
 ### Multiple return values
 > Multiple return values ensure that we do not reduce expressivity of computation result in order to squeeze in error handling.
 > The static type system and the dedicated error type ensure that we do not interpret an error as a value.
 >
-> (Danny van Heumen, 2016: [Error handling in modern languages][heumen-error-handling])
+> [@heumen-error-handling]
 
 ### Monadic error handling / Option types
 
@@ -591,7 +591,7 @@ The caller has 3 options:
 > useful with the value at the callsite – which, thanks to a dataflow style of programming, you probably will – it’s easy to avoid
 > the killer problem of forgetting to check for errors.
 >
-> (Joe Duffy, 2016: [The Error Model][duffy-error-model])
+> [@duffy-error-model]
 
 - https://en.wikipedia.org/wiki/Option_type
     - are they the same?
@@ -653,11 +653,11 @@ Type information is also useful in the optimization of method dispatch in object
 > class to which the object belongs is known at compile-time, a more efficient direct invocation of the method code can be
 > generated instead.
 >
-> (Leroy: An overview of Types in Compilation, 1998, p.2)
+> [@leroy-intro-tic98 p. 1]
 
 
 
-(Leroy, 1998)
+[@leroy-intro-tic98]
 
 # Run-time type information
 
@@ -666,7 +666,7 @@ Type information is also useful in the optimization of method dispatch in object
 > Another operation that relies heavily on run-time type information is marshaling and un-marshaling between
 > arbitrary data structures and streams of bytes – a crucial mechanism for persistence and distributed programming.
 >
-> (Leroy: An overview of Types in Compilation, 1998, p.5)
+> [@leroy-intro-tic98 p. 5] 
 
 # Type erasure
 
@@ -685,8 +685,6 @@ on writing a language from scratch:
 - How computer science / software engineering curriculums could be 
 
 # TODO
-- how to do citation and bibliography properly?
-    - check out bib files!
 - Xavier Leroy's publications
     - https://xavierleroy.org/research.html
         - this site is a GOLD MINE of information on type systems!!!
@@ -701,6 +699,7 @@ on writing a language from scratch:
     - D EUTSCH , A.: Static verification of dynamic properties. for example
 - "Software Foundations" books by Penn
     - https://softwarefoundations.cis.upenn.edu/current/index.html
+- FIX page numbers in citations
 
 # QUESTIONS
 - wikipedia links? shall I include them?
@@ -710,17 +709,5 @@ on writing a language from scratch:
 - convert markdown to other document types: https://pandoc.org/
 - https://github.com/tompollard/phd_thesis_markdown
 - MLA citation guidelines: http://www.easybib.com/guides/citation-guides/mla-format/
-- R Markdown: https://rmarkdown.rstudio.com/index.html
-
-[debating-type-systems-by-chris-smith]: http://blogs.perl.org/users/ovid/2010/08/what-to-know-before-debating-type-systems.html
-[heumen-error-handling]: http://dannyvanheumen.nl/post/error-handling-in-modern-languages/
-[heumen-why-i-prefer]: http://dannyvanheumen.nl/post/why-i-prefer-error-values-over-exceptions/
-[duffy-error-model]: http://joeduffyblog.com/2016/02/07/the-error-model/
-[duffy-parent-article]: http://joeduffyblog.com/2015/11/03/blogging-about-midori/
-[is-se-possible]: https://vanemden.wordpress.com/2017/06/07/is-software-engineering-possible/
-[wiki-nato-conferences]: https://en.wikipedia.org/wiki/NATO_Software_Engineering_Conferences
-[kimble]: http://www.chris-kimble.com/Courses/World_Med_MBA/Software_Crisis.html
-[cape-town]: https://www.cs.uct.ac.za/mit_notes/software/htmls/ch02s02.html
-[nato-68]: http://homepages.cs.ncl.ac.uk/brian.randell/NATO/nato1968.PDF
 
 # References
