@@ -362,6 +362,8 @@ on writing a language from scratch:
 - "Software Foundations" books by Penn
     - https://softwarefoundations.cis.upenn.edu/current/index.html
 - FIX page numbers in citations
+- learn basic OCaml / Haskell to really get a feel for their type systems
+    - https://protoship.io/blog/rails-on-ocaml/?fbclid=IwAR19V_qKFInMulovHh9VXGnYSQYaDh9C_dbLhuaEDGlDu7bV9UXy1Y5M00k
 
 # QUESTIONS
 - wikipedia links? shall I include them?
