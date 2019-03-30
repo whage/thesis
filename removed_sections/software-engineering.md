@@ -1,3 +1,26 @@
+# Introduction, personal motivation
+Divatos manapság a szoftverfejlestést mérnöki szakmák közé sorolni. Ezzel szemben a szoftverfejlesztői gyakorlatban ritkán
+folyamodunk ...,  mint azt a hagyományos értelemben vett mérnöki "ágazatokban" teszik.
+
+...
+
+My personal experience is, however, that software development is generally practiced at a much more "informal" level.
+
+...
+
+Egyfelől méltatlannak érzem "mérnöki munkaként" feltüntetni a szoftverfejlesztés ilyen módját, másrészről viszont
+nem látom kisebb kihívásnak egy szoftverrendszer megvalósítását, mint az építészek, gépészek, villamosmérnökök által
+végzett munkákat.
+
+Dolgozatomban szeretnék rámutatni a szoftverfejlesztői gyakorlat hiányosságaira ...
+Megpróbálom megfogalmazni, mit érthetünk mérnökség alatt, hogyan vetíthetjük ezt a szoftverfejlesztésre,
+miként jutahatunk közelebb... fejelszthetjük tovább eszközeinket... hogyan módosíthatjuk bevett gyakorlatainkat...
+
+Ha már megvan, hogy mitől lesz "engineering", akkor nézzük meg, hogy mely eszközeink használatával/javításával juthatunk előrébb:
+programnyelvek, típusrendszerek.
+
+...
+
 # A brief history of engineering
 ...
 

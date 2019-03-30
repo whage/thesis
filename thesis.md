@@ -1,5 +1,4 @@
 # Planned main themes
-- "software" + "engineering"
 - type systems in programming languages
 - static analysis, formal verification
 - building a programming language and a static analyzer
@@ -13,28 +12,6 @@
 - 
 
 # Introduction, personal motivation
-
-Divatos manapság a szoftverfejlestést mérnöki szakmák közé sorolni. Ezzel szemben a szoftverfejlesztői gyakorlatban ritkán
-folyamodunk ...,  mint azt a hagyományos értelemben vett mérnöki "ágazatokban" teszik.
-
-...
-
-My personal experience is, however, that software development is generally practiced at a much more "informal" level.
-
-...
-
-Egyfelől méltatlannak érzem "mérnöki munkaként" feltüntetni a szoftverfejlesztés ilyen módját, másrészről viszont
-nem látom kisebb kihívásnak egy szoftverrendszer megvalósítását, mint az építészek, gépészek, villamosmérnökök által
-végzett munkákat.
-
-Dolgozatomban szeretnék rámutatni a szoftverfejlesztői gyakorlat hiányosságaira ...
-Megpróbálom megfogalmazni, mit érthetünk mérnökség alatt, hogyan vetíthetjük ezt a szoftverfejlesztésre,
-miként jutahatunk közelebb... fejelszthetjük tovább eszközeinket... hogyan módosíthatjuk bevett gyakorlatainkat...
-
-Ha már megvan, hogy mitől lesz "engineering", akkor nézzük meg, hogy mely eszközeink használatával/javításával juthatunk előrébb:
-programnyelvek, típusrendszerek.
-
-...
 
 - Mi alapján mondhatjuk, hogy jó minőségű az elkészült szoftver? - reasoning / verification
 - How can we reason about a program? -> type systems!
@@ -113,7 +90,24 @@ Type theory is the study of type systems.
 - what it is
 - mention category theory too?
 
-# Type safety - **legyen alaposan kifejtve**
+# Language safety - **legyen alaposan kifejtve**
+
+> [...] a safe language is one that protects its own abstractions [...]
+> Every high-level language provides abstractions of machine services. Safety refers to the language’s
+> ability to guarantee the integrity of these abstractions and of higher-level abstractions
+> introduced by the programmer using the definitional facilities of the language.
+>
+> [@pierce-types-and-prog, p. 6]
+
+As [@pierce-types-and-prog] puts it, the abstraction of a safe language can be used "abstractly", whereas in an unsafe language
+it is necessary to keep in mind the low level details, like how data is structured in memory or how allocations take place
+in order to understand how the program might misbehave.
+
+Note that "language safety" can be achieved by static type checking but also by run-time checks, like array-bounds checking is
+performed by many languages during runtime.
+
+**TODO: write about [@cardelli-96]: trapped/untrapped errors!**
+
 - Sergio Benitez: Short Paper: Rusty Types for Solid Safety
     - http://delivery.acm.org/10.1145/3000000/2993604/p69-benitez.pdf?ip=176.63.29.106&id=2993604&acc=OA&key=4D4702B0C3E38B35%2E4D4702B0C3E38B35%2E4D4702B0C3E38B35%2E16F2E899256EF4E3&__acm__=1544294467_31c2f304e83b1e3aa7798f12058b3af8
 
@@ -197,8 +191,24 @@ https://en.wikipedia.org/wiki/Type_system#Dynamic_type_checking_and_runtime_type
 - "Abstract types and the dot notation": https://xavierleroy.org/bibrefs/Cardelli-Leroy-dot.html
 
 # Evolution of type systems
+
 - mi volt elötte, mi szülte az igényt, hogyan alakultak ki
 - különböző szintek - mi szerint? "fejlettség"?
+
+The first type systems appeared in the 1950s, when the desiners of the Fortran language wanted to make
+numerical computations more efficient by distinguishing between integer-valued arithmetic expressions
+and real-valued ones. This allowed the compiler to generate the appropriate machine instruction making the
+program more efficient.
+[@pierce-types-and-prog]
+
+> In the late 1950s and early 1960s, this classification was extended to structured data (arrays of records, etc.)
+> and higher-order functions. In the 1970s, a number of even richer concepts (parametric polymorphism,
+> abstract data types, module systems, and subtyping) were introduced, and type systems emerged as a field in its own right.
+> At the same time, computer scientists began to be aware of the connections between the type systems
+> found in programming languages and those studied in mathematical logic, leading to a rich interplay
+> that continues to the present.
+>
+> [@pierce-types-and-prog, p. 10]
 
 # Classification of type systems
 - http://blogs.perl.org/users/ovid/2010/08/what-to-know-before-debating-type-systems.html
@@ -293,6 +303,7 @@ https://en.wikipedia.org/wiki/Type_system#Specialized_type_systems
     - http://blog.moertel.com/posts/2006-10-18-a-type-based-solution-to-the-strings-problem.html
 
 # Type systems and program performance
+
 - type systems allowing certain compiler optimizations?
     -   https://xavierleroy.org/publi/intro-tic98.pdf
 
