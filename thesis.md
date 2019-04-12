@@ -75,19 +75,11 @@ recoverable exceptions. This checking process during runtime is called dynamic c
 >
 > [@cardelli-96, p. 3]
 
-**my own**
+**own thought**
 By using the facilities provided by the type system, we can add more information in our programs. We create a
 safety-net against execution errors by making it possible for automated tools to verify our programs.
 
 **? what errors are NOT type errors?**
-
-...
-
-> When a programming language evolves a more elaborate type system, it gains a more finely grained rule set [...]
->
-> [@wiki-type-systems]
-
-
 
 # The history of type systems
 The first type systems appeared in the 1950s, when the desiners of the Fortran language wanted to make
@@ -130,12 +122,25 @@ in order to understand how the program might misbehave.
 Note that "language safety" can be achieved by static type checking but also by run-time checks, like array-bounds checking is
 performed by many languages during runtime.
 
-[@cardelli-96] differentiates between _trapped errors_, that cause execution to stop immadiately and
-_untrapped errors_ that go unnoticed and later cause arbitrary behaviour. An untrapped error, for example, is
+[@cardelli-96] differentiates between **trapped errors**, that cause execution to stop immadiately and
+**untrapped errors** that go unnoticed and later cause arbitrary behaviour. An untrapped error, for example, is
 accessing data past the end of an array in absence of run time bounds checks. A trapped error would be division
 by zero or accessing an illegal address.
-He calls languages where untrapped errors are impossible _safe languages_.
 
+[@cardelli-96] calls a language a **safe language** if untrapped errors are impossible in it.
+The author suggests declaring a subset of possible execution errors as **forbidden errors**
+(all of the untrapped and some of the trapped erros) and
+defines a program to be **well behaved** if no such forbidden errors can happen during execution.
+
+> But how can we guarantee that well typed programs are really well behaved? [...]
+> Once a type system is formalized, we can
+> attempt to prove a type soundness theorem stating that well-typed programs are well behaved.
+> If such a soundness theorem holds, we say that the type system is sound.
+>
+> [@cardelli-96, p. 7]
+
+**own thought**
+With that last quote, we arrived at the formalization of type systems which I'll explore in the next sections.
 
 - Sergio Benitez: Short Paper: Rusty Types for Solid Safety
     - http://delivery.acm.org/10.1145/3000000/2993604/p69-benitez.pdf?ip=176.63.29.106&id=2993604&acc=OA&key=4D4702B0C3E38B35%2E4D4702B0C3E38B35%2E4D4702B0C3E38B35%2E16F2E899256EF4E3&__acm__=1544294467_31c2f304e83b1e3aa7798f12058b3af8
@@ -143,7 +148,9 @@ He calls languages where untrapped errors are impossible _safe languages_.
 - https://stackoverflow.com/questions/260626/what-is-type-safe
     - "A short answer: a language is considered type-safe if no operation leads to undefined behavior."
 
-- https://en.wikipedia.org/wiki/Type_safety
+# Formalization of type systems
+in [@cardelli-96] !
+...
 
 # Type checking
 Type checking is the process of verifying that the constraints posed by the type system are not violated
