@@ -1,3 +1,5 @@
+# Examination of the evolution of type systems in programming languages
+
 # Planned main themes
 - type systems in programming languages
 - static analysis, formal verification
@@ -6,41 +8,23 @@
 - building a type checker
     - maybe try it for HCL (Terraform)?
 
-# Possible titles
-- Tools of software engineering: (advanced)? type systems
-- type systems and static analysis
-- 
-
 # Introduction, personal motivation
+I first experienced working with staticly typed languages at the university.
+After I started learning and working with C# I was struck by how much the
+type system aided my development and how much the typechecker speeded up my work.
+The type system made me think more thoroughly,
+it allowed me to change parts of the program and be confident that I didn't break it.
+It felt like a much more pleasant way of writing software than I had done before so I became
+more and more interested in the possibilities of static checking and type systems.
+I started wondering what else was out there that could boost programmer productivity
+and software quality even further. This is how I chose type systems as the topic of my thesis.
 
-- Mi alapján mondhatjuk, hogy jó minőségű az elkészült szoftver? - reasoning / verification
-- How can we reason about a program? -> type systems!
-- How can we automate more of the reasoning? -> static analysis
-
-...
-
-Mik a legnagyobb kihívások a szoftverfejesztésben?
-
-- managing complexity, huge state spaces
-- managing systems of components, reasoning about each component
-- quality assurance
-    - testing is not the only way of achieving high quality (see http://blogs.perl.org/users/ovid/2010/08/what-to-know-before-debating-type-systems.html)
-
-...
-röviden saját tapasztalatról:
-- first experience with staticly typed languages: C#, java
-- how I felt more confident wiritng code
-- how the type system helped think more thoroughly
-- so many errors were caught during compilation
-
-...
-
-A dolgozatom fő célja, hogy mélyebb tudást szerezzek a programnyelvek felépítésében, működésében.
-
-# Tools of software engineering (increasing the quality of the software product)
-
-The question remains: how can we decrease the costs of producing high quality software and what tools can we give to our developers?
-tadaaaa: TYPE SYSTEMS!
+My goal with this thesis is to gain a more fundamental understanding of programming languages,
+the structures and algorithms behind them.
+First, I'll survey the history and theoretical background of type systems.
+I'll look at how type systems evolved, and how they could be categorized.
+I'll compare the type systems of widely used programming languages and will try to
+give an overview of the possibilites of recent advances in type systems and programming language design.
 
 # Type systems
 - "A primer on type systems"
@@ -58,18 +42,44 @@ tadaaaa: TYPE SYSTEMS!
 > [@pierce-types-and-prog]
 
 A type system is a set of rules that associate a property called a **type** to various constructs in a computer program.
-The main purpose of type systems is to reduce possibilities for bugs in computer programs by defining valid operations
-on types. The type system associates a type with each value in the program and then by examining the flow of these values
+A type defines a range of values as well as possible operations on instances of that type.
+The main purpose of type systems is to reduce possibilities for bugs in computer programs.
+The type system associates a type with each value in the program and then by examining the flow of these values
 attempts to prove that no operation violates them.
 
 Such a violation is called a **type error**. It is an inconsistency in a program according to the type system's rules.
 Exactly what constitutes a type error is defined by the type system of the language.
+A program that violates the rules of its type system is often called ill typed. A program that conforms
+to the rules of the language's type system is a well typed program.
 
 [@wiki-type-systems]
 
+> Type systems are used to determine whether programs are well behaved [...].
+> Only program sources that comply with a type system should be considered real programs of a typed language;
+> the other sources should be discarded before they are run.
+>
+> [@cardelli-96, p. 2]
 
+Languages where variables can be given (nontrivial) types are called typed languages.
+Languages that don't restrict the range of variables are called untyped languages. In these languages, invalid operations
+might be applied to values which could result in a fixed value, a fault, an exception or an unspecified effect.
 
-**?what errors are NOT type errors?**
+Typed languages can enforce good behavior by performing static (i.e. compile time) checks to prevent ill typed
+programs from ever running. Untyped languages can enforce good behavior by performing sufficiently detailed
+runtime checks to rule out errors. For example, they may check array bounds or division operations and generate
+recoverable exceptions. This checking process during runtime is called dynamic checking.
+[@cardelli-96]
+
+> Even statically checked languages usually need to perform tests at run time to achieve safety. [...]
+> The fact that a language is statically checked does not necessarily mean that execution can proceed entirely blindly.
+>
+> [@cardelli-96, p. 3]
+
+**my own**
+By using the facilities provided by the type system, we can add more information in our programs. We create a
+safety-net against execution errors by making it possible for automated tools to verify our programs.
+
+**? what errors are NOT type errors?**
 
 ...
 
@@ -79,7 +89,21 @@ Exactly what constitutes a type error is defined by the type system of the langu
 
 
 
+# The history of type systems
+The first type systems appeared in the 1950s, when the desiners of the Fortran language wanted to make
+numerical computations more efficient by distinguishing between integer-valued arithmetic expressions
+and real-valued ones. This allowed the compiler to generate the appropriate machine instruction making the
+program more efficient.
+[@pierce-types-and-prog]
 
+> In the late 1950s and early 1960s, this classification was extended to structured data (arrays of records, etc.)
+> and higher-order functions. In the 1970s, a number of even richer concepts (parametric polymorphism,
+> abstract data types, module systems, and subtyping) were introduced, and type systems emerged as a field in its own right.
+> At the same time, computer scientists began to be aware of the connections between the type systems
+> found in programming languages and those studied in mathematical logic, leading to a rich interplay
+> that continues to the present.
+>
+> [@pierce-types-and-prog, p. 10]
 
 # Type theory
 Type theory is the study of type systems.
@@ -90,7 +114,7 @@ Type theory is the study of type systems.
 - what it is
 - mention category theory too?
 
-# Language safety - **legyen alaposan kifejtve**
+# Language safety
 
 > [...] a safe language is one that protects its own abstractions [...]
 > Every high-level language provides abstractions of machine services. Safety refers to the language’s
@@ -106,7 +130,12 @@ in order to understand how the program might misbehave.
 Note that "language safety" can be achieved by static type checking but also by run-time checks, like array-bounds checking is
 performed by many languages during runtime.
 
-**TODO: write about [@cardelli-96]: trapped/untrapped errors!**
+[@cardelli-96] differentiates between _trapped errors_, that cause execution to stop immadiately and
+_untrapped errors_ that go unnoticed and later cause arbitrary behaviour. An untrapped error, for example, is
+accessing data past the end of an array in absence of run time bounds checks. A trapped error would be division
+by zero or accessing an illegal address.
+He calls languages where untrapped errors are impossible _safe languages_.
+
 
 - Sergio Benitez: Short Paper: Rusty Types for Solid Safety
     - http://delivery.acm.org/10.1145/3000000/2993604/p69-benitez.pdf?ip=176.63.29.106&id=2993604&acc=OA&key=4D4702B0C3E38B35%2E4D4702B0C3E38B35%2E4D4702B0C3E38B35%2E16F2E899256EF4E3&__acm__=1544294467_31c2f304e83b1e3aa7798f12058b3af8
@@ -115,9 +144,6 @@ performed by many languages during runtime.
     - "A short answer: a language is considered type-safe if no operation leads to undefined behavior."
 
 - https://en.wikipedia.org/wiki/Type_safety
-
-**own thoughts**
-"a nyelv ne engedje, hogy futás közben az adatok "jelöletlenül" változtassák a típusukat"
 
 # Type checking
 Type checking is the process of verifying that the constraints posed by the type system are not violated
@@ -192,23 +218,8 @@ https://en.wikipedia.org/wiki/Type_system#Dynamic_type_checking_and_runtime_type
 
 # Evolution of type systems
 
-- mi volt elötte, mi szülte az igényt, hogyan alakultak ki
+- fejlődés szakaszai, lényeges újítások
 - különböző szintek - mi szerint? "fejlettség"?
-
-The first type systems appeared in the 1950s, when the desiners of the Fortran language wanted to make
-numerical computations more efficient by distinguishing between integer-valued arithmetic expressions
-and real-valued ones. This allowed the compiler to generate the appropriate machine instruction making the
-program more efficient.
-[@pierce-types-and-prog]
-
-> In the late 1950s and early 1960s, this classification was extended to structured data (arrays of records, etc.)
-> and higher-order functions. In the 1970s, a number of even richer concepts (parametric polymorphism,
-> abstract data types, module systems, and subtyping) were introduced, and type systems emerged as a field in its own right.
-> At the same time, computer scientists began to be aware of the connections between the type systems
-> found in programming languages and those studied in mathematical logic, leading to a rich interplay
-> that continues to the present.
->
-> [@pierce-types-and-prog, p. 10]
 
 # Classification of type systems
 - http://blogs.perl.org/users/ovid/2010/08/what-to-know-before-debating-type-systems.html
@@ -310,6 +321,11 @@ https://en.wikipedia.org/wiki/Type_system#Specialized_type_systems
 To generate efficient machine code, precise knowledge about the size of the data is required. This can be derived from
 static type information - memory size and layout. Languages without static typing cannot be compiled as efficiently,
 all data representations must fit a default size.
+
+> In general, accurate type information at compile time leads to the
+> application of the appropriate operations at run time without the need of expensive tests.
+>
+> [@cardelli-96, p. 6]
 
 If a language's type system doesn't allow casts between incompatible pointer types, then those can't point to the
 same location in memory which in turn guarantees that load/store operations through those pointers cannot interfere.
