@@ -1,1 +1,6 @@
-pandoc --bibliography=bibliography.bib -o generated/thesis.html thesis.md metadata.yaml
+pandoc \
+    --bibliography=bibliography.bib \
+    -o generated/thesis.html \
+    --csl computing-surveys.csl \
+    thesis.md \
+    metadata.yaml

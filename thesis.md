@@ -16,13 +16,13 @@ The type system made me think more thoroughly,
 it allowed me to change parts of the program and be confident that I didn't break it.
 It felt like a much more pleasant way of writing software than I had done before so I became
 more and more interested in the possibilities of static checking and type systems.
-I started wondering what else was out there that could boost programmer productivity
+I started wondering what else was out there that could increase programmer productivity
 and software quality even further. This is how I chose type systems as the topic of my thesis.
 
 My goal with this thesis is to gain a more fundamental understanding of programming languages,
 the structures and algorithms behind them.
 First, I'll survey the history and theoretical background of type systems.
-I'll look at how type systems evolved, and how they could be categorized.
+I'll look at how type systems evolved, and how they can be categorized.
 I'll compare the type systems of widely used programming languages and will try to
 give an overview of the possibilites of recent advances in type systems and programming language design.
 
@@ -38,8 +38,7 @@ give an overview of the possibilites of recent advances in type systems and prog
 
 > Modern software engineering recognizes a broad range of formal methods for helping ensure that a system behaves correctly [...]
 > by far the most popular and best established lightweight formal methods are type systems.
->
-> [@pierce-types-and-prog]
+> [@pierce-types-and-prog, p. 1]
 
 A type system is a set of rules that associate a property called a **type** to various constructs in a computer program.
 A type defines a range of values as well as possible operations on instances of that type.
@@ -398,6 +397,11 @@ on writing a language from scratch:
 - FIX page numbers in citations
 - learn basic OCaml / Haskell to really get a feel for their type systems
     - https://protoship.io/blog/rails-on-ocaml/?fbclid=IwAR19V_qKFInMulovHh9VXGnYSQYaDh9C_dbLhuaEDGlDu7bV9UXy1Y5M00k
+- look at these, maybe you'll find some type checking related stuff:
+    - https://dhall-lang.org/
+    - https://jsonnet.org/
+- read this: https://blog.wesleyac.com/posts/language-todos
+- intro to theorem proving: https://news.ycombinator.com/item?id=19659582
 
 # QUESTIONS
 - wikipedia links? shall I include them?
@@ -406,7 +410,11 @@ on writing a language from scratch:
 # META
 - convert markdown to other document types: https://pandoc.org/
 - https://github.com/tompollard/phd_thesis_markdown
-- MLA citation guidelines: http://www.easybib.com/guides/citation-guides/mla-format/
 - `.bib` format documentation: http://bib-it.sourceforge.net/help/fieldsAndEntryTypes.php#article
+- numbered references!
+    - use numbers instead names throughout the text (find out how to do in pandoc)
+- Citation Style Language
+    - https://citationstyles.org/
+    - https://www.zotero.org/styles
 
 # References
