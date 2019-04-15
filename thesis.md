@@ -24,7 +24,7 @@ the structures and algorithms behind them.
 First, I'll survey the history and theoretical background of type systems.
 I'll look at how type systems evolved, and how they can be categorized.
 I'll compare the type systems of widely used programming languages and will try to
-give an overview of the possibilites of recent advances in type systems and programming language design.
+give an overview of the possibilities of recent advances in type systems and programming language design.
 
 # Type systems
 - "A primer on type systems"
@@ -81,7 +81,7 @@ safety-net against execution errors by making it possible for automated tools to
 **? what errors are NOT type errors?**
 
 # The history of type systems
-The first type systems appeared in the 1950s, when the desiners of the Fortran language wanted to make
+The first type systems appeared in the 1950s, when the designers of the Fortran language wanted to make
 numerical computations more efficient by distinguishing between integer-valued arithmetic expressions
 and real-valued ones. This allowed the compiler to generate the appropriate machine instruction making the
 program more efficient.
