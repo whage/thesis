@@ -1,13 +1,5 @@
 # Examination of the evolution of type systems in programming languages
 
-# Planned main themes
-- type systems in programming languages
-- static analysis, formal verification
-- building a programming language and a static analyzer
-    - incrementally adding type system features to a toy language and examining the costs/benefits
-- building a type checker
-    - maybe try it for HCL (Terraform)?
-
 # Introduction, personal motivation
 I first experienced working with staticly typed languages at the university.
 After I started learning and working with C# I was struck by how much the
@@ -120,6 +112,10 @@ in order to understand how the program might misbehave.
 
 Note that "language safety" can be achieved by static type checking but also by run-time checks, like array-bounds checking is
 performed by many languages during runtime.
+
+[@types-primer] says that a programming language or language construct is type-safe if it forbids
+operations that are incorrect for the types on which they operate. The author notes that some languages
+may discourage incorrect operations or make them difficult without completely forbidding them so we may compare the level of type safety offered by two programming languages.
 
 [@cardelli-96] differentiates between **trapped errors**, that cause execution to stop immadiately and
 **untrapped errors** that go unnoticed and later cause arbitrary behaviour. An untrapped error, for example, is
@@ -372,9 +368,12 @@ https://en.wikipedia.org/wiki/Generics_in_Java#Problems_with_type_erasure
 # Promising areas of research
 - https://graydon2.dreamwidth.org/253769.html
 
-# Implementing a type system
+# Implementing a type checker
 on writing a language from scratch:
     - https://medium.freecodecamp.org/the-programming-language-pipeline-91d3f449c919
+
+# Type checking algorithms
+https://speakerdeck.com/igstan/lets-write-a-type-checker
 
 # Suggestions for further studies
 - How computer science / software engineering curriculums could be 
@@ -402,12 +401,20 @@ on writing a language from scratch:
     - https://jsonnet.org/
 - read this: https://blog.wesleyac.com/posts/language-todos
 - intro to theorem proving: https://news.ycombinator.com/item?id=19659582
+- "Rust: beyond the typechecker": https://blog.merigoux.ovh/en/2019/04/16/verifying-rust.html
 
 # QUESTIONS
 - wikipedia links? shall I include them?
 - how to properly reference online content (articles, blog posts) ?
 
 # META
+- Planned main themes
+    - type systems in programming languages
+    - static analysis, formal verification
+    - building a programming language and a static analyzer
+        - incrementally adding type system features to a toy language and examining the costs/benefits
+    - building a type checker
+        - maybe try it for HCL (Terraform)?
 - convert markdown to other document types: https://pandoc.org/
 - https://github.com/tompollard/phd_thesis_markdown
 - `.bib` format documentation: http://bib-it.sourceforge.net/help/fieldsAndEntryTypes.php#article
