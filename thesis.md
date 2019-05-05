@@ -19,15 +19,6 @@ I'll compare the type systems of widely used programming languages and will try 
 give an overview of the possibilities of recent advances in type systems and programming language design.
 
 # Type systems
-- "A primer on type systems"
-    - read HN thread: https://news.ycombinator.com/item?id=19035684
-    - read REFERENCES at the bottom of the article too!
-        - http://michaelrbernste.in/2014/02/17/what-is-a-type-system-for.html
-        - http://www.cis.upenn.edu/~bcpierce/tapl/
-- what are they?
-- what do they give us?
-- tradeoffs?
-
 > Modern software engineering recognizes a broad range of formal methods for helping ensure that a system behaves correctly [...]
 > by far the most popular and best established lightweight formal methods are type systems.
 > [@pierce-types-and-prog, p. 1]
@@ -69,8 +60,6 @@ recoverable exceptions. This checking process during runtime is called dynamic c
 **own thought**
 By using the facilities provided by the type system, we can add more information in our programs. We create a
 safety-net against execution errors by making it possible for automated tools to verify our programs.
-
-**? what errors are NOT type errors?**
 
 # The history of type systems
 The first type systems appeared in the 1950s, when the designers of the Fortran language wanted to make
@@ -144,6 +133,8 @@ With that last quote, we arrived at the formalization of type systems which I'll
     - "A short answer: a language is considered type-safe if no operation leads to undefined behavior."
 
 # Formalization of type systems
+TODO: references to Pierce: http://michaelrbernste.in/2014/02/17/what-is-a-type-system-for.html
+
 in [@cardelli-96] !
 ...
 
@@ -406,6 +397,7 @@ https://speakerdeck.com/igstan/lets-write-a-type-checker
 # QUESTIONS
 - wikipedia links? shall I include them?
 - how to properly reference online content (articles, blog posts) ?
+- what errors are NOT type errors?
 
 # META
 - Planned main themes
@@ -422,6 +414,6 @@ https://speakerdeck.com/igstan/lets-write-a-type-checker
     - use numbers instead names throughout the text (find out how to do in pandoc)
 - Citation Style Language
     - https://citationstyles.org/
-    - https://www.zotero.org/styles
+    - https://www.zotero.org/style
 
 # References
