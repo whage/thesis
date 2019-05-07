@@ -8,3 +8,7 @@
 To generate an HTML document:
 
 `$ tools/run_pandoc.sh`
+
+# Dependencies
+- sudo apt-get install texlive-latex-base
+- sudo apt-get install texlive-fonts-recommended

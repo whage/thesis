@@ -20,10 +20,12 @@ legalább vázlatos -- rendszerterve?)
 # tervezett munka
 - programnyelvek típusrendszereit megvizsgálni, összehasonlítani
     - lambda calculus (?)
-    - python / assembly (?)
+    - assembly (?)
+    - python
     - C / C++
-    - java
+    - java / C#
     - any ML language
+    - Rust
 - type checker megvalósítás egy tetszőleges nyelvre
     - milyen nyelvre?
     - HCL?

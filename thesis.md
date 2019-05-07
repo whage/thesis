@@ -1,4 +1,10 @@
-# Examination of the evolution of type systems in programming languages
+---
+title: "Examination of the evolution of type systems in programming languages"
+subtitle: "Óbudai Egyetem - Neumann János Informatikai Kar, mérnökinformatikus szak"
+author: "András Sallai"
+date: "2019"
+keywords: [Type systems, Programming languages]
+...
 
 # Introduction, personal motivation
 I first experienced working with staticly typed languages at the university.
@@ -61,7 +67,7 @@ recoverable exceptions. This checking process during runtime is called dynamic c
 By using the facilities provided by the type system, we can add more information in our programs. We create a
 safety-net against execution errors by making it possible for automated tools to verify our programs.
 
-# The history of type systems
+## The history of type systems
 The first type systems appeared in the 1950s, when the designers of the Fortran language wanted to make
 numerical computations more efficient by distinguishing between integer-valued arithmetic expressions
 and real-valued ones. This allowed the compiler to generate the appropriate machine instruction making the
@@ -77,14 +83,46 @@ program more efficient.
 >
 > [@pierce-types-and-prog, p. 10]
 
-# Type theory
-Type theory is the study of type systems.
+## Evolution of type systems
+**TODO:**
 
-...
+- the different stages of development
+- important innovations
+- timeline
 
-- https://ncatlab.org/nlab/show/type+theory#CategoricalSemantics
-- what it is
-- mention category theory too?
+### Advanced type systems
+**TODO:**
+    - what makes them advanced?
+    - look at Haskell and similar languages
+        - https://en.wikipedia.org/wiki/Hindley%E2%80%93Milner_type_system
+
+https://en.wikipedia.org/wiki/Type_system#Specialized_type_systems
+
+## Type theory
+Type theory is a branch of mathematical symbolic logic: a system of representing logical expressions
+through the use of symbols. It was concieved in the beginning of the 20th century by Bertrand Russell
+in order to resolve contradictions present in his set theory. Type theories (there are many,
+like Alonzo Church's Simply Typed Lambda calculus or Per Martin-Löf's Intuitionistic Type Theory)
+are formal systems which means they define rules for inferring theorems (statements) from axioms.
+
+[@stanford-tt]
+
+> Explicitly, type theory is a formal language, essentially a set of rules for rewriting certain strings of
+> symbols, that describes the introduction of types and their terms, and computations with these, in a sensible way.
+>
+> [@ncatlab-tt]
+
+Type theory lays down the theoretical foudation for the type systems found in programming languages.
+
+**TODO: https://github.com/jozefg/learn-tt**
+
+## Formalization of type systems
+in [@cardelli-96] !
+
+**TODO: references to Pierce: http://michaelrbernste.in/2014/02/17/what-is-a-type-system-for.html**
+
+**TODO: some parts from this book maybe?**
+    - http://pl.cs.jhu.edu/pl/book/book.pdf
 
 # Language safety
 
@@ -132,12 +170,6 @@ With that last quote, we arrived at the formalization of type systems which I'll
 - https://stackoverflow.com/questions/260626/what-is-type-safe
     - "A short answer: a language is considered type-safe if no operation leads to undefined behavior."
 
-# Formalization of type systems
-TODO: references to Pierce: http://michaelrbernste.in/2014/02/17/what-is-a-type-system-for.html
-
-in [@cardelli-96] !
-...
-
 # Type checking
 Type checking is the process of verifying that the constraints posed by the type system are not violated
 by the program. Type checking can be done by automated tools called the typecheckers, which are usually
@@ -184,7 +216,7 @@ static analysis cannot deftermine that this is the case.
 
 ...
 
-## Benefits of Static Types
+### Benefits of Static Types
 - performance
 - documentation
 - tools and analysis
@@ -203,16 +235,27 @@ static analysis cannot deftermine that this is the case.
 
 https://en.wikipedia.org/wiki/Type_system#Dynamic_type_checking_and_runtime_type_information
 
+## Gradual typing
+**TODO: just a short mention that such things also exist**
+
+http://wphomes.soic.indiana.edu/jsiek/what-is-gradual-typing/
+
+## Type checking algorithms
+https://speakerdeck.com/igstan/lets-write-a-type-checker
+
 # Abstractions and types
 - http://ryanfleury.net/blog#a_theoretical_examination_of_the_abstraction
 - https://www.destroyallsoftware.com/compendium/types?share_key=baf6b67369843fa2
 - https://www.ardanlabs.com/blog/2013/07/understanding-type-in-go.html
 - "Abstract types and the dot notation": https://xavierleroy.org/bibrefs/Cardelli-Leroy-dot.html
 
-# Evolution of type systems
+**TODO: such a great quote! need to connect it somehow**
 
-- fejlődés szakaszai, lényeges újítások
-- különböző szintek - mi szerint? "fejlettség"?
+> An ADT's user need not know how the object it represents is implemented [...]
+> In addition to the intellectual leverage for programmers who can take bigger strides in their thoughts,
+> it provides flexibility in modifying the ADT implementation
+>
+> [@tt-oop]
 
 # Classification of type systems
 - http://blogs.perl.org/users/ovid/2010/08/what-to-know-before-debating-type-systems.html
@@ -235,27 +278,17 @@ https://en.wikipedia.org/wiki/Type_system#Dynamic_type_checking_and_runtime_type
 
 **?What is the difference between dynamic type checking and a runtime error?**
 
-# Polymorphic typing
+# Advanced type systems concepts
+
+## Polymorphic typing
 ...
 
 https://en.wikipedia.org/wiki/Polymorphism_(computer_science)
 https://xavierleroy.org/bibrefs/Leroy-unboxed.html
 https://en.wikipedia.org/wiki/Type_system#Polymorphism_and_types
 
-# Gradual typing
-...
-
-http://wphomes.soic.indiana.edu/jsiek/what-is-gradual-typing/
-
-# The cost of types
-- overhead of type systems during runtime?
-    - will it be visible in the complied program?
-    - how much code does it add?
-    - does it decrease performance? after all, we are doing more "checks" (implicitly by the types system) ???
-- cost of type systems (van értelme megkülönböztetni language-design-time és programming-time költségeket?)
-
-# Contracts
-- TODO: read through this paper, chack SO link
+## Contracts
+**TODO: read through this paper, check SO link**
     - https://pdfs.semanticscholar.org/653b/fc1c9ede840964f7a6f0bb1e13d77bf9d2da.pdf
     - https://stackoverflow.com/a/5965869/1772429
     - read the part on contracts in duffy-error-model again!
@@ -267,49 +300,46 @@ http://wphomes.soic.indiana.edu/jsiek/what-is-gradual-typing/
 >
 > [@duffy-error-model]
 
-# Generics
+## Generics
 - https://docs.oracle.com/javase/tutorial/java/generics/index.html
 - where do they fit in?
-
-# Advanced type systems
-TODO:
-    - look at Haskell and similar languages
-        - https://en.wikipedia.org/wiki/Hindley%E2%80%93Milner_type_system
-
-https://en.wikipedia.org/wiki/Type_system#Specialized_type_systems
 
 ## Dependent types 
 ...
 
-## Non-Null Types - **?do we need this section?**
-...
+## "Maybe" types
+**TODO:**
 
-## CAR Hoare prezentációja a null-pointer exception-ről (The Billion Dollar Mistake - 2009)
+- same as **Non-Null Types**?
+- Null pointer exceptions vs. "Maybe" types
+
+## CAR Hoare's presentation on `NullPointerException`s (The Billion Dollar Mistake - 2009)
+**TODO: summarize his thoughts**
+
 - runtime bound chacks in languages? how do these work?
 - https://www.infoq.com/presentations/Null-References-The-Billion-Dollar-Mistake-Tony-Hoare
-- 31:10 környékén nagyon jókat mond programnyelvekkel szemben tartott elvárásokról
-- 31:40 körül "formal verification"
+- 31:10 great notes about what to expect from programming languages
+- 31:40 "formal verification"
 - 33:05 "if the validity of the local application of a rule to a small bit of program depends on properties which can only be established by the scan of the program as a whole then you know that you've done abad job as a language designer"
 - 37:34 "now, the real commercial imperative which requires greater attention paid to formal correctness of the programs is the virus."
     - "it reaches paths of your program that normal execution never reaches"
     - "it's no longer adequate to test your program against all the cases that are likely to arise..."
-- 50:00 körül a gépi "jump" utasítással kapcsolatban mond nagyon jókat
-
-# Null pointer exceptions vs. "Maybe" types
-- amit Tomival beszéltünk
+- 50:00 great thoughts about the `jmp` machine instruction
 
 # Type systems and software security
-- TODO: google "type systems and security"
-- demonstrálható helyesség
-- típusrendszerek által nyújtott védelmi mehanizmusok
-    - sérülékenységek gyakori forrásai? kell róla adat!
+**TODO: google "type systems and security"**
+
+- provable correctness
+- defensive mechanisms provided by type systems
+    - look at the most common sources of vulnerabilities, see if type systems could help
+        - need data!
 - solving injection with a type system
     - http://blog.moertel.com/posts/2006-10-18-a-type-based-solution-to-the-strings-problem.html
 
 # Type systems and program performance
+**TODO: type systems allowing certain compiler optimizations?**
 
-- type systems allowing certain compiler optimizations?
-    -   https://xavierleroy.org/publi/intro-tic98.pdf
+- https://xavierleroy.org/publi/intro-tic98.pdf
 
 To generate efficient machine code, precise knowledge about the size of the data is required. This can be derived from
 static type information - memory size and layout. Languages without static typing cannot be compiled as efficiently,
@@ -341,7 +371,14 @@ Type information is also useful in the optimization of method dispatch in object
 >
 > [@duffy-error-model]
 
-# Run-time type information
+## The cost of types
+- overhead of type systems during runtime?
+    - will it be visible in the complied program?
+    - how much code does it add?
+    - does it decrease performance? after all, we are doing more "checks" (implicitly by the types system) ???
+- cost of type systems (van értelme megkülönböztetni language-design-time és programming-time költségeket?)
+
+## Run-time type information
 
 ...
 
@@ -350,70 +387,33 @@ Type information is also useful in the optimization of method dispatch in object
 >
 > [@leroy-intro-tic98 p. 5] 
 
-# Type erasure
+### Type erasure
 
 ...
 
 https://en.wikipedia.org/wiki/Generics_in_Java#Problems_with_type_erasure
 
-# Promising areas of research
-- https://graydon2.dreamwidth.org/253769.html
+# Own research: comparing type systems of popular programming languages
+**TODO**
 
-# Implementing a type checker
+- which languages?
+    - lambda calculus (?)
+    - assembly (?)
+    - javascript
+    - python
+    - C / C++
+    - java / C#
+    - any ML language
+    - Rust
+
+# Implementing a type checker (?)
 on writing a language from scratch:
     - https://medium.freecodecamp.org/the-programming-language-pipeline-91d3f449c919
 
-# Type checking algorithms
-https://speakerdeck.com/igstan/lets-write-a-type-checker
-
 # Suggestions for further studies
-- How computer science / software engineering curriculums could be 
+- How computer science / software engineering curriculums could be
 
-# TODO
-- Xavier Leroy's publications
-    - https://xavierleroy.org/research.html
-        - this site is a GOLD MINE of information on type systems!!!
-- Chris Lattner's PhD thesis: "LLVM: An Infrastructure for Multi-Stage Optimization" http://llvm.org/pubs/2002-12-LattnerMSThesis.html
-- my good old bookmarked page: http://blog.fogus.me/2011/09/08/10-technical-papers-every-programmer-should-read-at-least-twice/
-- http://canonical.org/~kragen/memory-models/
-- formal verification: https://www.sciencedirect.com/science/article/pii/S0304397599002753
-- do a proper bibliography, instead of just providing links to papers!
-- Cleanroom method: http://infohost.nmt.edu/~al/cseet-paper.html
-    - not very clean, but might be useful
-- there are some nice references in [Vorobyov], check them out!
-    - D EUTSCH , A.: Static verification of dynamic properties. for example
-- "Software Foundations" books by Penn
-    - https://softwarefoundations.cis.upenn.edu/current/index.html
-- FIX page numbers in citations
-- learn basic OCaml / Haskell to really get a feel for their type systems
-    - https://protoship.io/blog/rails-on-ocaml/?fbclid=IwAR19V_qKFInMulovHh9VXGnYSQYaDh9C_dbLhuaEDGlDu7bV9UXy1Y5M00k
-- look at these, maybe you'll find some type checking related stuff:
-    - https://dhall-lang.org/
-    - https://jsonnet.org/
-- read this: https://blog.wesleyac.com/posts/language-todos
-- intro to theorem proving: https://news.ycombinator.com/item?id=19659582
-- "Rust: beyond the typechecker": https://blog.merigoux.ovh/en/2019/04/16/verifying-rust.html
-
-# QUESTIONS
-- wikipedia links? shall I include them?
-- how to properly reference online content (articles, blog posts) ?
-- what errors are NOT type errors?
-
-# META
-- Planned main themes
-    - type systems in programming languages
-    - static analysis, formal verification
-    - building a programming language and a static analyzer
-        - incrementally adding type system features to a toy language and examining the costs/benefits
-    - building a type checker
-        - maybe try it for HCL (Terraform)?
-- convert markdown to other document types: https://pandoc.org/
-- https://github.com/tompollard/phd_thesis_markdown
-- `.bib` format documentation: http://bib-it.sourceforge.net/help/fieldsAndEntryTypes.php#article
-- numbered references!
-    - use numbers instead names throughout the text (find out how to do in pandoc)
-- Citation Style Language
-    - https://citationstyles.org/
-    - https://www.zotero.org/style
+## Promising/interesting areas of research
+- https://graydon2.dreamwidth.org/253769.html
 
 # References
