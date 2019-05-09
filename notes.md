@@ -46,3 +46,6 @@
     - https://www.zotero.org/style
 - markdown title page templates:
     - https://github.com/Wandmalfarbe/pandoc-latex-template/blob/master/examples/custom-titlepage/custom-titlepage.md
+- LATEX
+    - https://www.latex-tutorial.com/tutorials/amsmath/
+    - https://www.rpi.edu/dept/arc/training/latex/LaTeX_symbols.pdf

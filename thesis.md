@@ -10,6 +10,16 @@ keywords: [Type systems, Programming languages]
 \tableofcontents
 \pagebreak
 
+**Megjegyzés a tisztelt bíráló bizottságnak**: A dolgozatom jelen állapota egy köztes állapot,
+több helyen tartalmaz feljegyzéseket, jelöléseket, a további munkához.
+A terület, amit választottam nagyobb, érdekesebb, mint először gondoltam,
+jóval több tájékozódást és munkát igényel a részemről, mint számítottam, viszont
+szándékomban áll mélységében áttekinteni és a hiányzó részeket kidolgozni.
+A megjelölt részeket a következő időszakban illetve a Szakdolgozat II. tágy keretein beül fogom
+befejezni.
+
+\pagebreak
+
 # Introduction, personal motivation
 I first experienced working with staticly typed languages at the university.
 After I started learning and working with C# I was struck by how much the
@@ -126,8 +136,42 @@ Type theory lays down the theoretical foudation for the type systems found in pr
 **TODO: https://github.com/jozefg/learn-tt**
 
 ## Formalization of type systems
-The material on formal type systems gets very abstract and dense very quickly.
-**TODO: continue note**
+
+> But how can we guarantee that well typed programs are really well behaved? [...]
+> Formal type systems are the mathematical characterizations of the informal type systems
+> that are described in programming language manuals. Once a type system is formalized, we can
+> attempt to prove a type soundness theorem stating that well typed programs are well behaved.
+> If such a soundness theorem holds, we say that the type system is sound.
+>
+> [@cardelli-96, p. 7]
+
+Most materials on the formalization of type systems are dense and get very abstract qickly.
+Here, I'd like to just briefly introduce the basic concepts and standard notation used when
+discussing formal type systems.
+
+Type systems associate expressions with types. We call this the _has type_ relationship:
+$e : M$, where expression $e$ has type $M$. This is also called a judgement.
+Judgements are used to build inference rules of the form
+
+\begin{equation*}
+    \frac{J_{1} \ldots J_{n}}{J}
+\end{equation*}
+
+Where the judgements ${J_{1} \ldots J_{n}}$ above the line are called the premisses and the
+one below the line $J$ is the conclusion.
+We read the above expression as "from the premisses ${J_{1} \ldots J_{n}}$ we can conclude $J$".
+
+In a program, the type of a variable can only be decided by looking at its context which is defined by
+the declarations of the variables. We can think of context as a lookup table of (variable, type) pairs.
+In the standard notaton, context is denoted by the greek letter Gamma:
+
+\begin{equation*}
+    \Gamma \Rightarrow e : T
+\end{equation*}
+
+Which we read as "expression $e$ has type $T$ in context $\Gamma$".
+
+[@cardelli-96], [@ranta2012]
 
 **TODO: some terminlogy:**
 in [@cardelli-96] : "How type systems are formalized" and "The language of type systems"!
@@ -161,22 +205,15 @@ performed by many languages during runtime.
 operations that are incorrect for the types on which they operate. The author notes that some languages
 may discourage incorrect operations or make them difficult without completely forbidding them so we may compare the level of type safety offered by two programming languages.
 
-[@cardelli-96] differentiates between **trapped errors**, that cause execution to stop immadiately and
-**untrapped errors** that go unnoticed and later cause arbitrary behaviour. An untrapped error, for example, is
+[@cardelli-96] differentiates between trapped errors, that cause execution to stop immadiately and
+untrapped errors that go unnoticed and later cause arbitrary behaviour. An untrapped error, for example, is
 accessing data past the end of an array in absence of run time bounds checks. A trapped error would be division
 by zero or accessing an illegal address.
 
-[@cardelli-96] calls a language a **safe language** if untrapped errors are impossible in it.
-The author suggests declaring a subset of possible execution errors as **forbidden errors**
+[@cardelli-96] calls a language a safe language if untrapped errors are impossible in it.
+The author suggests declaring a subset of possible execution errors as forbidden errors
 (all of the untrapped and some of the trapped erros) and
-defines a program to be **well behaved** if no such forbidden errors can happen during execution.
-
-> But how can we guarantee that well typed programs are really well behaved? [...]
-> Once a type system is formalized, we can
-> attempt to prove a type soundness theorem stating that well-typed programs are well behaved.
-> If such a soundness theorem holds, we say that the type system is sound.
->
-> [@cardelli-96, p. 7]
+defines a program to be well behaved if no such forbidden errors can happen during execution.
 
 **own thought**
 With that last quote, we arrived at the formalization of type systems which I'll explore in the next sections.
@@ -429,6 +466,7 @@ https://en.wikipedia.org/wiki/Generics_in_Java#Problems_with_type_erasure
     - C / C++
     - java / C#
     - any ML language
+    - Agda
     - Rust
 
 # Implementing a type checker (?)
