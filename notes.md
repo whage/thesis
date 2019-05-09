@@ -7,8 +7,6 @@
 - http://canonical.org/~kragen/memory-models/
 - formal verification: https://www.sciencedirect.com/science/article/pii/S0304397599002753
 - do a proper bibliography, instead of just providing links to papers!
-- Cleanroom method: http://infohost.nmt.edu/~al/cseet-paper.html
-    - not very clean, but might be useful
 - there are some nice references in [Vorobyov], check them out!
     - D EUTSCH , A.: Static verification of dynamic properties. for example
 - "Software Foundations" books by Penn

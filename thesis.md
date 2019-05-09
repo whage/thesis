@@ -6,6 +6,10 @@ date: "2019"
 keywords: [Type systems, Programming languages]
 ...
 
+\pagebreak
+\tableofcontents
+\pagebreak
+
 # Introduction, personal motivation
 I first experienced working with staticly typed languages at the university.
 After I started learning and working with C# I was struck by how much the
@@ -63,9 +67,14 @@ recoverable exceptions. This checking process during runtime is called dynamic c
 >
 > [@cardelli-96, p. 3]
 
-**own thought**
 By using the facilities provided by the type system, we can add more information in our programs. We create a
 safety-net against execution errors by making it possible for automated tools to verify our programs.
+Through types, we can add more meaning, a deeper, more solid structure to our programs. That structure aids
+us when we later change parts of the program or add new components to it.
+
+**TODO: add more notes after having worked with Haskell/OCaml**
+
+**TODO: add note on why this should motivate type system research; benefits for working programmers**
 
 ## The history of type systems
 The first type systems appeared in the 1950s, when the designers of the Fortran language wanted to make
@@ -117,7 +126,15 @@ Type theory lays down the theoretical foudation for the type systems found in pr
 **TODO: https://github.com/jozefg/learn-tt**
 
 ## Formalization of type systems
-in [@cardelli-96] !
+The material on formal type systems gets very abstract and dense very quickly.
+**TODO: continue note**
+
+**TODO: some terminlogy:**
+in [@cardelli-96] : "How type systems are formalized" and "The language of type systems"!
+similar notation here:
+http://www.cse.chalmers.se/edu/year/2015/course/DAT150/lectures/proglang-07.html
+and here:
+https://sergio.bz/docs/rusty-types-2016.pdf
 
 **TODO: references to Pierce: http://michaelrbernste.in/2014/02/17/what-is-a-type-system-for.html**
 
@@ -214,6 +231,11 @@ static analysis cannot deftermine that this is the case.
 
 [@pierce-types-and-prog]
 
+> In general, the more there is static checking in the compiler, the less need there is for manual debugging.
+>
+> **TODO: fix citation!**
+> http://www.cse.chalmers.se/edu/year/2015/course/DAT150/lectures/proglang-07.html
+
 ...
 
 ### Benefits of Static Types
@@ -265,6 +287,9 @@ https://speakerdeck.com/igstan/lets-write-a-type-checker
     - explicit(manifest) / implicit
     - structural / nominal
     - duck typing
+
+"are unsound type systems wrong?"
+http://frenchy64.github.io/2018/04/07/unsoundness-in-untyped-types.html
 
 ...
 
@@ -393,7 +418,7 @@ Type information is also useful in the optimization of method dispatch in object
 
 https://en.wikipedia.org/wiki/Generics_in_Java#Problems_with_type_erasure
 
-# Own research: comparing type systems of popular programming languages
+# Comparing type systems of popular programming languages
 **TODO**
 
 - which languages?
