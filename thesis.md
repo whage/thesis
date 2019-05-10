@@ -15,7 +15,7 @@ több helyen tartalmaz feljegyzéseket, jelöléseket, a további munkához.
 A terület, amit választottam nagyobb, érdekesebb, mint először gondoltam,
 jóval több tájékozódást és munkát igényel a részemről, mint számítottam, viszont
 szándékomban áll mélységében áttekinteni és a hiányzó részeket kidolgozni.
-A megjelölt részeket a következő időszakban illetve a Szakdolgozat II. tágy keretein beül fogom
+A megjelölt részeket a következő időszakban illetve a Szakdolgozat II. tágy keretein belül fogom
 befejezni.
 
 \pagebreak
@@ -145,7 +145,7 @@ Type theory lays down the theoretical foudation for the type systems found in pr
 >
 > [@cardelli-96, p. 7]
 
-Most materials on the formalization of type systems are dense and get very abstract qickly.
+Most materials on the formalization of type systems are dense and get very abstract quickly.
 Here, I'd like to just briefly introduce the basic concepts and standard notation used when
 discussing formal type systems.
 
@@ -157,8 +157,7 @@ Judgements are used to build inference rules of the form
     \frac{J_{1} \ldots J_{n}}{J}
 \end{equation*}
 
-Where the judgements ${J_{1} \ldots J_{n}}$ above the line are called the premisses and the
-one below the line $J$ is the conclusion.
+Where the judgements ${J_{1} \ldots J_{n}}$ above the line are called the premisses and $J$ is the conclusion.
 We read the above expression as "from the premisses ${J_{1} \ldots J_{n}}$ we can conclude $J$".
 
 In a program, the type of a variable can only be decided by looking at its context which is defined by
@@ -213,20 +212,22 @@ by zero or accessing an illegal address.
 [@cardelli-96] calls a language a safe language if untrapped errors are impossible in it.
 The author suggests declaring a subset of possible execution errors as forbidden errors
 (all of the untrapped and some of the trapped erros) and
-defines a program to be well behaved if no such forbidden errors can happen during execution.
+says that a program can be called "well behaved" if no such forbidden errors can happen during execution.
 
-**own thought**
-With that last quote, we arrived at the formalization of type systems which I'll explore in the next sections.
-
+**TODO:**
 - Sergio Benitez: Short Paper: Rusty Types for Solid Safety
     - http://delivery.acm.org/10.1145/3000000/2993604/p69-benitez.pdf?ip=176.63.29.106&id=2993604&acc=OA&key=4D4702B0C3E38B35%2E4D4702B0C3E38B35%2E4D4702B0C3E38B35%2E16F2E899256EF4E3&__acm__=1544294467_31c2f304e83b1e3aa7798f12058b3af8
 
 - https://stackoverflow.com/questions/260626/what-is-type-safe
     - "A short answer: a language is considered type-safe if no operation leads to undefined behavior."
 
+**own thought**
+To show that certain errors can not happen in a program, we need to to formalize our type system
+so that we can use mathematical logic to construct proofs.
+
 # Type checking
 Type checking is the process of verifying that the constraints posed by the type system are not violated
-by the program. Type checking can be done by automated tools called the typecheckers, which are usually
+by the program. Type checking can be done by automated tools called typecheckers, which are usually
 built into compilers or linkers.
 
 http://www.cse.chalmers.se/edu/year/2015/course/DAT150/lectures/proglang-07.html
