@@ -74,3 +74,10 @@ on writing a language from scratch:
 > Contracts are proven at compile-time where possible and at runtime otherwise [...]
 >
 > [@duffy-error-model]
+
+# Research motivation
+google this !!: "Static vs. dynamic type systems: an empirical study about the relationship between type casts and development time pdf"
+    - so many pdf results!
+
+# Agda
+http://learnyouanagda.liamoc.net/pages/introduction.html

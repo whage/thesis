@@ -37,10 +37,10 @@ konzulens
 
 ## 1. dia: Témaválasztás, személyes motiváció
 - programnyelvek iránti érdeklődés, saját határaim feszegetése
-- gyakorlati tapasztalat (és annak hiánya) szülte kiváncsiság
-- az anyag nem része a BSc képzésnek, pedig nagy jelentősségű terület
+- gyakorlati tapasztalat (és annak hiánya) szülte kíváncsiság
+- az anyag nem része a BSc képzésnek, pedig nagy jelentőségű terület
     - az iparban is elhanyagolt (ez csak saját tapasztalat, adatokkal alátámasztani!)
-- a terület nagy terjedelme: legyen lehetősg a folytatásra (MSc ?)
+- a terület nagy terjedelme: legyen lehetőség a folytatásra (MSc ?)
 
 ## 2. dia: Típusrendszerek
 - szakirodalmi áttekintés: nagyon absztrakt, elméleti, nehezen feldolgozható anyagok
@@ -71,6 +71,7 @@ konzulens
     - **Rust**: safety and performance
 - a vastagon szedett nyelvekkel még nem dolgoztam: izgalommal várom!
 - összehasonlítás alapja: ?
+    - feldolgozásra váró publikációk
     - menet közben kialakítani egy keretrendszert az összehasonlításra?
 - (?) referencia implementáció: Conway's game of life
 
