@@ -85,6 +85,7 @@ us when we later change parts of the program or add new components to it.
 Type systems are the glue between mathematical logic and computer programs. They make it possible to
 prove that our programs behave correctly. Advanced, sophisticated type systems constructs allow
 more properties of our sofware to be proven.
+
 **TODO: add note on why this should motivate type system research; benefits for working programmers**
 
 **TODO: add more notes after having worked with Haskell/OCaml**
@@ -140,11 +141,9 @@ The author suggests declaring a subset of possible execution errors as forbidden
 says that a program can be called "well behaved" if no such forbidden errors can happen during execution.
 
 **TODO:**
-- Sergio Benitez: Short Paper: Rusty Types for Solid Safety
-    - http://delivery.acm.org/10.1145/3000000/2993604/p69-benitez.pdf?ip=176.63.29.106&id=2993604&acc=OA&key=4D4702B0C3E38B35%2E4D4702B0C3E38B35%2E4D4702B0C3E38B35%2E16F2E899256EF4E3&__acm__=1544294467_31c2f304e83b1e3aa7798f12058b3af8
+- [Sergio Benitez: Short Paper: Rusty Types for Solid Safety](benitez-ts)
 
-- https://stackoverflow.com/questions/260626/what-is-type-safe
-    - "A short answer: a language is considered type-safe if no operation leads to undefined behavior."
+[benitez-ts]: http://delivery.acm.org/10.1145/3000000/2993604/p69-benitez.pdf?ip=176.63.29.106&id=2993604&acc=OA&key=4D4702B0C3E38B35%2E4D4702B0C3E38B35%2E4D4702B0C3E38B35%2E16F2E899256EF4E3&__acm__=1544294467_31c2f304e83b1e3aa7798f12058b3af8
 
 ## Formalization of type systems
 
@@ -181,6 +180,8 @@ In the standard notaton, context is denoted by the greek letter Gamma:
 
 Which we read as "expression $e$ has type $T$ in context $\Gamma$".
 
+**TODO: add note about proofs and type checking statements (valid)**
+
 [@cardelli-96], [@ranta2012]
 
 **TODO: some terminlogy:**
@@ -198,6 +199,14 @@ https://sergio.bz/docs/rusty-types-2016.pdf
 **TODO: end note: transition from formal type systems to the topic of type checking**
 
 # Type checking
+> ... [static typing] ... consists in detecting a
+> large family of errors: the application of operations to objects over which they are not defined [...]
+> This is achieved by grouping the
+> objects handled by the program into classes: the types, and by abstractly simulating the execution
+> at the level of types, following a set of rules called the type system.
+> 
+> [@leroy-phd, p. 3]
+
 Type checking is the process of verifying that the constraints posed by the type system are not violated
 by the program. Type checking can be done by automated tools called typecheckers, which are usually
 built into compilers or linkers.
@@ -208,18 +217,12 @@ http://www.cse.chalmers.se/edu/year/2015/course/DAT150/lectures/proglang-07.html
 Programmers make errors. Advanced programming languages should allow the automatic checking of inconsistencies
 in programs. The most popular of these consistency checks is called static typing.
 
-> ... [static typing] ... consists in detecting a
-> large family of errors: the application of operations to objects over which they are not defined (the
-> integer addition to a boolean and a character string, for instance). This is achieved by grouping the
-> objects handled by the program into classes: the types, and by abstractly simulating the execution
-> at the level of types, following a set of rules called the type system.
-> 
 > The strength of static typing is that it guarantees the absence of type errors in the programs it
 > accepts. The weakness of static typing is that it rejects some programs that are in fact correct, but
 > too complex to be recognized as such by the type system used. From this tension follows the search
 > for more and more expressive type systems [...]
 >
-> [@leroy-phd]
+> [@leroy-phd, p. 3]
 
 ...
 
@@ -240,14 +243,10 @@ static analysis cannot deftermine that this is the case.
 
 [@pierce-types-and-prog]
 
-> In general, the more there is static checking in the compiler, the less need there is for manual debugging.
->
-> **TODO: fix citation!**
-> http://www.cse.chalmers.se/edu/year/2015/course/DAT150/lectures/proglang-07.html
-
 ...
 
-### Benefits of Static Types
+### Advantages of static type checking
+
 - performance
 - documentation
     - it doesn't drift like comments do!
@@ -265,7 +264,16 @@ static analysis cannot deftermine that this is the case.
 ## Dynamic type checking
 ...
 
-https://en.wikipedia.org/wiki/Type_system#Dynamic_type_checking_and_runtime_type_information
+[link](wiki-dynamic-type-checking)
+
+[wiki-dynamic-type-checking]: https://en.wikipedia.org/wiki/Type_system#Dynamic_type_checking_and_runtime_type_information
+
+### Advantages of dynamic type checking
+
+- faster prototyping: shorter edit-compile-test cycles
+- flexibility
+
+[@parmer-type-systems]
 
 ## Gradual typing
 **TODO: just a short mention that such things also exist**
@@ -273,7 +281,9 @@ https://en.wikipedia.org/wiki/Type_system#Dynamic_type_checking_and_runtime_type
 http://wphomes.soic.indiana.edu/jsiek/what-is-gradual-typing/
 
 ## Type checking algorithms
-https://speakerdeck.com/igstan/lets-write-a-type-checker
+[link](letswrite)
+
+[letswrite]: https://speakerdeck.com/igstan/lets-write-a-type-checker
 
 ## Type inference
 Type inference is the process of automatically (instead of manually, by the programmer) assigning types
@@ -308,15 +318,11 @@ program more efficient.
 - timeline
 
 ## Advanced type systems
-**TODO:**
-    - what makes them advanced?
-    - look at Haskell and similar languages
-        - https://en.wikipedia.org/wiki/Hindley%E2%80%93Milner_type_system
+**TODO: what makes them advanced?**
 
-https://en.wikipedia.org/wiki/Type_system#Specialized_type_systems
-
-### Advanced type systems concepts
-...
+- look at Haskell and similar languages
+- https://en.wikipedia.org/wiki/Hindley%E2%80%93Milner_type_system
+- https://en.wikipedia.org/wiki/Type_system#Specialized_type_systems
 
 # Classification of type systems
 - http://blogs.perl.org/users/ovid/2010/08/what-to-know-before-debating-type-systems.html
@@ -345,10 +351,15 @@ http://frenchy64.github.io/2018/04/07/unsoundness-in-untyped-types.html
 ## Polymorphic typing
 
 ### Abstractions and types
-- http://ryanfleury.net/blog#a_theoretical_examination_of_the_abstraction
-- https://www.destroyallsoftware.com/compendium/types?share_key=baf6b67369843fa2
-- https://www.ardanlabs.com/blog/2013/07/understanding-type-in-go.html
-- "Abstract types and the dot notation": https://xavierleroy.org/bibrefs/Cardelli-Leroy-dot.html
+- [Fleury: abstractions](fleury-abs)
+- [destroyallsoftware: types](destroyall)
+- [types in go](ardanlabs)
+- [Abstract types and the dot notation](leroy-dot)
+
+[fleury-abs]: http://ryanfleury.net/blog#a_theoretical_examination_of_the_abstraction
+[destroyall]: https://www.destroyallsoftware.com/compendium/types?share_key=baf6b67369843fa2
+[ardanlabs]: https://www.ardanlabs.com/blog/2013/07/understanding-type-in-go.html
+[leroy-dot]: https://xavierleroy.org/bibrefs/Cardelli-Leroy-dot.html
 
 **TODO: such a great quote! need to connect it somehow**
 
@@ -369,26 +380,12 @@ between them and allows them to ... **TODO: finish note**
 
 ### Subtyping
 
-### Ad-hoc polymorphism
+### Ad-hoc polymorphism - Typeclasses
 **TODO: typeclasses**
 
-https://en.wikipedia.org/wiki/Polymorphism_(computer_science)
-https://xavierleroy.org/bibrefs/Leroy-unboxed.html
-https://en.wikipedia.org/wiki/Type_system#Polymorphism_and_types
-
-## Contracts
-**TODO: read through this paper, check SO link**
-    - https://pdfs.semanticscholar.org/653b/fc1c9ede840964f7a6f0bb1e13d77bf9d2da.pdf
-    - https://stackoverflow.com/a/5965869/1772429
-    - read the part on contracts in duffy-error-model again!
-
-> ontracts begin where the type system leaves off. A type system allows you to encode attributes of variables using types.
-> A type limits the expected range values that a variable might hold. A contract similarly checks the range of values
-> that a variable holds. The difference? Types are proven at compile-time through rigorous and composable inductive rules [...]
-> Contracts are proven at compile-time where possible and at runtime otherwise [...]
->
-> [@duffy-error-model]
-
+- https://en.wikipedia.org/wiki/Polymorphism_(computer_science)
+- https://xavierleroy.org/bibrefs/Leroy-unboxed.html
+- https://en.wikipedia.org/wiki/Type_system#Polymorphism_and_types
 
 ## Dependent types 
 ...
@@ -405,13 +402,21 @@ of a composite type and allow the type system to check whether we we covered all
 [@parmer-type-systems]
 
 - Sum types
-    - Maybe
+    - Maybe / Option
+        - note: "nullable" in dynamic languages where ther is NULL, "option" or "maybe" in static languages
         - Null pointer exceptions vs. "Maybe" types
-    - Option
     - Try
+- Product types
 
-- **Non-Null Types**?
+# Type systems and software security
+**TODO: google "type systems and security"**
 
+- provable correctness
+- defensive mechanisms provided by type systems
+    - look at the most common sources of vulnerabilities, see if type systems could help
+        - need data!
+- solving injection with a type system
+    - http://blog.moertel.com/posts/2006-10-18-a-type-based-solution-to-the-strings-problem.html
 
 ## CAR Hoare's presentation on `NullPointerException`s (The Billion Dollar Mistake - 2009)
 **TODO: summarize his thoughts**
@@ -425,16 +430,6 @@ of a composite type and allow the type system to check whether we we covered all
     - "it reaches paths of your program that normal execution never reaches"
     - "it's no longer adequate to test your program against all the cases that are likely to arise..."
 - 50:00 great thoughts about the `jmp` machine instruction
-
-# Type systems and software security
-**TODO: google "type systems and security"**
-
-- provable correctness
-- defensive mechanisms provided by type systems
-    - look at the most common sources of vulnerabilities, see if type systems could help
-        - need data!
-- solving injection with a type system
-    - http://blog.moertel.com/posts/2006-10-18-a-type-based-solution-to-the-strings-problem.html
 
 # Type systems and program performance
 **TODO: type systems allowing certain compiler optimizations?**
@@ -507,8 +502,11 @@ https://en.wikipedia.org/wiki/Generics_in_Java#Problems_with_type_erasure
     - Agda
     - Rust
 
+## Methodology
+**TODO:find what methods are used for comparing type systems**
+
 # Suggestions for further studies
-- How computer science / software engineering curriculums could be
+...
 
 ## Promising/interesting areas of research
 - https://graydon2.dreamwidth.org/253769.html

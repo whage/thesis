@@ -51,8 +51,26 @@
     - https://www.rpi.edu/dept/arc/training/latex/LaTeX_symbols.pdf
     - https://www.overleaf.com/learn/latex/Subscripts_and_superscripts
 
-# related topics
+# Related topics, decided to leave them out
 
 ## Implementing a type checker (?)
 on writing a language from scratch:
     - https://medium.freecodecamp.org/the-programming-language-pipeline-91d3f449c919
+
+> In general, the more there is static checking in the compiler, the less need there is for manual debugging.
+>
+> **TODO: fix citation!**
+> http://www.cse.chalmers.se/edu/year/2015/course/DAT150/lectures/proglang-07.html
+
+## Contracts
+**TODO: read through this paper, check SO link**
+    - https://pdfs.semanticscholar.org/653b/fc1c9ede840964f7a6f0bb1e13d77bf9d2da.pdf
+    - https://stackoverflow.com/a/5965869/1772429
+    - read the part on contracts in duffy-error-model again!
+
+> ontracts begin where the type system leaves off. A type system allows you to encode attributes of variables using types.
+> A type limits the expected range values that a variable might hold. A contract similarly checks the range of values
+> that a variable holds. The difference? Types are proven at compile-time through rigorous and composable inductive rules [...]
+> Contracts are proven at compile-time where possible and at runtime otherwise [...]
+>
+> [@duffy-error-model]
