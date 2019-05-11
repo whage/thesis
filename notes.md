@@ -49,3 +49,10 @@
 - LATEX
     - https://www.latex-tutorial.com/tutorials/amsmath/
     - https://www.rpi.edu/dept/arc/training/latex/LaTeX_symbols.pdf
+    - https://www.overleaf.com/learn/latex/Subscripts_and_superscripts
+
+# related topics
+
+## Implementing a type checker (?)
+on writing a language from scratch:
+    - https://medium.freecodecamp.org/the-programming-language-pipeline-91d3f449c919

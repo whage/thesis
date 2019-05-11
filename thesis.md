@@ -11,11 +11,11 @@ keywords: [Type systems, Programming languages]
 \pagebreak
 
 **Megjegyzés a tisztelt bíráló bizottságnak**: A dolgozatom jelen állapota egy köztes állapot,
-több helyen tartalmaz feljegyzéseket, jelöléseket, a további munkához.
+több helyen tartalmaz feljegyzéseket, jelöléseket a további munkához.
 A terület, amit választottam nagyobb, érdekesebb, mint először gondoltam,
 jóval több tájékozódást és munkát igényel a részemről, mint számítottam, viszont
 szándékomban áll mélységében áttekinteni és a hiányzó részeket kidolgozni.
-A megjelölt részeket a következő időszakban illetve a Szakdolgozat II. tágy keretein belül fogom
+A hiányzó fejezeteket a következő időszakban illetve a Szakdolgozat II. tágy keretein belül fogom
 befejezni.
 
 \pagebreak
@@ -82,40 +82,12 @@ safety-net against execution errors by making it possible for automated tools to
 Through types, we can add more meaning, a deeper, more solid structure to our programs. That structure aids
 us when we later change parts of the program or add new components to it.
 
-**TODO: add more notes after having worked with Haskell/OCaml**
-
+Type systems are the glue between mathematical logic and computer programs. They make it possible to
+prove that our programs behave correctly. Advanced, sophisticated type systems constructs allow
+more properties of our sofware to be proven.
 **TODO: add note on why this should motivate type system research; benefits for working programmers**
 
-## The history of type systems
-The first type systems appeared in the 1950s, when the designers of the Fortran language wanted to make
-numerical computations more efficient by distinguishing between integer-valued arithmetic expressions
-and real-valued ones. This allowed the compiler to generate the appropriate machine instruction making the
-program more efficient.
-[@pierce-types-and-prog]
-
-> In the late 1950s and early 1960s, this classification was extended to structured data (arrays of records, etc.)
-> and higher-order functions. In the 1970s, a number of even richer concepts (parametric polymorphism,
-> abstract data types, module systems, and subtyping) were introduced, and type systems emerged as a field in its own right.
-> At the same time, computer scientists began to be aware of the connections between the type systems
-> found in programming languages and those studied in mathematical logic, leading to a rich interplay
-> that continues to the present.
->
-> [@pierce-types-and-prog, p. 10]
-
-## Evolution of type systems
-**TODO:**
-
-- the different stages of development
-- important innovations
-- timeline
-
-### Advanced type systems
-**TODO:**
-    - what makes them advanced?
-    - look at Haskell and similar languages
-        - https://en.wikipedia.org/wiki/Hindley%E2%80%93Milner_type_system
-
-https://en.wikipedia.org/wiki/Type_system#Specialized_type_systems
+**TODO: add more notes after having worked with Haskell/OCaml**
 
 ## Type theory
 Type theory is a branch of mathematical symbolic logic: a system of representing logical expressions
@@ -131,13 +103,52 @@ are formal systems which means they define rules for inferring theorems (stateme
 >
 > [@ncatlab-tt]
 
-Type theory lays down the theoretical foudation for the type systems found in programming languages.
+Type theory lays down the theoretical foudation for the type systems found in programming languages and
+the typechecking algorithms behind them.
 
 **TODO: https://github.com/jozefg/learn-tt**
 
+## Language safety
+
+> [...] a safe language is one that protects its own abstractions [...]
+> Every high-level language provides abstractions of machine services. Safety refers to the language’s
+> ability to guarantee the integrity of these abstractions and of higher-level abstractions
+> introduced by the programmer using the definitional facilities of the language.
+>
+> [@pierce-types-and-prog, p. 6]
+
+As [@pierce-types-and-prog] puts it, the abstraction of a safe language can be used "abstractly", whereas in an unsafe language
+it is necessary to keep in mind the low level details, like how data is structured in memory or how allocations take place
+in order to understand how the program might misbehave.
+
+Note that "language safety" can be achieved by static type checking but also by run-time checks, like array-bounds checking is
+performed by many languages during runtime.
+
+[@types-primer] says that a programming language or language construct is type-safe if it forbids
+operations that are incorrect for the types on which they operate. The author notes that some languages
+may discourage incorrect operations or make them difficult without completely forbidding them so
+we may compare the level of type safety offered by two programming languages.
+
+[@cardelli-96] differentiates between trapped errors, that cause execution to stop immadiately and
+untrapped errors that go unnoticed and later cause arbitrary behaviour. An untrapped error, for example, is
+accessing data past the end of an array in absence of run time bounds checks. A trapped error would be division
+by zero or accessing an illegal address.
+
+[@cardelli-96] calls a language a safe language if untrapped errors are impossible in it.
+The author suggests declaring a subset of possible execution errors as forbidden errors
+(all of the untrapped and some of the trapped erros) and
+says that a program can be called "well behaved" if no such forbidden errors can happen during execution.
+
+**TODO:**
+- Sergio Benitez: Short Paper: Rusty Types for Solid Safety
+    - http://delivery.acm.org/10.1145/3000000/2993604/p69-benitez.pdf?ip=176.63.29.106&id=2993604&acc=OA&key=4D4702B0C3E38B35%2E4D4702B0C3E38B35%2E4D4702B0C3E38B35%2E16F2E899256EF4E3&__acm__=1544294467_31c2f304e83b1e3aa7798f12058b3af8
+
+- https://stackoverflow.com/questions/260626/what-is-type-safe
+    - "A short answer: a language is considered type-safe if no operation leads to undefined behavior."
+
 ## Formalization of type systems
 
-> But how can we guarantee that well typed programs are really well behaved? [...]
+> How can we guarantee that well typed programs are really well behaved? [...]
 > Formal type systems are the mathematical characterizations of the informal type systems
 > that are described in programming language manuals. Once a type system is formalized, we can
 > attempt to prove a type soundness theorem stating that well typed programs are well behaved.
@@ -184,46 +195,7 @@ https://sergio.bz/docs/rusty-types-2016.pdf
 **TODO: some parts from this book maybe?**
     - http://pl.cs.jhu.edu/pl/book/book.pdf
 
-# Language safety
-
-> [...] a safe language is one that protects its own abstractions [...]
-> Every high-level language provides abstractions of machine services. Safety refers to the language’s
-> ability to guarantee the integrity of these abstractions and of higher-level abstractions
-> introduced by the programmer using the definitional facilities of the language.
->
-> [@pierce-types-and-prog, p. 6]
-
-As [@pierce-types-and-prog] puts it, the abstraction of a safe language can be used "abstractly", whereas in an unsafe language
-it is necessary to keep in mind the low level details, like how data is structured in memory or how allocations take place
-in order to understand how the program might misbehave.
-
-Note that "language safety" can be achieved by static type checking but also by run-time checks, like array-bounds checking is
-performed by many languages during runtime.
-
-[@types-primer] says that a programming language or language construct is type-safe if it forbids
-operations that are incorrect for the types on which they operate. The author notes that some languages
-may discourage incorrect operations or make them difficult without completely forbidding them so we may compare the level of type safety offered by two programming languages.
-
-[@cardelli-96] differentiates between trapped errors, that cause execution to stop immadiately and
-untrapped errors that go unnoticed and later cause arbitrary behaviour. An untrapped error, for example, is
-accessing data past the end of an array in absence of run time bounds checks. A trapped error would be division
-by zero or accessing an illegal address.
-
-[@cardelli-96] calls a language a safe language if untrapped errors are impossible in it.
-The author suggests declaring a subset of possible execution errors as forbidden errors
-(all of the untrapped and some of the trapped erros) and
-says that a program can be called "well behaved" if no such forbidden errors can happen during execution.
-
-**TODO:**
-- Sergio Benitez: Short Paper: Rusty Types for Solid Safety
-    - http://delivery.acm.org/10.1145/3000000/2993604/p69-benitez.pdf?ip=176.63.29.106&id=2993604&acc=OA&key=4D4702B0C3E38B35%2E4D4702B0C3E38B35%2E4D4702B0C3E38B35%2E16F2E899256EF4E3&__acm__=1544294467_31c2f304e83b1e3aa7798f12058b3af8
-
-- https://stackoverflow.com/questions/260626/what-is-type-safe
-    - "A short answer: a language is considered type-safe if no operation leads to undefined behavior."
-
-**own thought**
-To show that certain errors can not happen in a program, we need to to formalize our type system
-so that we can use mathematical logic to construct proofs.
+**TODO: end note: transition from formal type systems to the topic of type checking**
 
 # Type checking
 Type checking is the process of verifying that the constraints posed by the type system are not violated
@@ -235,7 +207,6 @@ http://www.cse.chalmers.se/edu/year/2015/course/DAT150/lectures/proglang-07.html
 ## Static type checking
 Programmers make errors. Advanced programming languages should allow the automatic checking of inconsistencies
 in programs. The most popular of these consistency checks is called static typing.
-[@leroy-phd]
 
 > ... [static typing] ... consists in detecting a
 > large family of errors: the application of operations to objects over which they are not defined (the
@@ -279,6 +250,7 @@ static analysis cannot deftermine that this is the case.
 ### Benefits of Static Types
 - performance
 - documentation
+    - it doesn't drift like comments do!
 - tools and analysis
 - correctness
 
@@ -303,19 +275,48 @@ http://wphomes.soic.indiana.edu/jsiek/what-is-gradual-typing/
 ## Type checking algorithms
 https://speakerdeck.com/igstan/lets-write-a-type-checker
 
-# Abstractions and types
-- http://ryanfleury.net/blog#a_theoretical_examination_of_the_abstraction
-- https://www.destroyallsoftware.com/compendium/types?share_key=baf6b67369843fa2
-- https://www.ardanlabs.com/blog/2013/07/understanding-type-in-go.html
-- "Abstract types and the dot notation": https://xavierleroy.org/bibrefs/Cardelli-Leroy-dot.html
+## Type inference
+Type inference is the process of automatically (instead of manually, by the programmer) assigning types
+to expressions in a program by examining the operations that are performed on them.
 
-**TODO: such a great quote! need to connect it somehow**
+- not to be confised with dynamic typing! type inference is still static (before execution)!
+-
 
-> An ADT's user need not know how the object it represents is implemented [...]
-> In addition to the intellectual leverage for programmers who can take bigger strides in their thoughts,
-> it provides flexibility in modifying the ADT implementation
+**TODO: pros/cons**
+
+# A short history of type systems
+The first type systems appeared in the 1950s, when the designers of the Fortran language wanted to make
+numerical computations more efficient by distinguishing between integer-valued arithmetic expressions
+and real-valued ones. This allowed the compiler to generate the appropriate machine instruction making the
+program more efficient.
+[@pierce-types-and-prog]
+
+> In the late 1950s and early 1960s, this classification was extended to structured data (arrays of records, etc.)
+> and higher-order functions. In the 1970s, a number of even richer concepts (parametric polymorphism,
+> abstract data types, module systems, and subtyping) were introduced, and type systems emerged as a field in its own right.
+> At the same time, computer scientists began to be aware of the connections between the type systems
+> found in programming languages and those studied in mathematical logic, leading to a rich interplay
+> that continues to the present.
 >
-> [@tt-oop]
+> [@pierce-types-and-prog, p. 10]
+
+## Evolution of type systems
+**TODO:**
+
+- the different stages of development
+- important innovations
+- timeline
+
+## Advanced type systems
+**TODO:**
+    - what makes them advanced?
+    - look at Haskell and similar languages
+        - https://en.wikipedia.org/wiki/Hindley%E2%80%93Milner_type_system
+
+https://en.wikipedia.org/wiki/Type_system#Specialized_type_systems
+
+### Advanced type systems concepts
+...
 
 # Classification of type systems
 - http://blogs.perl.org/users/ovid/2010/08/what-to-know-before-debating-type-systems.html
@@ -341,10 +342,35 @@ http://frenchy64.github.io/2018/04/07/unsoundness-in-untyped-types.html
 
 **?What is the difference between dynamic type checking and a runtime error?**
 
-# Advanced type systems concepts
-
 ## Polymorphic typing
-...
+
+### Abstractions and types
+- http://ryanfleury.net/blog#a_theoretical_examination_of_the_abstraction
+- https://www.destroyallsoftware.com/compendium/types?share_key=baf6b67369843fa2
+- https://www.ardanlabs.com/blog/2013/07/understanding-type-in-go.html
+- "Abstract types and the dot notation": https://xavierleroy.org/bibrefs/Cardelli-Leroy-dot.html
+
+**TODO: such a great quote! need to connect it somehow**
+
+> An ADT's user need not know how the object it represents is implemented [...]
+> In addition to the intellectual leverage for programmers who can take bigger strides in their thoughts,
+> it provides flexibility in modifying the ADT implementation
+>
+> [@tt-oop]
+
+Polymorphism is closely related to the concept of abstraction.
+It is the concept of having internally different objects that provide the same interface.
+Even though they implement different behaviour, they look the same from the outside and so they can be used
+interchangeably. This frees their users (other entities in the program that use them) from having to differentiate
+between them and allows them to ... **TODO: finish note**
+
+### Parametric polymorphism - Generics
+- https://docs.oracle.com/javase/tutorial/java/generics/index.html
+
+### Subtyping
+
+### Ad-hoc polymorphism
+**TODO: typeclasses**
 
 https://en.wikipedia.org/wiki/Polymorphism_(computer_science)
 https://xavierleroy.org/bibrefs/Leroy-unboxed.html
@@ -363,18 +389,29 @@ https://en.wikipedia.org/wiki/Type_system#Polymorphism_and_types
 >
 > [@duffy-error-model]
 
-## Generics
-- https://docs.oracle.com/javase/tutorial/java/generics/index.html
-- where do they fit in?
 
 ## Dependent types 
 ...
 
-## "Maybe" types
-**TODO:**
+## Algebraic data types
+Algebraic data types are composite types: they are defined as a combination of other types.
+In most imperative languages conditional expressions (if-else statements) can define any number of branches
+that are not checked for consistency. Execution enters these branches based solely on their predicates,
+boolean valued "functions". This means that by mistake, they can overlap or fail to handle all possible cases.
+In functional languages, with the help of pattern matching algebraic data types facilitate a type safe
+implementation of conditional expressions. They let us define the branching logic in terms 
+of a composite type and allow the type system to check whether we we covered all the cases.
 
-- same as **Non-Null Types**?
-- Null pointer exceptions vs. "Maybe" types
+[@parmer-type-systems]
+
+- Sum types
+    - Maybe
+        - Null pointer exceptions vs. "Maybe" types
+    - Option
+    - Try
+
+- **Non-Null Types**?
+
 
 ## CAR Hoare's presentation on `NullPointerException`s (The Billion Dollar Mistake - 2009)
 **TODO: summarize his thoughts**
@@ -456,23 +493,19 @@ Type information is also useful in the optimization of method dispatch in object
 
 https://en.wikipedia.org/wiki/Generics_in_Java#Problems_with_type_erasure
 
-# Comparing type systems of popular programming languages
+# Comparing type systems of different programming languages
 **TODO**
 
 - which languages?
-    - lambda calculus (?)
-    - assembly (?)
+    - lambda calculus / assembly (?)
+        - explain the advantages of not having a type system!
     - javascript
     - python
     - C / C++
-    - java / C#
+    - java / C# / Scala (?)
     - any ML language
     - Agda
     - Rust
-
-# Implementing a type checker (?)
-on writing a language from scratch:
-    - https://medium.freecodecamp.org/the-programming-language-pipeline-91d3f449c919
 
 # Suggestions for further studies
 - How computer science / software engineering curriculums could be
