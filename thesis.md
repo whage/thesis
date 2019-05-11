@@ -180,9 +180,9 @@ In the standard notaton, context is denoted by the greek letter Gamma:
 
 Which we read as "expression $e$ has type $T$ in context $\Gamma$".
 
-**TODO: add note about proofs and type checking statements (valid)**
-
 [@cardelli-96], [@ranta2012]
+
+**TODO: add note about proofs and type checking statements (valid)**
 
 **TODO: some terminlogy:**
 in [@cardelli-96] : "How type systems are formalized" and "The language of type systems"!
