@@ -1,5 +1,5 @@
 
-# My BSc thesis at Óbuda University - John von Neumann Facultiy of Informatics
+# My BSc thesis at Óbuda University - John von Neumann Faculty of Informatics
 
 # Format
 ... some notes about markdown, pandoc, bib, etc...

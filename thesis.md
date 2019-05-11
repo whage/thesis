@@ -269,8 +269,9 @@ static analysis cannot deftermine that this is the case.
 [wiki-dynamic-type-checking]: https://en.wikipedia.org/wiki/Type_system#Dynamic_type_checking_and_runtime_type_information
 
 ### Advantages of dynamic type checking
-
 - faster prototyping: shorter edit-compile-test cycles
+- productivity
+    - short term gains, long term losses?
 - flexibility
 
 [@parmer-type-systems]
@@ -316,6 +317,9 @@ program more efficient.
 - the different stages of development
 - important innovations
 - timeline
+
+## The future: interesting new developments
+- https://graydon2.dreamwidth.org/253769.html
 
 ## Advanced type systems
 **TODO: what makes them advanced?**
@@ -489,26 +493,22 @@ Type information is also useful in the optimization of method dispatch in object
 https://en.wikipedia.org/wiki/Generics_in_Java#Problems_with_type_erasure
 
 # Comparing type systems of different programming languages
-**TODO**
-
-- which languages?
-    - lambda calculus / assembly (?)
-        - explain the advantages of not having a type system!
-    - javascript
-    - python
-    - C / C++
-    - java / C# / Scala (?)
-    - any ML language
-    - Agda
-    - Rust
+**TODO: short intro, why the chosen languages**
 
 ## Methodology
 **TODO:find what methods are used for comparing type systems**
 
-# Suggestions for further studies
-...
+## Languages
+**TODO: a chapter for each language**
 
-## Promising/interesting areas of research
-- https://graydon2.dreamwidth.org/253769.html
+- assembly
+    - explain the advantages/motivation of not having a type system!
+- javascript
+- python
+- C / C++
+- java, scala
+- any ML language
+- Agda
+- Rust
 
 # References

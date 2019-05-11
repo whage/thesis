@@ -19,20 +19,63 @@ legalább vázlatos -- rendszerterve?)
 
 # tervezett munka
 - programnyelvek típusrendszereit megvizsgálni, összehasonlítani
-    - lambda calculus (?)
-    - assembly (?)
+    - assembly
+        - típusrendszer hiánya! előnyök!
+    - javascript
     - python
     - C / C++
-    - java / C#
-    - any ML language
+    - java, scala
+    - ML típusú nyelvek (Haskell, OCaml)
+    - Agda
     - Rust
-- type checker megvalósítás egy tetszőleges nyelvre
-    - milyen nyelvre?
-    - HCL?
-    - saját nyelv?
-    - mi jöhet még szóba? (valami gyakorlati haszon nem ártana)
 
-# ütemezés
-jún-júl: formális típusrendszerek szakirodalmi áttekintése
-aug-szept: a kitűzött programnyelvek típusrendszereinek feldolgozása, összehasonlító elemzés
-okt-nov: typechecker implementáció
+## 0. dia
+cím
+név
+OE logo
+konzulens
+
+## 1. dia: Témaválasztás, személyes motiváció
+- programnyelvek iránti érdeklődés, saját határaim feszegetése
+- gyakorlati tapasztalat (és annak hiánya) szülte kiváncsiság
+- az anyag nem része a BSc képzésnek, pedig nagy jelentősségű terület
+    - az iparban is elhanyagolt (ez csak saját tapasztalat, adatokkal alátámasztani!)
+- a terület nagy terjedelme: legyen lehetősg a folytatásra (MSc ?)
+
+## 2. dia: Típusrendszerek
+- szakirodalmi áttekintés: nagyon absztrakt, elméleti, nehezen feldolgozható anyagok
+- típusrendszerek elméleti háttere
+- typechechecker: elmélet -> gyakorlat
+- történeti áttekintés, jelentős újítások
+- típusrendszerek osztályozása
+- biztonság és teljesítmény
+
+## 3. dia: Kutatás, dolgozat célja
+- programozói és szoftver teljesítmény, minőség növelésének lehetőségei
+- korábbi kutatások áttekintése
+- kvalitatív szemléletű kutatás - szubjektív!
+    - összehasonlító elemzés
+- fejlett típusrendszerek gyakorlati lehetőségei
+    - a szoftver krízis szerintem nem múlt el
+    - mi tartja vissza az embereket? korlátok?
+
+## 4. dia: Vizsgálat tárgya
+- programozási nyelvek összehasonlítása típusrendszer szempontjából
+    - assembly: típusrendszer hiányának megvannak az előnyei!
+    - javascript: dinamikus, "gyenge"
+    - python: dinamikus, "erős"
+    - C / C++: statikus, "gyenge"
+    - java, **scala**: statikus, "erős"
+    - **ML típusú nyelvek (Haskell, OCaml)**: typeclass, "kind"
+    - **Agda**: dependent types
+    - **Rust**: safety and performance
+- a vastagon szedett nyelvekkel még nem dolgoztam: izgalommal várom!
+- összehasonlítás alapja: ?
+    - menet közben kialakítani egy keretrendszert az összehasonlításra?
+- (?) referencia implementáció: Conway's game of life
+
+## 5. dia: Ütemezés
+- máj-jún: szakirodalmi áttekintés véglegesítése
+- júl: kutatás - lehetséges módszertanok, hasonló vizsgálatok áttekintse
+- aug-szept-okt: konkrét programnyelvek áttekintése
+- nov: a kitűzött nyelvek típusrendszereinek feldolgozása, összehasonlító elemzés
