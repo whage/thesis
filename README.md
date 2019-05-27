@@ -5,7 +5,6 @@
 ... some notes about markdown, pandoc, bib, etc...
 
 ## Generating documents
-To generate an HTML document:
 
 `$ tools/run_pandoc.sh`
 
