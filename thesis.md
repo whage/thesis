@@ -169,6 +169,7 @@ Judgements are used to build inference rules of the form
 
 Where the judgements ${J_{1} \ldots J_{n}}$ above the line are called the premisses and $J$ is the conclusion.
 We read the above expression as "from the premisses ${J_{1} \ldots J_{n}}$ we can conclude $J$".
+If there are no premisses (meaning if $n$ is 0), then the rule is an axiom.
 
 In a program, the type of a variable can only be decided by looking at its context which is defined by
 the declarations of the variables. We can think of context as a lookup table of (variable, type) pairs.
