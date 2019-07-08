@@ -21,15 +21,14 @@ befejezni.
 \pagebreak
 
 # Introduction, personal motivation
-I first experienced working with staticly typed languages at the university.
-After I started learning and working with C# I was struck by how much the
-type system aided my development and how much the typechecker speeded up my work.
-The type system made me think more thoroughly,
-it allowed me to change parts of the program and be confident that I didn't break it.
-It felt like a much more pleasant way of writing software than I had done before so I became
-more and more interested in the possibilities of static checking and type systems.
+After having worked with dynamic languages for a few years, when I first started using C#
+I was struck by how much its static type system and typechecker helped me write code faster and more confidently.
+The type system made me think more thoroughly, it allowed me to change parts
+of the program and be confident that I didn't break it.
+It was a different way of writing software than I had done before.
+I became more and more interested in the possibilities of static checking and type systems.
 I started wondering what else was out there that could increase programmer productivity
-and software quality even further. This is how I chose type systems as the topic of my thesis.
+and software quality. This curiosity led me to choosing type systems as the topic of my thesis.
 
 My goal with this thesis is to gain a more fundamental understanding of programming languages,
 the structures and algorithms behind them.
@@ -77,14 +76,15 @@ recoverable exceptions. This checking process during runtime is called dynamic c
 >
 > [@cardelli-96, p. 3]
 
-By using the facilities provided by the type system, we can add more information in our programs. We create a
-safety-net against execution errors by making it possible for automated tools to verify our programs.
-Through types, we can add more meaning, a deeper, more solid structure to our programs. That structure aids
+By using the facilities provided by the type system, we can add more information in our programs.
+W can create a safety-net against execution errors by making it possible for automated tools to verify the steps
+we take throughout our code.
+Through types, we can add more meaning, a deeper, more solid structure. That structure aids
 us when we later change parts of the program or add new components to it.
 
 Type systems are the glue between mathematical logic and computer programs. They make it possible to
-prove that our programs behave correctly. Advanced, sophisticated type systems constructs allow
-more properties of our sofware to be proven.
+prove that our programs behave correctly. Advanced, sophisticated type systems allow us to express
+a finer, more precise structure and thus more properties of our sofware may be proven by automated tools.
 
 **TODO: add note on why this should motivate type system research; benefits for working programmers**
 
