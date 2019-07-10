@@ -156,11 +156,21 @@ says that a program can be called "well behaved" if no such forbidden errors can
 > [@cardelli-96, p. 7]
 
 Most materials on the formalization of type systems are dense and get very abstract quickly.
-Here, I'd like to just briefly introduce the basic concepts and standard notation used when
-discussing formal type systems.
+Here, I'd like to briefly introduce the basic concepts and standard notation used when
+discussing formal type systems. Hopefully, by the end of this introduction I'll have presented
+just enough theoretical foudation that I can also talk about what this leads to in practice.
 
+An expression is a syntactically correct fragment of a program that can be evaluated to a value.
 Type systems associate expressions with types. We call this the _has type_ relationship:
-$e : M$, where expression $e$ has type $M$. This is also called a judgement.
+$e : M$, where expression $e$ has type $M$. This is called a judgement. Judgements could take on
+various other forms:
+
+\begin{tabular}{lll}
+    ${n = n1 + n2}$ & $n$ is the sum of ${n1}$ and ${n2}$ \\
+    \Tau ${type}$ & \Tau is a type \\
+    and & so & on \\
+\end{tabular}
+
 Judgements are used to build inference rules of the form
 
 \begin{equation*}
@@ -170,6 +180,8 @@ Judgements are used to build inference rules of the form
 Where the judgements ${J_{1} \ldots J_{n}}$ above the line are called the premisses and $J$ is the conclusion.
 We read the above expression as "from the premisses ${J_{1} \ldots J_{n}}$ we can conclude $J$".
 If there are no premisses (meaning if $n$ is 0), then the rule is an axiom.
+An inference rule can be read as stating that the premises are sufficient for the conclusion:
+to show $J$, it is enough to show ${J_{1} \ldots J_{n}}$ .
 
 In a program, the type of a variable can only be decided by looking at its context which is defined by
 the declarations of the variables. We can think of context as a lookup table of (variable, type) pairs.
@@ -181,7 +193,7 @@ In the standard notaton, context is denoted by the greek letter Gamma:
 
 Which we read as "expression $e$ has type $T$ in context $\Gamma$".
 
-[@cardelli-96], [@ranta2012]
+[@pfpl-2016], [@cardelli-96], [@ranta2012]
 
 **TODO: add note about proofs and type checking statements (valid)**
 
