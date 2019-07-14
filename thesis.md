@@ -7,16 +7,8 @@ keywords: [Type systems, Programming languages]
 ...
 
 \pagebreak
-\tableofcontents
-\pagebreak
 
-**Megjegyzés a tisztelt bíráló bizottságnak**: A dolgozatom jelen állapota egy köztes állapot,
-több helyen tartalmaz feljegyzéseket, jelöléseket a további munkához.
-A terület, amit választottam nagyobb, érdekesebb, mint először gondoltam,
-jóval több tájékozódást és munkát igényel a részemről, mint számítottam, viszont
-szándékomban áll mélységében áttekinteni és a hiányzó részeket kidolgozni.
-A hiányzó fejezeteket a következő időszakban illetve a Szakdolgozat II. tágy keretein belül fogom
-befejezni.
+\tableofcontents
 
 \pagebreak
 
@@ -133,12 +125,21 @@ we may compare the level of type safety offered by two programming languages.
 [@cardelli-96] differentiates between trapped errors, that cause execution to stop immadiately and
 untrapped errors that go unnoticed and later cause arbitrary behaviour. An untrapped error, for example, is
 accessing data past the end of an array in absence of run time bounds checks. A trapped error would be division
-by zero or accessing an illegal address.
-
-[@cardelli-96] calls a language a safe language if untrapped errors are impossible in it.
+by zero or accessing an illegal address. He calls a language safe if untrapped errors are impossible in it.
 The author suggests declaring a subset of possible execution errors as forbidden errors
-(all of the untrapped and some of the trapped erros) and
-says that a program can be called "well behaved" if no such forbidden errors can happen during execution.
+(all of the untrapped and some of the trapped erros) and says that a program can be called
+"well behaved" if no such forbidden errors can happen during execution.
+
+> Most programming languages exhibit a phase distinction between the static and dynamic phases of
+> processing. The static phase consists of parsing and type checking to ensure that the program is
+> well-formed; the dynamic phase consists of execution of well-formed programs. A language is
+> said to be safe exactly when well-formed programs are well-behaved when executed.
+>
+> [@pfpl-2016, p. 35]
+
+To summarize the thoughts of the authors above: a language can be called safe if every program written in it
+that can reach execution is well behaved. A well behaved program is one that does not produce forbidden / untrapped errors.
+Informally, safe languages are often referred to as "strongly typed".
 
 **TODO:**
 - [Sergio Benitez: Short Paper: Rusty Types for Solid Safety](benitez-ts)
@@ -160,16 +161,11 @@ Here, I'd like to briefly introduce the basic concepts and standard notation use
 discussing formal type systems. Hopefully, by the end of this introduction I'll have presented
 just enough theoretical foudation that I can also talk about what this leads to in practice.
 
+### Judgements
+
 An expression is a syntactically correct fragment of a program that can be evaluated to a value.
 Type systems associate expressions with types. We call this the _has type_ relationship:
-$e : M$, where expression $e$ has type $M$. This is called a judgement. Judgements could take on
-various other forms:
-
-\begin{tabular}{lll}
-    ${n = n1 + n2}$ & $n$ is the sum of ${n1}$ and ${n2}$ \\
-    \Tau ${type}$ & \Tau is a type \\
-    and & so & on \\
-\end{tabular}
+$e : M$, where expression $e$ has type $M$. This is called a judgement.
 
 Judgements are used to build inference rules of the form
 
@@ -181,7 +177,12 @@ Where the judgements ${J_{1} \ldots J_{n}}$ above the line are called the premis
 We read the above expression as "from the premisses ${J_{1} \ldots J_{n}}$ we can conclude $J$".
 If there are no premisses (meaning if $n$ is 0), then the rule is an axiom.
 An inference rule can be read as stating that the premises are sufficient for the conclusion:
-to show $J$, it is enough to show ${J_{1} \ldots J_{n}}$ .
+to show $J$, it is enough to show ${J_{1} \ldots J_{n}}$.
+
+> The role of a type system is to impose constraints on the formations of phrases that are sensitive to
+> the context in which they occur.
+>
+> [@pfpl-2016, p. 36]
 
 In a program, the type of a variable can only be decided by looking at its context which is defined by
 the declarations of the variables. We can think of context as a lookup table of (variable, type) pairs.
@@ -193,7 +194,29 @@ In the standard notaton, context is denoted by the greek letter Gamma:
 
 Which we read as "expression $e$ has type $T$ in context $\Gamma$".
 
+### Derivations
+
+To show that a judgement holds, we need to exhibit a derivation of it.
+
+> A derivation of a judgment is a finite composition of rules, starting with axioms and ending with
+> that judgment. It can be thought of as a tree in which each node is a rule whose children are
+> derivations of its premises. We sometimes say that a derivation of $J$ is evidence for the validity of
+> an inductively defined judgment $J$.
+>
+> [@pfpl-2016, p. 15]
+
+There are two main methods for finding derivations: forward chaining (or bottom-up constuction) and
+backward chaining (or top-down construction).
+
+**TODO: check if the statements below are correct!**
+A type system is described by a set of inference rules. Once the inference rules are constructed,
+a type checking algorithm can take a program as input and derive ... **TODO: finish sentence**
+
 [@pfpl-2016], [@cardelli-96], [@ranta2012]
+
+### Type checking algorithms
+
+**TODO: how to transition into this from formal type systems?**
 
 **TODO: add note about proofs and type checking statements (valid)**
 
@@ -303,7 +326,7 @@ http://wphomes.soic.indiana.edu/jsiek/what-is-gradual-typing/
 Type inference is the process of automatically (instead of manually, by the programmer) assigning types
 to expressions in a program by examining the operations that are performed on them.
 
-- not to be confised with dynamic typing! type inference is still static (before execution)!
+- not to be confused with dynamic typing! type inference is still static (before execution)!
 -
 
 **TODO: pros/cons**
@@ -366,6 +389,21 @@ http://frenchy64.github.io/2018/04/07/unsoundness-in-untyped-types.html
 **?What is the difference between dynamic type checking and a runtime error?**
 
 ## Polymorphic typing
+**TODO: the "distinct identity function" part should go under parametric polymorphism, no? Maybe not!**
+A language, where every expression has a single type is called monomorphic. In such a language
+there is a distinct identity function of each type: $\lambda \ (x : \tau ) \ x$ even though the
+behavior is exactly the same for each choice if $\tau$. Although they all have the same
+behavior when executed, each choice requires a different program. [@pfpl-2016]
+
+> [...] motivated by a simple practical problem (how to avoid writing redundant code),
+> the concept of polymorphism is central to an impressive variety of seemingly disparate concepts [...]
+>
+> [@pfpl-2016 p. 141.]
+
+
+
+**TODO: summarize thoughts in this link**
+http://www.cs.cornell.edu/info/projects/nuprl/book/node177.html
 
 ### Abstractions and types
 - [Fleury: abstractions](fleury-abs)

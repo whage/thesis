@@ -58,3 +58,19 @@ google this !!: "Static vs. dynamic type systems: an empirical study about the r
 
 # Agda
 http://learnyouanagda.liamoc.net/pages/introduction.html
+
+
+# Megjegyzés a vizsgálóbizottságnak
+\pagebreak
+
+**Megjegyzés a tisztelt bíráló bizottságnak**: A dolgozatom jelen állapota egy köztes állapot,
+több helyen tartalmaz feljegyzéseket, jelöléseket a további munkához.
+A terület, amit választottam nagyobb, érdekesebb, mint először gondoltam,
+jóval több tájékozódást és munkát igényel a részemről, mint számítottam, viszont
+szándékomban áll mélységében áttekinteni és a hiányzó részeket kidolgozni.
+A hiányzó fejezeteket a következő időszakban illetve a Szakdolgozat II. tágy keretein belül fogom
+befejezni.
+
+# Mike Grant: Principles of Programming Languages (2018)
+https://pl.cs.jhu.edu/pl/book/book.pdf
+https://book.huihoo.com/programming-languages/book/html/main.html#mainli1.html
