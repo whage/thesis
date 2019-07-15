@@ -16,7 +16,7 @@ keywords: [Type systems, Programming languages]
 After having worked with dynamic languages for a few years, when I first started using C#
 I was struck by how much its static type system and typechecker helped me write code faster and more confidently.
 The type system made me think more thoroughly, it allowed me to change parts
-of the program and be confident that I didn't break it.
+of the program and be confident that it was still working as expected.
 It was a different way of writing software than I had done before.
 I became more and more interested in the possibilities of static checking and type systems.
 I started wondering what else was out there that could increase programmer productivity
@@ -212,11 +212,11 @@ backward chaining (or top-down construction).
 A type system is described by a set of inference rules. Once the inference rules are constructed,
 a type checking algorithm can take a program as input and derive ... **TODO: finish sentence**
 
+**TODO: end note: transition from formal type systems to the topic of type checking**
+
 [@pfpl-2016], [@cardelli-96], [@ranta2012]
 
-### Type checking algorithms
-
-**TODO: how to transition into this from formal type systems?**
+# Type checking
 
 **TODO: add note about proofs and type checking statements (valid)**
 
@@ -232,9 +232,6 @@ https://sergio.bz/docs/rusty-types-2016.pdf
 **TODO: some parts from this book maybe?**
     - http://pl.cs.jhu.edu/pl/book/book.pdf
 
-**TODO: end note: transition from formal type systems to the topic of type checking**
-
-# Type checking
 > ... [static typing] ... consists in detecting a
 > large family of errors: the application of operations to objects over which they are not defined [...]
 > This is achieved by grouping the
@@ -315,6 +312,7 @@ static analysis cannot deftermine that this is the case.
 ## Gradual typing
 **TODO: just a short mention that such things also exist**
 
+Really good article:
 http://wphomes.soic.indiana.edu/jsiek/what-is-gradual-typing/
 
 ## Type checking algorithms
@@ -400,12 +398,33 @@ behavior when executed, each choice requires a different program. [@pfpl-2016]
 >
 > [@pfpl-2016 p. 141.]
 
+To facilitate code-reuse, most programming languages feature a polymorphic type system.
+A polymorphic languages are those of which the type systems allows different data types to be handled
+in a uniform interface. [@ots-2008] Stated more simply: in a polymorphic language, a program fragment
+may have multiple types. There are different kinds of polymorphisms, I will look at each of them in
+more detail in the coming pages.
 
+**TODO: find some good parts in this: (Robin Milner, Turing Award winner, paper from 1983)**
+https://homepages.inf.ed.ac.uk/wadler/papers/papers-we-love/milner-type-polymorphism.pdf
 
 **TODO: summarize thoughts in this link**
 http://www.cs.cornell.edu/info/projects/nuprl/book/node177.html
 
-### Abstractions and types
+### Parametric polymorphism - Generics
+Sometimes called "compile-time polymorphism", ... **TODO: continue**
+- https://docs.oracle.com/javase/tutorial/java/generics/index.html
+
+### Subtyping
+Subtype polymorphism is also known as runtime polymorphism.
+
+### Ad-hoc polymorphism - Typeclasses
+**TODO: typeclasses**
+
+- https://en.wikipedia.org/wiki/Polymorphism_(computer_science)
+- https://xavierleroy.org/bibrefs/Leroy-unboxed.html
+- https://en.wikipedia.org/wiki/Type_system#Polymorphism_and_types
+
+## Abstractions and types
 - [Fleury: abstractions](fleury-abs)
 - [destroyallsoftware: types](destroyall)
 - [types in go](ardanlabs)
@@ -429,18 +448,6 @@ It is the concept of having internally different objects that provide the same i
 Even though they implement different behaviour, they look the same from the outside and so they can be used
 interchangeably. This frees their users (other entities in the program that use them) from having to differentiate
 between them and allows them to ... **TODO: finish note**
-
-### Parametric polymorphism - Generics
-- https://docs.oracle.com/javase/tutorial/java/generics/index.html
-
-### Subtyping
-
-### Ad-hoc polymorphism - Typeclasses
-**TODO: typeclasses**
-
-- https://en.wikipedia.org/wiki/Polymorphism_(computer_science)
-- https://xavierleroy.org/bibrefs/Leroy-unboxed.html
-- https://en.wikipedia.org/wiki/Type_system#Polymorphism_and_types
 
 ## Dependent types 
 ...
