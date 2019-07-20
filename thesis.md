@@ -29,6 +29,8 @@ I'll look at how type systems evolved, and how they can be categorized.
 I'll compare the type systems of widely used programming languages and will try to
 give an overview of the possibilities of recent advances in type systems and programming language design.
 
+\pagebreak
+
 # Type systems
 > Modern software engineering recognizes a broad range of formal methods for helping ensure that a system behaves correctly [...]
 > by far the most popular and best established lightweight formal methods are type systems.
@@ -43,15 +45,10 @@ attempts to prove that no operation violates them.
 Such a violation is called a **type error**. It is an inconsistency in a program according to the type system's rules.
 Exactly what constitutes a type error is defined by the type system of the language.
 A program that violates the rules of its type system is often called ill typed. A program that conforms
-to the rules of the language's type system is a well typed program.
+to the rules of the language's type system is a well typed program. [@wiki-type-systems]
 
-[@wiki-type-systems]
-
-> Type systems are used to determine whether programs are well behaved [...].
-> Only program sources that comply with a type system should be considered real programs of a typed language;
-> the other sources should be discarded before they are run.
->
-> [@cardelli-96, p. 2]
+> Type systems are used to define the notion of well typing, which is itself a static approximation of good behavior [...]
+> Well typing further facilitates program development by trapping execution errors before run time. [@cardelli-96, p. 6]
 
 Languages where variables can be given (nontrivial) types are called typed languages.
 Languages that don't restrict the range of variables are called untyped languages. In these languages, invalid operations
@@ -65,7 +62,6 @@ recoverable exceptions. This checking process during runtime is called dynamic c
 
 > Even statically checked languages usually need to perform tests at run time to achieve safety. [...]
 > The fact that a language is statically checked does not necessarily mean that execution can proceed entirely blindly.
->
 > [@cardelli-96, p. 3]
 
 By using the facilities provided by the type system, we can add more information in our programs.
@@ -88,12 +84,10 @@ through the use of symbols. It was concieved in the beginning of the 20th centur
 in order to resolve contradictions present in his set theory. Type theories (there are many,
 like Alonzo Church's Simply Typed Lambda calculus or Per Martin-Löf's Intuitionistic Type Theory)
 are formal systems which means they define rules for inferring theorems (statements) from axioms.
-
 [@stanford-tt]
 
 > Explicitly, type theory is a formal language, essentially a set of rules for rewriting certain strings of
 > symbols, that describes the introduction of types and their terms, and computations with these, in a sensible way.
->
 > [@ncatlab-tt]
 
 Type theory lays down the theoretical foudation for the type systems found in programming languages and
@@ -107,7 +101,6 @@ the typechecking algorithms behind them.
 > Every high-level language provides abstractions of machine services. Safety refers to the language’s
 > ability to guarantee the integrity of these abstractions and of higher-level abstractions
 > introduced by the programmer using the definitional facilities of the language.
->
 > [@pierce-types-and-prog, p. 6]
 
 As [@pierce-types-and-prog] puts it, the abstraction of a safe language can be used "abstractly", whereas in an unsafe language
@@ -134,7 +127,6 @@ The author suggests declaring a subset of possible execution errors as forbidden
 > processing. The static phase consists of parsing and type checking to ensure that the program is
 > well-formed; the dynamic phase consists of execution of well-formed programs. A language is
 > said to be safe exactly when well-formed programs are well-behaved when executed.
->
 > [@pfpl-2016, p. 35]
 
 To summarize the thoughts of the authors above: a language can be called safe if every program written in it
@@ -146,6 +138,28 @@ Informally, safe languages are often referred to as "strongly typed".
 
 [benitez-ts]: http://delivery.acm.org/10.1145/3000000/2993604/p69-benitez.pdf?ip=176.63.29.106&id=2993604&acc=OA&key=4D4702B0C3E38B35%2E4D4702B0C3E38B35%2E4D4702B0C3E38B35%2E16F2E899256EF4E3&__acm__=1544294467_31c2f304e83b1e3aa7798f12058b3af8
 
+### Preservation and progress
+**TODO: summarize chapter in [@pfpl-2016]**
+
+### Should languages be safe?
+
+Safety reduces debugging time by adding fail-stop behavior in case of execution erros.
+Many security problems exist because of buffer overflows made possible by unsafe
+casting and pointer arithmetic operations. Languages that provide safety through bounds checking provide protection
+against such sources of exploits. Safety guarantees the integrity of run time structures,
+and therefore enables garbage collection. [@cardelli-96]
+Yet there are still unsafe languages in widspread use, mainly for one reason: performance.
+
+> Some languages, like C, are deliberately unsafe because of performance considerations: the run
+> time checks needed to achieve safety are sometimes considered too expensive.
+> [...] Thus, the choice between a safe and unsafe language may be ultimately related to a trade-
+> off between development and maintenance time, and execution time.
+> [@cardelli-96, p. 5.]
+
+
+The question arises: are there languages that provide both safety and performance at the same time?
+I'll get back to this when discussing "Type systems and program performance" later.
+
 ## Formalization of type systems
 
 > How can we guarantee that well typed programs are really well behaved? [...]
@@ -153,7 +167,6 @@ Informally, safe languages are often referred to as "strongly typed".
 > that are described in programming language manuals. Once a type system is formalized, we can
 > attempt to prove a type soundness theorem stating that well typed programs are well behaved.
 > If such a soundness theorem holds, we say that the type system is sound.
->
 > [@cardelli-96, p. 7]
 
 Most materials on the formalization of type systems are dense and get very abstract quickly.
@@ -161,7 +174,7 @@ Here, I'd like to briefly introduce the basic concepts and standard notation use
 discussing formal type systems. Hopefully, by the end of this introduction I'll have presented
 just enough theoretical foudation that I can also talk about what this leads to in practice.
 
-### Judgements
+### Judgements and rules
 
 An expression is a syntactically correct fragment of a program that can be evaluated to a value.
 Type systems associate expressions with types. We call this the _has type_ relationship:
@@ -178,18 +191,26 @@ We read the above expression as "from the premisses ${J_{1} \ldots J_{n}}$ we ca
 If there are no premisses (meaning if $n$ is 0), then the rule is an axiom.
 An inference rule can be read as stating that the premises are sufficient for the conclusion:
 to show $J$, it is enough to show ${J_{1} \ldots J_{n}}$.
+The collection of such typing rules form the type system of a programming language.
+
+> Type rules assert the validity of certain judgments on the basis of other judgments that are already
+> known to be valid. The process gets off the ground by some intrinsically valid judgment [@cardelli-96, p. 10]
+
+In a program, the type of a variable can only be decided by looking at its context (or environment) which is defined by
+the declarations of the variables. We can think of context as a lookup table of (variable, type) pairs:
+
+\begin{equation*}
+    x_{1}:A_{1}, \ldots \ x_{n}:A_{n}
+\end{equation*}
 
 > The role of a type system is to impose constraints on the formations of phrases that are sensitive to
 > the context in which they occur.
->
 > [@pfpl-2016, p. 36]
 
-In a program, the type of a variable can only be decided by looking at its context which is defined by
-the declarations of the variables. We can think of context as a lookup table of (variable, type) pairs.
 In the standard notaton, context is denoted by the greek letter Gamma:
 
 \begin{equation*}
-    \Gamma \Rightarrow e : T
+    \Gamma \vdash e : T
 \end{equation*}
 
 Which we read as "expression $e$ has type $T$ in context $\Gamma$".
@@ -202,8 +223,9 @@ To show that a judgement holds, we need to exhibit a derivation of it.
 > that judgment. It can be thought of as a tree in which each node is a rule whose children are
 > derivations of its premises. We sometimes say that a derivation of $J$ is evidence for the validity of
 > an inductively defined judgment $J$.
->
 > [@pfpl-2016, p. 15]
+
+**TODO: continue with [@cardelli-96]'s "type derivations" section**
 
 There are two main methods for finding derivations: forward chaining (or bottom-up constuction) and
 backward chaining (or top-down construction).
@@ -237,7 +259,6 @@ https://sergio.bz/docs/rusty-types-2016.pdf
 > This is achieved by grouping the
 > objects handled by the program into classes: the types, and by abstractly simulating the execution
 > at the level of types, following a set of rules called the type system.
-> 
 > [@leroy-phd, p. 3]
 
 Type checking is the process of verifying that the constraints posed by the type system are not violated
@@ -254,7 +275,6 @@ in programs. The most popular of these consistency checks is called static typin
 > accepts. The weakness of static typing is that it rejects some programs that are in fact correct, but
 > too complex to be recognized as such by the type system used. From this tension follows the search
 > for more and more expressive type systems [...]
->
 > [@leroy-phd, p. 3]
 
 ...
@@ -291,7 +311,6 @@ static analysis cannot deftermine that this is the case.
 ...
 
 > After all, compiler-imposed constraints on data types encouraged rigorous coding and precise thinking.
-> 
 > [@oracle-generics]
 
 ## Dynamic type checking
@@ -342,7 +361,6 @@ program more efficient.
 > At the same time, computer scientists began to be aware of the connections between the type systems
 > found in programming languages and those studied in mathematical logic, leading to a rich interplay
 > that continues to the present.
->
 > [@pierce-types-and-prog, p. 10]
 
 ## Evolution of type systems
@@ -379,7 +397,6 @@ http://frenchy64.github.io/2018/04/07/unsoundness-in-untyped-types.html
 > The first statically typed languages were explicitly typed by necessity.
 > However, type inference algorithms - techniques for looking at source code with no type declarations at all,
 > and deciding what the types of its variables are - have existed for many years now
->
 > [@debating-type-systems]
 
 ...
@@ -395,14 +412,13 @@ behavior when executed, each choice requires a different program. [@pfpl-2016]
 
 > [...] motivated by a simple practical problem (how to avoid writing redundant code),
 > the concept of polymorphism is central to an impressive variety of seemingly disparate concepts [...]
->
 > [@pfpl-2016 p. 141.]
 
 To facilitate code-reuse, most programming languages feature a polymorphic type system.
 A polymorphic languages are those of which the type systems allows different data types to be handled
 in a uniform interface. [@ots-2008] Stated more simply: in a polymorphic language, a program fragment
 may have multiple types. There are different kinds of polymorphisms, I will look at each of them in
-more detail in the coming pages.
+more detail below.
 
 **TODO: find some good parts in this: (Robin Milner, Turing Award winner, paper from 1983)**
 https://homepages.inf.ed.ac.uk/wadler/papers/papers-we-love/milner-type-polymorphism.pdf
@@ -440,7 +456,6 @@ Subtype polymorphism is also known as runtime polymorphism.
 > An ADT's user need not know how the object it represents is implemented [...]
 > In addition to the intellectual leverage for programmers who can take bigger strides in their thoughts,
 > it provides flexibility in modifying the ADT implementation
->
 > [@tt-oop]
 
 Polymorphism is closely related to the concept of abstraction.
@@ -504,7 +519,6 @@ all data representations must fit a default size.
 
 > In general, accurate type information at compile time leads to the
 > application of the appropriate operations at run time without the need of expensive tests.
->
 > [@cardelli-96, p. 6]
 
 If a language's type system doesn't allow casts between incompatible pointer types, then those can't point to the
@@ -518,14 +532,12 @@ Type information is also useful in the optimization of method dispatch in object
 > the object’s method suite, followed by a costly indirect jump to that code. In a class-based language, if the actual
 > class to which the object belongs is known at compile-time, a more efficient direct invocation of the method code can be
 > generated instead.
->
 > [@leroy-intro-tic98 p. 1]
 
 ...
 
 > Not having static type system information makes it hard to model control flow in the compiler,
 > which leads to overly conservative optimizers.
->
 > [@duffy-error-model]
 
 ## The cost of types
@@ -541,7 +553,6 @@ Type information is also useful in the optimization of method dispatch in object
 
 > Another operation that relies heavily on run-time type information is marshaling and un-marshaling between
 > arbitrary data structures and streams of bytes – a crucial mechanism for persistence and distributed programming.
->
 > [@leroy-intro-tic98 p. 5] 
 
 ### Type erasure
