@@ -1,5 +1,5 @@
 # pfpl
-he first part, called preservation, says that the steps of evaluation preserve typing; the second,
+The first part, called preservation, says that the steps of evaluation preserve typing; the second,
 called progress, ensures that well-typed expressions are either values or can be further evaluated.
 Safety is the conjunction of preservation and progress.
 

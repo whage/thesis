@@ -47,10 +47,8 @@
 on writing a language from scratch:
     - https://medium.freecodecamp.org/the-programming-language-pipeline-91d3f449c919
 
-> In general, the more there is static checking in the compiler, the less need there is for manual debugging.
->
-> **TODO: fix citation!**
-> http://www.cse.chalmers.se/edu/year/2015/course/DAT150/lectures/proglang-07.html
+# some good notes on type systems & type checking
+http://www.cse.chalmers.se/edu/year/2015/course/DAT150/lectures/proglang-07.html
 
 # Research motivation
 google this !!: "Static vs. dynamic type systems: an empirical study about the relationship between type casts and development time pdf"

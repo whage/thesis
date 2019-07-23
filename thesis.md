@@ -13,8 +13,9 @@ keywords: [Type systems, Programming languages]
 \pagebreak
 
 # Introduction, personal motivation
-After having worked with dynamic languages for a few years, when I first started using C#
-I was struck by how much its static type system and typechecker helped me write code faster and more confidently.
+After having worked only with dynamic languages for a few years, when I first started using
+staticly typed languages (C# and java in my case) I was struck by how much their
+type system and typechecker helped me write code faster and more confidently.
 The type system made me think more thoroughly, it allowed me to change parts
 of the program and be confident that it was still working as expected.
 It was a different way of writing software than I had done before.
@@ -36,13 +37,13 @@ give an overview of the possibilities of recent advances in type systems and pro
 > by far the most popular and best established lightweight formal methods are type systems.
 > [@pierce-types-and-prog, p. 1]
 
-A type system is a set of rules that associate a property called a **type** to various constructs in a computer program.
+A type system is a set of rules that associate a property called a type to various constructs in a computer program.
 A type defines a range of values as well as possible operations on instances of that type.
 The main purpose of type systems is to reduce possibilities for bugs in computer programs.
 The type system associates a type with each value in the program and then by examining the flow of these values
 attempts to prove that no operation violates them.
 
-Such a violation is called a **type error**. It is an inconsistency in a program according to the type system's rules.
+Such a violation is called a type error. It is an inconsistency in a program according to the type system's rules.
 Exactly what constitutes a type error is defined by the type system of the language.
 A program that violates the rules of its type system is often called ill typed. A program that conforms
 to the rules of the language's type system is a well typed program. [@wiki-type-systems]
@@ -72,11 +73,8 @@ us when we later change parts of the program or add new components to it.
 
 Type systems are the glue between mathematical logic and computer programs. They make it possible to
 prove that our programs behave correctly. Advanced, sophisticated type systems allow us to express
-a finer, more precise structure and thus more properties of our sofware may be proven by automated tools.
-
-**TODO: add note on why this should motivate type system research; benefits for working programmers**
-
-**TODO: add more notes after having worked with Haskell/OCaml**
+a finer, more precise structure and thus more properties of our sofware may be proven by automated tools
+at compile time and more optimization may be carried out to improve runtime performance.
 
 ## Type theory
 Type theory is a branch of mathematical symbolic logic: a system of representing logical expressions
@@ -132,11 +130,6 @@ The author suggests declaring a subset of possible execution errors as forbidden
 To summarize the thoughts of the authors above: a language can be called safe if every program written in it
 that can reach execution is well behaved. A well behaved program is one that does not produce forbidden / untrapped errors.
 Informally, safe languages are often referred to as "strongly typed".
-
-**TODO:**
-- [Sergio Benitez: Short Paper: Rusty Types for Solid Safety](benitez-ts)
-
-[benitez-ts]: http://delivery.acm.org/10.1145/3000000/2993604/p69-benitez.pdf?ip=176.63.29.106&id=2993604&acc=OA&key=4D4702B0C3E38B35%2E4D4702B0C3E38B35%2E4D4702B0C3E38B35%2E16F2E899256EF4E3&__acm__=1544294467_31c2f304e83b1e3aa7798f12058b3af8
 
 ### Preservation and progress
 **TODO: summarize chapter in [@pfpl-2016]**
@@ -217,59 +210,42 @@ Which we read as "expression $e$ has type $T$ in context $\Gamma$".
 
 ### Derivations
 
-To show that a judgement holds, we need to exhibit a derivation of it.
-
 > A derivation of a judgment is a finite composition of rules, starting with axioms and ending with
 > that judgment. It can be thought of as a tree in which each node is a rule whose children are
 > derivations of its premises. We sometimes say that a derivation of $J$ is evidence for the validity of
 > an inductively defined judgment $J$.
 > [@pfpl-2016, p. 15]
 
-**TODO: continue with [@cardelli-96]'s "type derivations" section**
+If we can constrcut a derivation for a judgement then we can say that the judgement is valid.
 
-There are two main methods for finding derivations: forward chaining (or bottom-up constuction) and
-backward chaining (or top-down construction).
+Once the inference rules are constructed, a type checking algorithm can take a program and
+through constructing derivations decide if the program is well typed or not. If a program fragment
+violates the rules of the type system then we say it has a typing error. Most languages report
+a "Type Error" in such cases.
 
-**TODO: check if the statements below are correct!**
-A type system is described by a set of inference rules. Once the inference rules are constructed,
-a type checking algorithm can take a program as input and derive ... **TODO: finish sentence**
+> A term $M$ is well typed for an environment $\Gamma$, if there is a type $A$ such
+> that $\Gamma \vdash M : A$ is a valid judgment; that is, if the term $M$ can be given some type. [@cardelli-96, p. 11]
+> The discovery of a derivation (and hence of a type) for a term is called the type inference problem.
 
-**TODO: end note: transition from formal type systems to the topic of type checking**
-
+Our aim when constructing a derivation is to infer the type(s) of an expression. The typing rules in the judgements
+that make up the derivation serve as markers for assigning types to the expression at the root of the derivation.
 [@pfpl-2016], [@cardelli-96], [@ranta2012]
 
 # Type checking
 
-**TODO: add note about proofs and type checking statements (valid)**
-
-**TODO: some terminlogy:**
-in [@cardelli-96] : "How type systems are formalized" and "The language of type systems"!
-similar notation here:
-http://www.cse.chalmers.se/edu/year/2015/course/DAT150/lectures/proglang-07.html
-and here:
-https://sergio.bz/docs/rusty-types-2016.pdf
+Type checking is the process of deciding whether a term is well typed or not.
+A type checker verifies that the constraints posed by the type system are not violated
+by the program. Type checking can be done by automated tools called typecheckers, which are usually
+built into compilers or linkers.
 
 **TODO: references to Pierce: http://michaelrbernste.in/2014/02/17/what-is-a-type-system-for.html**
 
 **TODO: some parts from this book maybe?**
     - http://pl.cs.jhu.edu/pl/book/book.pdf
 
-> ... [static typing] ... consists in detecting a
-> large family of errors: the application of operations to objects over which they are not defined [...]
-> This is achieved by grouping the
-> objects handled by the program into classes: the types, and by abstractly simulating the execution
-> at the level of types, following a set of rules called the type system.
-> [@leroy-phd, p. 3]
-
-Type checking is the process of verifying that the constraints posed by the type system are not violated
-by the program. Type checking can be done by automated tools called typecheckers, which are usually
-built into compilers or linkers.
-
-http://www.cse.chalmers.se/edu/year/2015/course/DAT150/lectures/proglang-07.html
-
 ## Static type checking
 Programmers make errors. Advanced programming languages should allow the automatic checking of inconsistencies
-in programs. The most popular of these consistency checks is called static typing.
+in programs. The most popular of these consistency checks is called static type checking (or static typing).
 
 > The strength of static typing is that it guarantees the absence of type errors in the programs it
 > accepts. The weakness of static typing is that it rejects some programs that are in fact correct, but
@@ -292,9 +268,14 @@ if <complex test> then 5 else <type error>
 ```
 
 will always be rejected as ill-typed even if `<complex test>` always evaluates to true, because
-static analysis cannot deftermine that this is the case.
+static analysis cannot deftermine that this is the case. [@pierce-types-and-prog]
 
-[@pierce-types-and-prog]
+> ... [static typing] ... consists in detecting a
+> large family of errors: the application of operations to objects over which they are not defined [...]
+> This is achieved by grouping the
+> objects handled by the program into classes: the types, and by abstractly simulating the execution
+> at the level of types, following a set of rules called the type system.
+> [@leroy-phd, p. 3]
 
 ...
 
@@ -579,5 +560,6 @@ https://en.wikipedia.org/wiki/Generics_in_Java#Problems_with_type_erasure
 - any ML language
 - Agda
 - Rust
+    - https://sergio.bz/docs/rusty-types-2016.pdf
 
 # References
