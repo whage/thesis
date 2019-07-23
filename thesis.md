@@ -108,12 +108,12 @@ in order to understand how the program might misbehave.
 Note that "language safety" can be achieved by static type checking but also by run-time checks, like array-bounds checking is
 performed by many languages during runtime.
 
-[@types-primer] says that a programming language or language construct is type-safe if it forbids
+Chappell [@types-primer] says that a programming language or language construct is type-safe if it forbids
 operations that are incorrect for the types on which they operate. The author notes that some languages
 may discourage incorrect operations or make them difficult without completely forbidding them so
 we may compare the level of type safety offered by two programming languages.
 
-[@cardelli-96] differentiates between trapped errors, that cause execution to stop immadiately and
+Cardelli [@cardelli-96] differentiates between trapped errors, that cause execution to stop immadiately and
 untrapped errors that go unnoticed and later cause arbitrary behaviour. An untrapped error, for example, is
 accessing data past the end of an array in absence of run time bounds checks. A trapped error would be division
 by zero or accessing an illegal address. He calls a language safe if untrapped errors are impossible in it.
@@ -132,7 +132,24 @@ that can reach execution is well behaved. A well behaved program is one that doe
 Informally, safe languages are often referred to as "strongly typed".
 
 ### Preservation and progress
-**TODO: summarize chapter in [@pfpl-2016]**
+Formally, a language can be called type safe if the following properties hold:
+
+\begin{enumerate}
+  \item If $e : \tau$ and $e \rightarrow e'$, then $e' : \tau$
+  \item If $e : \tau$, then either $e$ is a value or there exists $e'$ such that $e \rightarrow e'$
+\end{enumerate}
+
+The first property is called "preservation": it states that evaluation preserves the type of an expression.
+The second property is called progress, it states that a well typed expression is either a value or it can be evaluated
+further (until it is reduced to value). Type safety is the conjunction of preservation and progress. [@pfpl-2016]
+
+**TODO: Lectures Notes on Progress talks about how division by zero is possible in a type safe language**
+
+Note that safety is not a property of a type system, but that of a language. There are operations that
+would pass type checking but produce an error during runtime, like division by zero. Enhancing a type system
+so that it could protect against division by zero erros would make it too restrictive (too many programs would
+be ruled out as ill-formed). It is not possible to predict statically that an expression would evaluate to zero,
+so if we want our language to be safe, we need to add dynamic (runtime) checks.
 
 ### Should languages be safe?
 
@@ -148,7 +165,6 @@ Yet there are still unsafe languages in widspread use, mainly for one reason: pe
 > [...] Thus, the choice between a safe and unsafe language may be ultimately related to a trade-
 > off between development and maintenance time, and execution time.
 > [@cardelli-96, p. 5.]
-
 
 The question arises: are there languages that provide both safety and performance at the same time?
 I'll get back to this when discussing "Type systems and program performance" later.

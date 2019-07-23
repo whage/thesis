@@ -1,8 +1,3 @@
-# pfpl
-The first part, called preservation, says that the steps of evaluation preserve typing; the second,
-called progress, ensures that well-typed expressions are either values or can be further evaluated.
-Safety is the conjunction of preservation and progress.
-
 # Static vs dynamic checking (http://www.cs.tau.ac.il/~msagiv/courses/pl15/types.pdf)
 Basic tradeoff
 – Both kinds of checking prevent type errors
