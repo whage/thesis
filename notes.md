@@ -72,3 +72,6 @@ befejezni.
 # Mike Grant: Principles of Programming Languages (2018)
 https://pl.cs.jhu.edu/pl/book/book.pdf
 https://book.huihoo.com/programming-languages/book/html/main.html#mainli1.html
+
+# Collection of resources for studying type theory
+https://github.com/jozefg/learn-tt

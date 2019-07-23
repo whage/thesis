@@ -15,10 +15,10 @@ keywords: [Type systems, Programming languages]
 # Introduction, personal motivation
 After having worked only with dynamic languages for a few years, when I first started using
 staticly typed languages (C# and java in my case) I was struck by how much their
-type system and typechecker helped me write code faster and more confidently.
+type system and typechecker helped write code more effectively and more confidently.
 The type system made me think more thoroughly, it allowed me to change parts
 of the program and be confident that it was still working as expected.
-It was a different way of writing software than I had done before.
+It was a different, a much more pleasant way of writing software than I had done before.
 I became more and more interested in the possibilities of static checking and type systems.
 I started wondering what else was out there that could increase programmer productivity
 and software quality. This curiosity led me to choosing type systems as the topic of my thesis.
@@ -91,8 +91,6 @@ are formal systems which means they define rules for inferring theorems (stateme
 Type theory lays down the theoretical foudation for the type systems found in programming languages and
 the typechecking algorithms behind them.
 
-**TODO: https://github.com/jozefg/learn-tt**
-
 ## Language safety
 
 > [...] a safe language is one that protects its own abstractions [...]
@@ -143,13 +141,12 @@ The first property is called "preservation": it states that evaluation preserves
 The second property is called progress, it states that a well typed expression is either a value or it can be evaluated
 further (until it is reduced to value). Type safety is the conjunction of preservation and progress. [@pfpl-2016]
 
-**TODO: Lectures Notes on Progress talks about how division by zero is possible in a type safe language**
-
 Note that safety is not a property of a type system, but that of a language. There are operations that
 would pass type checking but produce an error during runtime, like division by zero. Enhancing a type system
 so that it could protect against division by zero erros would make it too restrictive (too many programs would
 be ruled out as ill-formed). It is not possible to predict statically that an expression would evaluate to zero,
-so if we want our language to be safe, we need to add dynamic (runtime) checks.
+so if we want our language to be safe, we need to add dynamic (runtime) checks. Even though it is not part
+of the static type system, such a language is still considered safe. [@pfpl-2016]
 
 ### Should languages be safe?
 
