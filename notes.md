@@ -75,3 +75,6 @@ https://book.huihoo.com/programming-languages/book/html/main.html#mainli1.html
 
 # Collection of resources for studying type theory
 https://github.com/jozefg/learn-tt
+
+# static vs dynamic
+https://softwareengineering.stackexchange.com/questions/122205/what-is-the-supposed-productivity-gain-of-dynamic-typing

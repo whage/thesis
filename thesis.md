@@ -257,8 +257,18 @@ A type checker verifies that the constraints posed by the type system are not vi
 by the program. Type checking can be done by automated tools called typecheckers, which are usually
 built into compilers or linkers.
 
-**TODO: some parts from "Principles of Programming Languages" maybe?**
-    - http://pl.cs.jhu.edu/pl/book/book.pdf
+There are two main branches of languages with regards to type checking (or "typing"): static and dynamic.
+Staticly typed languages carry out type checking before the program is actually run.
+Dynamically typed languages do type checking during run-time. Both sides have their advantages and disadvantages.
+
+> The debate regarding the advantages and drawbacks of static or dynamic type systems is
+> ongoing in both academia and the software industry. While statically typed programming
+> languages such as C, C++, and Java dominated the software market for many years, dynamically
+> typed programming languages such as Ruby or JavaScript are increasingly gaining
+> ground—especially in web development.
+> The fact that the debate is still lively is not surprising, because settling it demands the
+> presence of a theory of the respective advantages and disadvantages of static and dynamic
+> typing, supported by empirical evidence. Unfortunately, such evidence is still lacking. [@esist-2013]
 
 ## Static type checking
 Programmers make errors. Advanced programming languages should allow the automatic checking of inconsistencies
@@ -298,11 +308,25 @@ static analysis cannot deftermine that this is the case. [@pierce-types-and-prog
 
 ### Advantages of static type checking
 
-- performance
-- documentation
-    - it doesn't drift like comments do!
-- tools and analysis
-- correctness
+#### Documentation
+
+"The comment is lying". Source code comments usually get ignored when updating a code segment
+that they refer to and since they don't have any meaning in the program, the runtime or the compiler
+can't give any warning about updating them: they "drift" from the code,
+often stating the exact opposite of what is implemented.
+
+> Types are also useful when reading programs. The type declarations in procedure
+> headers and module interfaces constitute a form of documentation, giving useful hints
+> about behavior. [@pierce-types-and-prog, p. 5]
+
+Explicit type declarations are "living documentation". Type annotations provide information about the
+code and since they are verified by the typechecker they cannot drift.
+
+#### Tools and analysis
+
+#### Correctness
+
+#### Performance
 
 [@debating-type-systems]
 
@@ -322,6 +346,7 @@ data structures of the program stay consistent. Typical runtime checks include
 - division-by-zero checks
 - array bounds checking,
 - verifying that a downcast is valid or not
+- **TODO: find what other dynamic checks are usually performed: On the Revival of Dynamic Languages**
 
 When a dynamic check fails, the language runtime produces a runtime error. It depends on the language if a certain
 runtim error is recoverable or not: the language may allow the programmer to write error handling code and
@@ -334,6 +359,9 @@ resume program execution after the error was handled.
 [wiki-dynamic-type-checking]: https://en.wikipedia.org/wiki/Type_system#Dynamic_type_checking_and_runtime_type_information
 
 ### Advantages of dynamic type checking
+
+**TODO: On the Revival of Dynamic Languages**
+
 - faster prototyping: shorter edit-compile-test cycles
 - productivity
     - short term gains, long term losses?
