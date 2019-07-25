@@ -39,6 +39,12 @@ give an overview of the possibilities of recent advances in type systems and pro
 
 A type system is a set of rules that associate a property called a type to various constructs in a computer program.
 A type defines a range of values as well as possible operations on instances of that type.
+
+> A type is simply a property with which a program is implicitly or explicitly annotated before runtime.
+> Type declarations are invariants that hold for all executions of a program, and can be expressed
+> as statements such as “this variable always holds a String object,” or “this function
+> always returns a tree expression.” [@ppl-2016, p. 100]
+
 The main purpose of type systems is to reduce possibilities for bugs in computer programs.
 The type system associates a type with each value in the program and then by examining the flow of these values
 attempts to prove that no operation violates them.
@@ -66,7 +72,7 @@ recoverable exceptions. This checking process during runtime is called dynamic c
 > [@cardelli-96, p. 3]
 
 By using the facilities provided by the type system, we can add more information in our programs.
-W can create a safety-net against execution errors by making it possible for automated tools to verify the steps
+We can create a safety-net against execution errors by making it possible for automated tools to verify the steps
 we take throughout our code.
 Through types, we can add more meaning, a deeper, more solid structure. That structure aids
 us when we later change parts of the program or add new components to it.
@@ -154,8 +160,8 @@ Safety reduces debugging time by adding fail-stop behavior in case of execution 
 Many security problems exist because of buffer overflows made possible by unsafe
 casting and pointer arithmetic operations. Languages that provide safety through bounds checking provide protection
 against such sources of exploits. Safety guarantees the integrity of run time structures,
-and therefore enables garbage collection. [@cardelli-96]
-Yet there are still unsafe languages in widspread use, mainly for one reason: performance.
+and therefore enables garbage collection. [@cardelli-96] Yet there are still unsafe languages
+in widspread use, mainly for one reason: performance.
 
 > Some languages, like C, are deliberately unsafe because of performance considerations: the run
 > time checks needed to achieve safety are sometimes considered too expensive.
@@ -164,7 +170,7 @@ Yet there are still unsafe languages in widspread use, mainly for one reason: pe
 > [@cardelli-96, p. 5.]
 
 The question arises: are there languages that provide both safety and performance at the same time?
-I'll get back to this when discussing "Type systems and program performance" later.
+I'll get back to this when discussing "Type systems and program performance".
 
 ## Formalization of type systems
 
@@ -251,9 +257,7 @@ A type checker verifies that the constraints posed by the type system are not vi
 by the program. Type checking can be done by automated tools called typecheckers, which are usually
 built into compilers or linkers.
 
-**TODO: references to Pierce: http://michaelrbernste.in/2014/02/17/what-is-a-type-system-for.html**
-
-**TODO: some parts from this book maybe?**
+**TODO: some parts from "Principles of Programming Languages" maybe?**
     - http://pl.cs.jhu.edu/pl/book/book.pdf
 
 ## Static type checking
@@ -308,7 +312,22 @@ static analysis cannot deftermine that this is the case. [@pierce-types-and-prog
 > [@oracle-generics]
 
 ## Dynamic type checking
-...
+
+Language for which the runtime performs type safety checks while a program is running are called
+dynamic or dynamically typed languages. As discussed earlier, certain operations are difficult or impossible
+to check statically (before running the program). In order to keep the language safe
+(prevent unintended program behavior) these languages perform various runtime checks to make sure that the
+data structures of the program stay consistent. Typical runtime checks include
+
+- division-by-zero checks
+- array bounds checking,
+- verifying that a downcast is valid or not
+
+When a dynamic check fails, the language runtime produces a runtime error. It depends on the language if a certain
+runtim error is recoverable or not: the language may allow the programmer to write error handling code and
+resume program execution after the error was handled. 
+
+[@wiki-type-systems]
 
 [link](wiki-dynamic-type-checking)
 
@@ -395,8 +414,6 @@ http://frenchy64.github.io/2018/04/07/unsoundness-in-untyped-types.html
 
 ...
 
-**?What is the difference between dynamic type checking and a runtime error?**
-
 ## Polymorphic typing
 **TODO: the "distinct identity function" part should go under parametric polymorphism, no? Maybe not!**
 A language, where every expression has a single type is called monomorphic. In such a language
@@ -444,6 +461,8 @@ Subtype polymorphism is also known as runtime polymorphism.
 [destroyall]: https://www.destroyallsoftware.com/compendium/types?share_key=baf6b67369843fa2
 [ardanlabs]: https://www.ardanlabs.com/blog/2013/07/understanding-type-in-go.html
 [leroy-dot]: https://xavierleroy.org/bibrefs/Cardelli-Leroy-dot.html
+
+**TODO: see "Types, abstraction and parametric polymorphism" paper in thesis_papers dir**
 
 **TODO: such a great quote! need to connect it somehow**
 
