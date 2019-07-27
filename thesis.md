@@ -172,6 +172,8 @@ in widspread use, mainly for one reason: performance.
 The question arises: are there languages that provide both safety and performance at the same time?
 I'll get back to this when discussing "Type systems and program performance".
 
+**TODO: "are unsound type systems wrong?" http://frenchy64.github.io/2018/04/07/unsoundness-in-untyped-types.html**
+
 ## Formalization of type systems
 
 > How can we guarantee that well typed programs are really well behaved? [...]
@@ -273,6 +275,14 @@ Dynamically typed languages do type checking during run-time. Both sides have th
 Proponents of dynamic languages criticize static ones as being too rigid and cumbersome to work with. The other camp
 complains that dynamic languages offer little protection against logical errors and let too many of the errors
 happen at runtime.
+
+## Type checking algorithms
+
+...
+
+[link](letswrite)
+
+[letswrite]: https://speakerdeck.com/igstan/lets-write-a-type-checker
 
 In the next section I'll give a brief overview of static and dynamic languages and will later go into much more
 details when surveying my selected list of programming languages.
@@ -441,33 +451,10 @@ To solve the above issues, the reflective capabilities of the language must be s
 
 #### Flexibility
 
+...
+
 > Dynamic languages are more tolerant to change; code refactors tend to be more localized (they have a smaller area of effect)
 > [@hackernoon-s-vs-d]
-
-## Gradual typing
-**TODO: just a short mention that such things also exist**
-
-Really good article:
-http://wphomes.soic.indiana.edu/jsiek/what-is-gradual-typing/
-
-## Type checking algorithms
-[link](letswrite)
-
-[letswrite]: https://speakerdeck.com/igstan/lets-write-a-type-checker
-
-## Type inference
-Type inference is the process of automatically (instead of manually, by the programmer) assigning types
-to expressions in a program by examining the operations that are performed on them.
-
-> The first statically typed languages were explicitly typed by necessity.
-> However, type inference algorithms - techniques for looking at source code with no type declarations at all,
-> and deciding what the types of its variables are - have existed for many years now
-> [@debating-type-systems]
-
-- **TODO: "not to be confused with dynamic typing! type inference is still static (before execution)!" correct?**
--
-
-**TODO: pros/cons**
 
 # A short history of type systems
 The first type systems appeared in the 1950s, when the designers of the Fortran language wanted to make
@@ -490,29 +477,34 @@ program more efficient.
 - important innovations
 - timeline
 
-## Advanced type systems
-**TODO: what makes them advanced?**
+# Related concepts
 
-- look at Haskell and similar languages
-- https://en.wikipedia.org/wiki/Hindley%E2%80%93Milner_type_system
-- https://en.wikipedia.org/wiki/Type_system#Specialized_type_systems
-
-# Classification of type systems
-- http://blogs.perl.org/users/ovid/2010/08/what-to-know-before-debating-type-systems.html
-    - sound
-    - static / dynamic
-        - NOT strong/weak!
-    - explicit(manifest) / implicit
-    - structural / nominal
-    - duck typing
-
-"are unsound type systems wrong?"
-http://frenchy64.github.io/2018/04/07/unsoundness-in-untyped-types.html
+In this section I'd like to introduce a few type systems concepts...
 
 ...
 
+## Gradual typing
+**TODO: just a short mention that such things also exist**
+
+Really good article:
+http://wphomes.soic.indiana.edu/jsiek/what-is-gradual-typing/
+
+## Type inference
+Type inference is the process of automatically (instead of manually, by the programmer) assigning types
+to expressions in a program by examining the operations that are performed on them.
+
+> The first statically typed languages were explicitly typed by necessity.
+> However, type inference algorithms - techniques for looking at source code with no type declarations at all,
+> and deciding what the types of its variables are - have existed for many years now
+> [@debating-type-systems]
+
+**TODO: "not to be confused with dynamic typing! type inference is still static (before execution)!" correct?**
+
+**TODO: pros/cons**
+
 ## Polymorphic typing
 **TODO: the "distinct identity function" part should go under parametric polymorphism, no? Maybe not!**
+
 A language, where every expression has a single type is called monomorphic. In such a language
 there is a distinct identity function of each type: $\lambda \ (x : \tau ) \ x$ even though the
 behavior is exactly the same for each choice if $\tau$. Although they all have the same
@@ -529,9 +521,11 @@ may have multiple types. There are different kinds of polymorphisms, I will look
 more detail below.
 
 **TODO: find some good parts in this: (Robin Milner, Turing Award winner, paper from 1983)**
+
 https://homepages.inf.ed.ac.uk/wadler/papers/papers-we-love/milner-type-polymorphism.pdf
 
 **TODO: summarize thoughts in this link**
+
 http://www.cs.cornell.edu/info/projects/nuprl/book/node177.html
 
 ### Parametric polymorphism - Generics
@@ -540,6 +534,10 @@ Sometimes called "compile-time polymorphism", ... **TODO: continue**
 
 ### Subtyping
 Subtype polymorphism is also known as runtime polymorphism.
+
+**TODO: talk about variants of subtyping**
+
+- structural (duck typing) / nominal
 
 ### Ad-hoc polymorphism - Typeclasses
 **TODO: typeclasses**
@@ -573,7 +571,7 @@ Even though they implement different behaviour, they look the same from the outs
 interchangeably. This frees their users (other entities in the program that use them) from having to differentiate
 between them and allows them to ... **TODO: finish note**
 
-# Type systems and software security
+## Type systems and software security
 **TODO: google "type systems and security"**
 
 - defensive mechanisms provided by type systems
@@ -600,39 +598,36 @@ between them and allows them to ... **TODO: finish note**
 > arbitrary data structures and streams of bytes – a crucial mechanism for persistence and distributed programming.
 > [@leroy-intro-tic98 p. 5] 
 
-### Type erasure
-
-...
-
-https://en.wikipedia.org/wiki/Generics_in_Java#Problems_with_type_erasure
-
-...
 
 # Own research: surveying a selected list of programming languages 
 
 **TODO: short intro, why the chosen languages**
+
 **TODO:find what methods are used for comparing type systems**
 
-In the following, I'm going to introduce the type systems of different popular languages. The languages were selected so that
-each one features a different concept or idea (and also according to my interests).
+In the following, I'm going to introduce the type systems of an exotic assortment of languages. The languages were selected so that
+each one features a different concept or idea with regards to type systems.
 
-Implementing the same thing in all these languages with the intent of comparing them would make little as they all
+...
+
+Implementing the same program in all these languages with the intent of comparing them would make little sense as they all
 serve different purposes.
 
 **TODO: based on what? need some qualitative approach! how and what to compare?**
 
 ## Structure, methods of analysis
-For each language I'll try to highlight one or two key features and examine how those affect writing programs in the language.
+For each language I'll try to highlight one or two key type systems features and examine how those affect writing programs in the language.
 
 ... 
 
 ### Assembly
  
-**TODO: explain the advantages/motivation of not having a type system! Are there?**
+**TODO: Explain why assembly has no types! Are there any advantages of not having types?**
+
 
 ...
 
-### Javascripty
+### Javascript
 
 Javascript is a dynamic language, often referred to as a "weakly typed" (or unsafe) one because it makes many implicit type conversions
 during runtime. Javascript is one of the most popular languages of the 2010s mainly because it is the scripting language of
@@ -648,6 +643,7 @@ The most popular staticly typed variants of the language are:
 - Flow (Facebook)
 
 **TODO: why add a static type system?**
+
 **TODO: read through [@type-or-not-js]**
 
 [@type-or-not-js]
@@ -656,7 +652,7 @@ The most popular staticly typed variants of the language are:
 
 Python features a dynamic type system. it is usually called a "strongly typed" (or safe) language because even
 though its type system doesn't enforce strict typing rules at compile type it is very strict about what operations
-are allowed on what types during runtime and it will not do automatic type conversions that could go unnoticed. **TODO: is that correct?**
+are allowed on what types during runtime and it will not do automatic type conversions that could go unnoticed.
 
 ...
 
@@ -669,6 +665,12 @@ are allowed on what types during runtime and it will not do automatic type conve
 ### Java
 
 Java is a staticly typed, safe language. It features a static type system enhanced with various dynamic checks.
+
+...
+
+#### Type erasure
+
+**TODO: https://en.wikipedia.org/wiki/Generics_in_Java#Problems_with_type_erasure**
 
 ...
 
@@ -699,9 +701,11 @@ first class support for concurrency ...
 
 ...
 
-### OCaml (any ML language)
+### OCaml, Haskell (any ML language)
 
 The ML family of languages are the prominent representatives of the functional paradigm.
+
+**TODO: Hindley-Milner - https://en.wikipedia.org/wiki/Hindley%E2%80%93Milner_type_system**
 
 ...
 
@@ -715,6 +719,7 @@ implementation of conditional expressions. They let us define the branching logi
 of a composite type and allow the type system to check whether we we covered all the cases. [@parmer-type-systems]
 
 **TODO**:
+
 - Sum types
     - Maybe / Option
         - note: "nullable" in dynamic languages where ther is NULL, "option" or "maybe" in static languages
