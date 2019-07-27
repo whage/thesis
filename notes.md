@@ -78,3 +78,9 @@ https://github.com/jozefg/learn-tt
 
 # static vs dynamic
 https://softwareengineering.stackexchange.com/questions/122205/what-is-the-supposed-productivity-gain-of-dynamic-typing
+
+# The Oregon Programming Languages Summer School links
+links at bottom of github readme:
+    - https://github.com/jozefg/learn-tt#learn-tt
+
+This is incredible... many of the researchers I cited in my thesis have given lectures here!

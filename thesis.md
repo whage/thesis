@@ -270,7 +270,7 @@ Dynamically typed languages do type checking during run-time. Both sides have th
 > presence of a theory of the respective advantages and disadvantages of static and dynamic
 > typing, supported by empirical evidence. Unfortunately, such evidence is still lacking. [@esist-2013]
 
-## Static type checking
+## Static type checking **TODO: rename to "Static languages"?**
 Programmers make errors. Advanced programming languages should allow the automatic checking of inconsistencies
 in programs. The most popular of these consistency checks is called static type checking (or static typing).
 
@@ -324,18 +324,24 @@ code and since they are verified by the typechecker they cannot drift.
 
 #### Tools and analysis
 
+...
+
 #### Correctness
+
+...
 
 #### Performance
 
-[@debating-type-systems]
-
 ...
+
+[@debating-type-systems]
 
 > After all, compiler-imposed constraints on data types encouraged rigorous coding and precise thinking.
 > [@oracle-generics]
 
-## Dynamic type checking
+## Dynamic type checking **TODO: rename to "Dynamic languages"?**
+
+**TODO: look up some articles/papers on Clojure's type system and dynamic model**
 
 Language for which the runtime performs type safety checks while a program is running are called
 dynamic or dynamically typed languages. As discussed earlier, certain operations are difficult or impossible
@@ -350,24 +356,55 @@ data structures of the program stay consistent. Typical runtime checks include
 
 When a dynamic check fails, the language runtime produces a runtime error. It depends on the language if a certain
 runtim error is recoverable or not: the language may allow the programmer to write error handling code and
-resume program execution after the error was handled. 
+resume program execution after the error was handled. [@wiki-type-systems]
 
-[@wiki-type-systems]
-
-[link](wiki-dynamic-type-checking)
-
-[wiki-dynamic-type-checking]: https://en.wikipedia.org/wiki/Type_system#Dynamic_type_checking_and_runtime_type_information
+> We need to come to terms with persistency, inconsistency and change in pro-
+> gramming languages. This means that dynamic programming languages should
+> support the notion of software as living, changing systems, they should provide
+> support multiple and possibly inconsistent viewpoints of these systems. Static
+> type systems still have their place, but they should serve rather than hinder ex-
+> pressiveness. [@revival-2005, p. 10]
 
 ### Advantages of dynamic type checking
 
-**TODO: On the Revival of Dynamic Languages**
+**TODO: clean up this sentence: "Some of the following topics are mentioned in [@parmer-type-systems]."**
 
-- faster prototyping: shorter edit-compile-test cycles
-- productivity
-    - short term gains, long term losses?
-- flexibility
 
-[@parmer-type-systems]
+#### Faster prototyping
+
+- shorter edit-compile-test cycles
+
+#### Productivity
+
+- short term gains, long term losses?
+
+#### Flexibility - Reflection
+
+> Programs lives in files. To change a system, we must edit these files, recompile them, and restart the system [...]
+> Surprisingly little effort has been invested over the years in developing languages
+> that support run-time change to the persistent program state [@revival-2005, p. 2]
+
+> Reflection enables the changing of systems without the need to rebuild or even restart them. [@revival-2005, p. 6]
+
+Reflection is an umbrella term for programming language features that allow us to inspect and modify a program while it is running.
+Most static programming languages provide reflection facilities, but with limited support.
+
+**TODO: write about the advantages of reflection**
+...
+
+A totally reflective (dynamic) system with "unscoped" reflection suffers from many disadvantages:
+
+- Security: The clients that use reflection can do anything
+- Stability: The effects of reflection are global. One client using reflection affects the other clients
+- Performance: Full reflection is costly.
+
+To solve the above issues, the reflective capabilities of the language must be scoped:
+
+- define when and where reflection should be available
+- limit the reflective interface to certain clients
+- constrain the effects of reflection
+
+[@revival-2005]
 
 ## Gradual typing
 **TODO: just a short mention that such things also exist**
@@ -384,7 +421,12 @@ http://wphomes.soic.indiana.edu/jsiek/what-is-gradual-typing/
 Type inference is the process of automatically (instead of manually, by the programmer) assigning types
 to expressions in a program by examining the operations that are performed on them.
 
-- not to be confused with dynamic typing! type inference is still static (before execution)!
+> The first statically typed languages were explicitly typed by necessity.
+> However, type inference algorithms - techniques for looking at source code with no type declarations at all,
+> and deciding what the types of its variables are - have existed for many years now
+> [@debating-type-systems]
+
+- **TODO: "not to be confused with dynamic typing! type inference is still static (before execution)!" correct?**
 -
 
 **TODO: pros/cons**
@@ -432,13 +474,6 @@ program more efficient.
 
 "are unsound type systems wrong?"
 http://frenchy64.github.io/2018/04/07/unsoundness-in-untyped-types.html
-
-...
-
-> The first statically typed languages were explicitly typed by necessity.
-> However, type inference algorithms - techniques for looking at source code with no type declarations at all,
-> and deciding what the types of its variables are - have existed for many years now
-> [@debating-type-systems]
 
 ...
 
@@ -496,8 +531,7 @@ Subtype polymorphism is also known as runtime polymorphism.
 
 > An ADT's user need not know how the object it represents is implemented [...]
 > In addition to the intellectual leverage for programmers who can take bigger strides in their thoughts,
-> it provides flexibility in modifying the ADT implementation
-> [@tt-oop]
+> it provides flexibility in modifying the ADT implementation [@tt-oop]
 
 Polymorphism is closely related to the concept of abstraction.
 It is the concept of having internally different objects that provide the same interface.
@@ -515,9 +549,7 @@ that are not checked for consistency. Execution enters these branches based sole
 boolean valued "functions". This means that by mistake, they can overlap or fail to handle all possible cases.
 In functional languages, with the help of pattern matching algebraic data types facilitate a type safe
 implementation of conditional expressions. They let us define the branching logic in terms 
-of a composite type and allow the type system to check whether we we covered all the cases.
-
-[@parmer-type-systems]
+of a composite type and allow the type system to check whether we we covered all the cases. [@parmer-type-systems]
 
 - Sum types
     - Maybe / Option
@@ -559,8 +591,7 @@ static type information - memory size and layout. Languages without static typin
 all data representations must fit a default size.
 
 > In general, accurate type information at compile time leads to the
-> application of the appropriate operations at run time without the need of expensive tests.
-> [@cardelli-96, p. 6]
+> application of the appropriate operations at run time without the need of expensive tests. [@cardelli-96, p. 6]
 
 If a language's type system doesn't allow casts between incompatible pointer types, then those can't point to the
 same location in memory which in turn guarantees that load/store operations through those pointers cannot interfere.
@@ -572,14 +603,12 @@ Type information is also useful in the optimization of method dispatch in object
 > General method dispatch is an expensive operation, involving a run-time lookup of the code associated to the method in
 > the object’s method suite, followed by a costly indirect jump to that code. In a class-based language, if the actual
 > class to which the object belongs is known at compile-time, a more efficient direct invocation of the method code can be
-> generated instead.
-> [@leroy-intro-tic98 p. 1]
+> generated instead. [@leroy-intro-tic98 p. 1]
 
 ...
 
 > Not having static type system information makes it hard to model control flow in the compiler,
-> which leads to overly conservative optimizers.
-> [@duffy-error-model]
+> which leads to overly conservative optimizers. [@duffy-error-model]
 
 ## The cost of types
 - overhead of type systems during runtime?
@@ -612,7 +641,7 @@ https://en.wikipedia.org/wiki/Generics_in_Java#Problems_with_type_erasure
 **TODO: a chapter for each language**
 
 - assembly
-    - explain the advantages/motivation of not having a type system!
+    - explain the advantages/motivation of not having a type system! **TODO: are there?**
 - javascript
 - python
 - C / C++
