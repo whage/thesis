@@ -90,7 +90,7 @@ like Alonzo Church's Simply Typed Lambda calculus or Per Martin-Löf's Intuition
 are formal systems which means they define rules for inferring theorems (statements) from axioms.
 [@stanford-tt]
 
-> Explicitly, type theory is a formal language, essentially a set of rules for rewriting certain strings of
+> Type theory is a formal language, essentially a set of rules for rewriting certain strings of
 > symbols, that describes the introduction of types and their terms, and computations with these, in a sensible way.
 > [@ncatlab-tt]
 
@@ -99,7 +99,7 @@ the typechecking algorithms behind them.
 
 ## Language safety
 
-> [...] a safe language is one that protects its own abstractions [...]
+> A safe language is one that protects its own abstractions [...]
 > Every high-level language provides abstractions of machine services. Safety refers to the language’s
 > ability to guarantee the integrity of these abstractions and of higher-level abstractions
 > introduced by the programmer using the definitional facilities of the language.
@@ -255,7 +255,7 @@ that make up the derivation serve as markers for assigning types to the expressi
 Type checking is the process of deciding whether a term is well typed or not.
 A type checker verifies that the constraints posed by the type system are not violated
 by the program. Type checking can be done by automated tools called typecheckers, which are usually
-built into compilers or linkers.
+built into compilers or linkers. [@debating-type-systems]
 
 There are two main branches of languages with regards to type checking (or "typing"): static and dynamic.
 Staticly typed languages carry out type checking before the program is actually run.
@@ -270,7 +270,11 @@ Dynamically typed languages do type checking during run-time. Both sides have th
 > presence of a theory of the respective advantages and disadvantages of static and dynamic
 > typing, supported by empirical evidence. Unfortunately, such evidence is still lacking. [@esist-2013]
 
-## Static type checking **TODO: rename to "Static languages"?**
+Proponents of dynamic languages criticize static ones as being too rigid and cumbersome to work with. The other camp
+complains that dynamic languages offer little protection against logical errors and let too many of the errors
+happen at runtime.
+
+## Static languages
 Programmers make errors. Advanced programming languages should allow the automatic checking of inconsistencies
 in programs. The most popular of these consistency checks is called static type checking (or static typing).
 
@@ -304,16 +308,51 @@ static analysis cannot deftermine that this is the case. [@pierce-types-and-prog
 > at the level of types, following a set of rules called the type system.
 > [@leroy-phd, p. 3]
 
+Static languages usually don't allow rebinding a variable to an object of a different type during run-time.
+This is what makes static type checking possible (and effective). [@py-s-vs-d]
+
+### Advantages of static languages
+
+
+
+#### Early feedback and correctness
+
 ...
 
-### Advantages of static type checking
+> Compiler-imposed constraints on data types encouraged rigorous coding and precise thinking.
+> [@oracle-generics]
+
+#### Performance
+**TODO: type systems allowing certain compiler optimizations?**
+
+- https://xavierleroy.org/publi/intro-tic98.pdf
+
+To generate efficient machine code, precise knowledge about the size of the data is required. This can be derived from
+static type information - memory size and layout. Languages without static typing cannot be compiled as efficiently,
+all data representations must fit a default size.
+
+> In general, accurate type information at compile time leads to the
+> application of the appropriate operations at run time without the need of expensive tests. [@cardelli-96, p. 6]
+
+If a language's type system doesn't allow casts between incompatible pointer types, then those can't point to the
+same location in memory which in turn guarantees that load/store operations through those pointers cannot interfere.
+This allows the compiler to do more aggressive instruction scheduling.
+
+> Not having static type system information makes it hard to model control flow in the compiler,
+> which leads to overly conservative optimizers. [@duffy-error-model]
+
+Type information is also useful in the optimization of method dispatch in object-oriented languages. [@leroy-intro-tic98]
+
+> General method dispatch is an expensive operation, involving a run-time lookup of the code associated to the method in
+> the object’s method suite, followed by a costly indirect jump to that code. In a class-based language, if the actual
+> class to which the object belongs is known at compile-time, a more efficient direct invocation of the method code can be
+> generated instead. [@leroy-intro-tic98 p. 1]
 
 #### Documentation
 
 "The comment is lying". Source code comments usually get ignored when updating a code segment
 that they refer to and since they don't have any meaning in the program, the runtime or the compiler
-can't give any warning about updating them: they "drift" from the code,
-often stating the exact opposite of what is implemented.
+can't give any warning about updating them: they "drift" from the code, often stating the exact opposite of what is implemented.
 
 > Types are also useful when reading programs. The type declarations in procedure
 > headers and module interfaces constitute a form of documentation, giving useful hints
@@ -322,32 +361,21 @@ often stating the exact opposite of what is implemented.
 Explicit type declarations are "living documentation". Type annotations provide information about the
 code and since they are verified by the typechecker they cannot drift.
 
-#### Tools and analysis
+> Static type systems build ideas that help explain a system and what it does. [...]
+> They capture information about the inputs and outputs of various functions and modules. [...]
+> It's documentation that doesn't need to be maintained or even written. [@debating-type-systems]
 
-...
-
-#### Correctness
-
-...
-
-#### Performance
-
-...
-
-[@debating-type-systems]
-
-> After all, compiler-imposed constraints on data types encouraged rigorous coding and precise thinking.
-> [@oracle-generics]
-
-## Dynamic type checking **TODO: rename to "Dynamic languages"?**
+## Dynamic languages
 
 **TODO: look up some articles/papers on Clojure's type system and dynamic model**
 
-Language for which the runtime performs type safety checks while a program is running are called
-dynamic or dynamically typed languages. As discussed earlier, certain operations are difficult or impossible
-to check statically (before running the program). In order to keep the language safe
-(prevent unintended program behavior) these languages perform various runtime checks to make sure that the
-data structures of the program stay consistent. Typical runtime checks include
+Dynamic (or dynamically typed) languages don't require the programmer to fix the types of the constructs in their programs.
+For example, dynamic languages let us define functions that can accept multiple types. The exact type of the arguments
+will only be known when the program is running and if the types don't match the operations performed
+on them, they only report that at run-time.
+Such languages don't attempt static checks. In order to sustain safety (prevent unintended program behavior) these
+languages p, they instead perform various dynamic (run-time) checks to make sure that the data structures of
+the program stay consistent. Typical runtime checks include
 
 - division-by-zero checks
 - array bounds checking,
@@ -365,7 +393,13 @@ resume program execution after the error was handled. [@wiki-type-systems]
 > type systems still have their place, but they should serve rather than hinder ex-
 > pressiveness. [@revival-2005, p. 10]
 
-### Advantages of dynamic type checking
+**TODO: do we need the following? Find a place for them or delete them!**
+- overhead of type systems during runtime?
+- will it be visible in the complied program?
+- how much code does it add?
+- does it decrease performance? after all, we are doing more "checks" ???
+
+### Advantages of dynamic languages
 
 **TODO: clean up this sentence: "Some of the following topics are mentioned in [@parmer-type-systems]."**
 
@@ -561,7 +595,6 @@ of a composite type and allow the type system to check whether we we covered all
 # Type systems and software security
 **TODO: google "type systems and security"**
 
-- provable correctness
 - defensive mechanisms provided by type systems
     - look at the most common sources of vulnerabilities, see if type systems could help
         - need data!
@@ -580,42 +613,6 @@ of a composite type and allow the type system to check whether we we covered all
     - "it reaches paths of your program that normal execution never reaches"
     - "it's no longer adequate to test your program against all the cases that are likely to arise..."
 - 50:00 great thoughts about the `jmp` machine instruction
-
-# Type systems and program performance
-**TODO: type systems allowing certain compiler optimizations?**
-
-- https://xavierleroy.org/publi/intro-tic98.pdf
-
-To generate efficient machine code, precise knowledge about the size of the data is required. This can be derived from
-static type information - memory size and layout. Languages without static typing cannot be compiled as efficiently,
-all data representations must fit a default size.
-
-> In general, accurate type information at compile time leads to the
-> application of the appropriate operations at run time without the need of expensive tests. [@cardelli-96, p. 6]
-
-If a language's type system doesn't allow casts between incompatible pointer types, then those can't point to the
-same location in memory which in turn guarantees that load/store operations through those pointers cannot interfere.
-This allows the compiler to do more aggressive instruction scheduling.
-
-Type information is also useful in the optimization of method dispatch in object-oriented languages.
-[@leroy-intro-tic98]
-
-> General method dispatch is an expensive operation, involving a run-time lookup of the code associated to the method in
-> the object’s method suite, followed by a costly indirect jump to that code. In a class-based language, if the actual
-> class to which the object belongs is known at compile-time, a more efficient direct invocation of the method code can be
-> generated instead. [@leroy-intro-tic98 p. 1]
-
-...
-
-> Not having static type system information makes it hard to model control flow in the compiler,
-> which leads to overly conservative optimizers. [@duffy-error-model]
-
-## The cost of types
-- overhead of type systems during runtime?
-    - will it be visible in the complied program?
-    - how much code does it add?
-    - does it decrease performance? after all, we are doing more "checks" (implicitly by the types system) ???
-- cost of type systems (van értelme megkülönböztetni language-design-time és programming-time költségeket?)
 
 ## Run-time type information
 
