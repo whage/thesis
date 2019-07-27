@@ -1,5 +1,5 @@
 ---
-title: "Examination of the evolution of type systems in programming languages"
+title: "A survey of type systems in programming languages"
 subtitle: "Óbudai Egyetem - Neumann János Informatikai Kar, mérnökinformatikus szak"
 author: "András Sallai"
 date: "2019"
@@ -274,6 +274,9 @@ Proponents of dynamic languages criticize static ones as being too rigid and cum
 complains that dynamic languages offer little protection against logical errors and let too many of the errors
 happen at runtime.
 
+In the next section I'll give a brief overview of static and dynamic languages and will later go into much more
+details when surveying my selected list of programming languages.
+
 ## Static languages
 Programmers make errors. Advanced programming languages should allow the automatic checking of inconsistencies
 in programs. The most popular of these consistency checks is called static type checking (or static typing).
@@ -313,7 +316,7 @@ This is what makes static type checking possible (and effective). [@py-s-vs-d]
 
 ### Advantages of static languages
 
-
+...
 
 #### Early feedback and correctness
 
@@ -367,8 +370,6 @@ code and since they are verified by the typechecker they cannot drift.
 
 ## Dynamic languages
 
-**TODO: look up some articles/papers on Clojure's type system and dynamic model**
-
 Dynamic (or dynamically typed) languages don't require the programmer to fix the types of the constructs in their programs.
 For example, dynamic languages let us define functions that can accept multiple types. The exact type of the arguments
 will only be known when the program is running and if the types don't match the operations performed
@@ -403,16 +404,14 @@ resume program execution after the error was handled. [@wiki-type-systems]
 
 **TODO: clean up this sentence: "Some of the following topics are mentioned in [@parmer-type-systems]."**
 
+#### Productivity, faster prototyping
 
-#### Faster prototyping
-
-- shorter edit-compile-test cycles
-
-#### Productivity
+Dynamic languages have rapid edit-compile-test cycles. In the absence of a compiler, these languages favor prototyping and
+small scale software development where creating proof-of-concept systems quickly are crucial.
 
 - short term gains, long term losses?
 
-#### Flexibility - Reflection
+#### Reflection
 
 > Programs lives in files. To change a system, we must edit these files, recompile them, and restart the system [...]
 > Surprisingly little effort has been invested over the years in developing languages
@@ -439,6 +438,11 @@ To solve the above issues, the reflective capabilities of the language must be s
 - constrain the effects of reflection
 
 [@revival-2005]
+
+#### Flexibility
+
+> Dynamic languages are more tolerant to change; code refactors tend to be more localized (they have a smaller area of effect)
+> [@hackernoon-s-vs-d]
 
 ## Gradual typing
 **TODO: just a short mention that such things also exist**
@@ -480,15 +484,11 @@ program more efficient.
 > that continues to the present.
 > [@pierce-types-and-prog, p. 10]
 
-## Evolution of type systems
 **TODO:**
 
 - the different stages of development
 - important innovations
 - timeline
-
-## The future: interesting new developments
-- https://graydon2.dreamwidth.org/253769.html
 
 ## Advanced type systems
 **TODO: what makes them advanced?**
@@ -573,25 +573,6 @@ Even though they implement different behaviour, they look the same from the outs
 interchangeably. This frees their users (other entities in the program that use them) from having to differentiate
 between them and allows them to ... **TODO: finish note**
 
-## Dependent types 
-...
-
-## Algebraic data types
-Algebraic data types are composite types: they are defined as a combination of other types.
-In most imperative languages conditional expressions (if-else statements) can define any number of branches
-that are not checked for consistency. Execution enters these branches based solely on their predicates,
-boolean valued "functions". This means that by mistake, they can overlap or fail to handle all possible cases.
-In functional languages, with the help of pattern matching algebraic data types facilitate a type safe
-implementation of conditional expressions. They let us define the branching logic in terms 
-of a composite type and allow the type system to check whether we we covered all the cases. [@parmer-type-systems]
-
-- Sum types
-    - Maybe / Option
-        - note: "nullable" in dynamic languages where ther is NULL, "option" or "maybe" in static languages
-        - Null pointer exceptions vs. "Maybe" types
-    - Try
-- Product types
-
 # Type systems and software security
 **TODO: google "type systems and security"**
 
@@ -601,14 +582,11 @@ of a composite type and allow the type system to check whether we we covered all
 - solving injection with a type system
     - http://blog.moertel.com/posts/2006-10-18-a-type-based-solution-to-the-strings-problem.html
 
-## CAR Hoare's presentation on `NullPointerException`s (The Billion Dollar Mistake - 2009)
-**TODO: summarize his thoughts**
+**TODO: summarize CAR Hoare's presentation on `NullPointerException`s (The Billion Dollar Mistake - 2009)**
 
-- runtime bound chacks in languages? how do these work?
 - https://www.infoq.com/presentations/Null-References-The-Billion-Dollar-Mistake-Tony-Hoare
 - 31:10 great notes about what to expect from programming languages
 - 31:40 "formal verification"
-- 33:05 "if the validity of the local application of a rule to a small bit of program depends on properties which can only be established by the scan of the program as a whole then you know that you've done abad job as a language designer"
 - 37:34 "now, the real commercial imperative which requires greater attention paid to formal correctness of the programs is the virus."
     - "it reaches paths of your program that normal execution never reaches"
     - "it's no longer adequate to test your program against all the cases that are likely to arise..."
@@ -628,24 +606,147 @@ of a composite type and allow the type system to check whether we we covered all
 
 https://en.wikipedia.org/wiki/Generics_in_Java#Problems_with_type_erasure
 
-# Comparing type systems of different programming languages
-**TODO: short intro, why the chosen languages**
+...
 
-## Methodology
+# Own research: surveying a selected list of programming languages 
+
+**TODO: short intro, why the chosen languages**
 **TODO:find what methods are used for comparing type systems**
 
-## Languages
-**TODO: a chapter for each language**
+In the following, I'm going to introduce the type systems of different popular languages. The languages were selected so that
+each one features a different concept or idea (and also according to my interests).
 
-- assembly
-    - explain the advantages/motivation of not having a type system! **TODO: are there?**
-- javascript
-- python
-- C / C++
-- java, scala
-- any ML language
-- Agda
-- Rust
-    - https://sergio.bz/docs/rusty-types-2016.pdf
+Implementing the same thing in all these languages with the intent of comparing them would make little as they all
+serve different purposes.
+
+**TODO: based on what? need some qualitative approach! how and what to compare?**
+
+## Structure, methods of analysis
+For each language I'll try to highlight one or two key features and examine how those affect writing programs in the language.
+
+... 
+
+### Assembly
+ 
+**TODO: explain the advantages/motivation of not having a type system! Are there?**
+
+...
+
+### Javascripty
+
+Javascript is a dynamic language, often referred to as a "weakly typed" (or unsafe) one because it makes many implicit type conversions
+during runtime. Javascript is one of the most popular languages of the 2010s mainly because it is the scripting language of
+web browsers.
+
+#### Static / strong variants
+
+Javascript's wild popularity and ubiquitousness prompted organizations to invest in creating a static type system for the language.
+The most popular staticly typed variants of the language are:
+
+- TypeScript (Microsoft)
+- Closure (Google)
+- Flow (Facebook)
+
+**TODO: why add a static type system?**
+**TODO: read through [@type-or-not-js]**
+
+[@type-or-not-js]
+
+### Python
+
+Python features a dynamic type system. it is usually called a "strongly typed" (or safe) language because even
+though its type system doesn't enforce strict typing rules at compile type it is very strict about what operations
+are allowed on what types during runtime and it will not do automatic type conversions that could go unnoticed. **TODO: is that correct?**
+
+...
+
+### C / C++
+
+...
+
+**TODO: talk about what safety features are added by C++ (references, what else?)**
+
+### Java
+
+Java is a staticly typed, safe language. It features a static type system enhanced with various dynamic checks.
+
+...
+
+#### Other JVM-based languages
+
+There are other languages, some quite popular that also use the JVM runtime but are wildly different from Java with
+regards to their type systems.
+
+- Groovy
+- Scala
+
+### Clojure (LISP family)
+
+**TODO: look up some articles/papers on Clojure's type system and dynamic model**
+
+- also JVM based
+- dynamic
+- talk about some interesting features of LISPs
+
+...
+
+### GO
+
+Developed by progamming language veterans at Google, GO features an interesting combination of stong static typing,
+first class support for concurrency ...
+
+**TODO: talk about channel types**
+
+...
+
+### OCaml (any ML language)
+
+The ML family of languages are the prominent representatives of the functional paradigm.
+
+...
+
+#### Algebraic data types
+Algebraic data types are composite types: they are defined as a combination of other types.
+In most imperative languages conditional expressions (if-else statements) can define any number of branches
+that are not checked for consistency. Execution enters these branches based solely on their predicates,
+boolean valued "functions". This means that by mistake, they can overlap or fail to handle all possible cases.
+In functional languages, with the help of pattern matching algebraic data types facilitate a type safe
+implementation of conditional expressions. They let us define the branching logic in terms 
+of a composite type and allow the type system to check whether we we covered all the cases. [@parmer-type-systems]
+
+**TODO**:
+- Sum types
+    - Maybe / Option
+        - note: "nullable" in dynamic languages where ther is NULL, "option" or "maybe" in static languages
+        - Null pointer exceptions vs. "Maybe" types
+    - Try
+- Product types
+- https://en.wikipedia.org/wiki/Algebraic_data_type
+
+### Agda
+
+Agda might be an outlier in this list, but I definitely wanted to include it and talk about its facilities.
+It is a "proof assistant" that can also be used for general purpose programming.
+
+**TODO: http://learnyouanagda.liamoc.net/pages/introduction.html**
+
+...
+
+### Rust
+
+Rust is a fairly young language that is rapidly gaining popularity. It aims to provide a replacement to low level,
+high-performance but unsafe languages like C and C++ by promising both memory safety and highly optimal machine code.
+
+- ownership, borrows
+- immutability
+- etc
+
+**TODO: nice paper: https://sergio.bz/docs/rusty-types-2016.pdf**
+
+...
+
+## Conclusions
+
+...
 
 # References

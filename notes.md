@@ -84,3 +84,9 @@ links at bottom of github readme:
     - https://github.com/jozefg/learn-tt#learn-tt
 
 This is incredible... many of the researchers I cited in my thesis have given lectures here!
+
+# Thesis structure - really good notes!
+https://seamk.libguides.com/instructionsforbachelorsthesis/thesisprocessandstructure
+
+## The future: interesting new developments
+- https://graydon2.dreamwidth.org/253769.html
