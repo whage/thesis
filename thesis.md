@@ -533,6 +533,10 @@ Sometimes called "compile-time polymorphism", ... **TODO: continue**
 - https://docs.oracle.com/javase/tutorial/java/generics/index.html
 
 ### Subtyping
+
+Subtyping is the process of taking a type (the base type) and defining a more specialised type (the subtype)
+based on it by extending it with functionality or overriding some parts to facilitates code reuse.
+
 Subtype polymorphism is also known as runtime polymorphism.
 
 **TODO: talk about variants of subtyping**
@@ -599,14 +603,15 @@ between them and allows them to ... **TODO: finish note**
 > [@leroy-intro-tic98 p. 5] 
 
 
-# Own research: surveying a selected list of programming languages 
+# Own research: surveying a selected list of programming languages
 
 **TODO: short intro, why the chosen languages**
 
 **TODO:find what methods are used for comparing type systems**
 
 In the following, I'm going to introduce the type systems of an exotic assortment of languages. The languages were selected so that
-each one features a different concept or idea with regards to type systems.
+each one features a different concept or idea with regards to type systems. My aim is to introduce a wide range of type systems
+concepts with concrete examples of real programming languages.
 
 ...
 
@@ -650,9 +655,31 @@ The most popular staticly typed variants of the language are:
 
 ### Python
 
-Python features a dynamic type system. it is usually called a "strongly typed" (or safe) language because even
+Python features a dynamic type system. It is usually called a "strongly typed" (or safe) language because even
 though its type system doesn't enforce strict typing rules at compile type it is very strict about what operations
 are allowed on what types during runtime and it will not do automatic type conversions that could go unnoticed.
+
+#### Optional type annotations in Python 3
+
+Even though Python 3 is dynamically typed, the language allows optional "type hints" which are similar to
+type declarations in languages like Java. These annotations may be used together with type checkers like `mypy`,
+`pyre-check` or `pytype` [@py-type]. The programmer is free to annotate only parts of the source code.
+The Python 3 runtime itself doesn't typecheck the type hints. Thanks to python's dynamic nature,
+the following code will be executed without any errors in Python 3.5.2:
+
+~~~{.python}
+def f(a: int, b: int) -> str:
+    return a + b
+
+print(f("x", "y"))
+print(f(1, 2))
+~~~
+
+The programmer has to use one of the external type checkers to make use of type hints. Running `mypy`
+on the above code indeed reports type errors complaining about an incompatible return type declaration and incompatible
+argument types when calling the the function with integer values.
+
+- nominal typing AND duck typing **TODO: talk about the difference**
 
 ...
 
