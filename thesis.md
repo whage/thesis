@@ -14,7 +14,7 @@ keywords: [Type systems, Programming languages]
 
 # Introduction, personal motivation
 After having worked only with dynamic languages for a few years, when I first started using
-staticly typed languages (C# and java in my case) I was struck by how much their
+staticly typed languages (C# and Java in my case) I was struck by how much their
 type system and typechecker helped write code more effectively and more confidently.
 The type system made me think more thoroughly, it allowed me to change parts
 of the program and be confident that it was still working as expected.
@@ -330,26 +330,29 @@ This is what makes static type checking possible (and effective). [@py-s-vs-d]
 
 #### Early feedback and correctness
 
+> Good types lead to better code maintainability, faster failure on bad code [...]
+> [@abrahamson-quora]
+
 ...
 
 > Compiler-imposed constraints on data types encouraged rigorous coding and precise thinking.
 > [@oracle-generics]
 
 #### Performance
-**TODO: type systems allowing certain compiler optimizations?**
 
-- https://xavierleroy.org/publi/intro-tic98.pdf
+> Static typing guarantees certain properties and invariants on the data manipulated by the program;
+> the compiler can take advantage of these semantic guarantees to generate better code [@leroy-intro-tic98, p. 1]
 
 To generate efficient machine code, precise knowledge about the size of the data is required. This can be derived from
 static type information - memory size and layout. Languages without static typing cannot be compiled as efficiently,
-all data representations must fit a default size.
+all data representations must fit a default size. [@leroy-intro-tic98]
 
 > In general, accurate type information at compile time leads to the
 > application of the appropriate operations at run time without the need of expensive tests. [@cardelli-96, p. 6]
 
 If a language's type system doesn't allow casts between incompatible pointer types, then those can't point to the
 same location in memory which in turn guarantees that load/store operations through those pointers cannot interfere.
-This allows the compiler to do more aggressive instruction scheduling.
+This allows the compiler to do more aggressive instruction scheduling. [@leroy-intro-tic98]
 
 > Not having static type system information makes it hard to model control flow in the compiler,
 > which leads to overly conservative optimizers. [@duffy-error-model]
@@ -534,14 +537,19 @@ Sometimes called "compile-time polymorphism", ... **TODO: continue**
 
 ### Subtyping
 
-Subtyping is the process of taking a type (the base type) and defining a more specialised type (the subtype)
-based on it by extending it with functionality or overriding some parts to facilitates code reuse.
+Subtyping (Subtype polymorphism or runtime polymorphism) is the process of taking a type (the base type)
+and defining a more specialised type (the subtype) based on it by extending it with functionality or
+overriding some parts to facilitates code reuse.
 
-Subtype polymorphism is also known as runtime polymorphism.
+...
 
-**TODO: talk about variants of subtyping**
+### Structural vs Nominal
 
-- structural (duck typing) / nominal
+...
+
+### Nominal
+
+...
 
 ### Ad-hoc polymorphism - Typeclasses
 **TODO: typeclasses**
@@ -595,6 +603,8 @@ between them and allows them to ... **TODO: finish note**
 - 50:00 great thoughts about the `jmp` machine instruction
 
 ## Run-time type information
+
+> Many programming languages require compiled programs to manipulate some amount of type information at run-time [@leroy-intro-tic98 p. 4] 
 
 ...
 
@@ -679,9 +689,16 @@ The programmer has to use one of the external type checkers to make use of type 
 on the above code indeed reports type errors complaining about an incompatible return type declaration and incompatible
 argument types when calling the the function with integer values.
 
-- nominal typing AND duck typing **TODO: talk about the difference**
+A major feature of Python's (and in fact most dynamic lanuage's) type system is "duck typing".
+The phrase comes from the American poet, James Whitcomb Riley's duck test:
+"if it walks like a duck, and quacks like a duck, then it probably is a duck".
 
-...
+> In duck typing a statement calling a method m on an object does not rely on the declared type of the object; only that the object,
+> of whatever type, must supply an implementation of the method called, when called, at run-time. [@wiki-type-systems]
+
+Duck typing is a loose form of structural subtyping: the implementation must be provided at run-time, not necessarily at compile time.
+There are no explicitly defined interfaces in the language which makes for terse and concise code as well as minimal coupling
+between different modules. Unfortunately, it also hides the dependencies between classes. [@nascimento-duck]
 
 ### C / C++
 
@@ -724,13 +741,32 @@ regards to their type systems.
 Developed by progamming language veterans at Google, GO features an interesting combination of stong static typing,
 first class support for concurrency ...
 
+**TODO: https://thenewstack.io/understanding-golang-type-system/**
+
 **TODO: talk about channel types**
+
+...
+
+### Type assertions vs type conversions
+
+**TODO: https://groups.google.com/d/msg/golang-nuts/dwSPKq9YDso/xJMn4qgttGoJ**
 
 ...
 
 ### OCaml, Haskell (any ML language)
 
 The ML family of languages are the prominent representatives of the functional paradigm.
+
+from [@abrahamson-quora]
+- sum types,
+- purity,
+- effect types,
+- quantified/generic types,
+- quantified modules,
+- region types,
+- linear types,
+- anonymous record types,
+- polymorphic variant types
 
 **TODO: Hindley-Milner - https://en.wikipedia.org/wiki/Hindley%E2%80%93Milner_type_system**
 
@@ -741,7 +777,7 @@ Algebraic data types are composite types: they are defined as a combination of o
 In most imperative languages conditional expressions (if-else statements) can define any number of branches
 that are not checked for consistency. Execution enters these branches based solely on their predicates,
 boolean valued "functions". This means that by mistake, they can overlap or fail to handle all possible cases.
-In functional languages, with the help of pattern matching algebraic data types facilitate a type safe
+In functional languages, with the help of pattern matching, algebraic data types facilitate a type safe
 implementation of conditional expressions. They let us define the branching logic in terms 
 of a composite type and allow the type system to check whether we we covered all the cases. [@parmer-type-systems]
 
@@ -755,12 +791,22 @@ of a composite type and allow the type system to check whether we we covered all
 - Product types
 - https://en.wikipedia.org/wiki/Algebraic_data_type
 
-### Agda
+### Agda / Idris / Coq
+
+**TODO: take a look at them, decide which one to focus on**
 
 Agda might be an outlier in this list, but I definitely wanted to include it and talk about its facilities.
 It is a "proof assistant" that can also be used for general purpose programming.
 
+> The most advanced type systems available today — those available for languages such as Agda and Coq and Idris —
+> are truly interactive. Programming in one of those languages is like a conversation with the type-checker
+> where you express your intent and your attempt and the checker asks you questions to see whether those two
+> match up the way they ought to. And then you interactively repeat this process to build your program. [@abrahamson-quora]
+
 **TODO: http://learnyouanagda.liamoc.net/pages/introduction.html**
+
+- inductive and dependent types
+- total functions
 
 ...
 
