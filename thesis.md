@@ -172,7 +172,7 @@ in widspread use, mainly for one reason: performance.
 The question arises: are there languages that provide both safety and performance at the same time?
 I'll get back to this when discussing "Type systems and program performance".
 
-**TODO: "are unsound type systems wrong?" http://frenchy64.github.io/2018/04/07/unsoundness-in-untyped-types.html**
+**TODO: "are unsound type systems wrong?" https://blog.ambrosebs.com/2018/04/07/unsoundness-in-untyped-types.html**
 
 ## Formalization of type systems
 
@@ -543,13 +543,17 @@ overriding some parts to facilitates code reuse.
 
 ...
 
-### Structural vs Nominal
+#### Structural vs Nominal
 
 ...
 
-### Nominal
+#### Variance
 
-...
+**TODO: read these!**
+
+https://blog.daftcode.pl/csi-python-type-system-episode-1-1c2ee1f8047c
+https://blog.daftcode.pl/csi-python-type-system-episode-2-baf5168038c0
+https://en.wikipedia.org/wiki/Covariance_and_contravariance_(computer_science)
 
 ### Ad-hoc polymorphism - Typeclasses
 **TODO: typeclasses**
@@ -758,6 +762,7 @@ first class support for concurrency ...
 The ML family of languages are the prominent representatives of the functional paradigm.
 
 from [@abrahamson-quora]
+
 - sum types,
 - purity,
 - effect types,
