@@ -706,6 +706,8 @@ between different modules. Unfortunately, it also hides the dependencies between
 
 ### C / C++
 
+**TODO: maybe talk about virtual dispatch in C++?**
+
 ...
 
 **TODO: talk about what safety features are added by C++ (references, what else?)**
@@ -749,9 +751,13 @@ first class support for concurrency ...
 
 **TODO: talk about channel types**
 
+- non-classical OOP
+- inheritance vs composition (https://hackthology.com/object-oriented-inheritance-in-go.html)
+    - no subtype polymorphism for stucts but there is for interfaces
+
 ...
 
-### Type assertions vs type conversions
+#### Type assertions vs type conversions
 
 **TODO: https://groups.google.com/d/msg/golang-nuts/dwSPKq9YDso/xJMn4qgttGoJ**
 
