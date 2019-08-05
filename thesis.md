@@ -464,7 +464,7 @@ The first type systems appeared in the 1950s, when the designers of the Fortran 
 numerical computations more efficient by distinguishing between integer-valued arithmetic expressions
 and real-valued ones. This allowed the compiler to generate the appropriate machine instruction making the
 program more efficient.
-[@pierce-types-and-prog]
+[@pierce-types-and-prog], [@tt-oop]
 
 > In the late 1950s and early 1960s, this classification was extended to structured data (arrays of records, etc.)
 > and higher-order functions. In the 1970s, a number of even richer concepts (parametric polymorphism,
@@ -523,6 +523,11 @@ in a uniform interface. [@ots-2008] Stated more simply: in a polymorphic languag
 may have multiple types. There are different kinds of polymorphisms, I will look at each of them in
 more detail below.
 
+Polymorphism is the concept of having internally different objects that provide the same interface.
+Even though they implement different behaviour, they look the same from the outside and so they can be used
+interchangeably. This frees their users (other entities in the program that use them) from having to differentiate
+between them and allows them to ... **TODO: finish note**
+
 **TODO: find some good parts in this: (Robin Milner, Turing Award winner, paper from 1983)**
 
 https://homepages.inf.ed.ac.uk/wadler/papers/papers-we-love/milner-type-polymorphism.pdf
@@ -549,7 +554,11 @@ overriding some parts to facilitates code reuse.
 
 #### Variance
 
-**TODO: read these!**
+- invariance
+- covariance
+- contravariance
+
+**TODO: read these:**
 
 https://blog.daftcode.pl/csi-python-type-system-episode-1-1c2ee1f8047c
 https://blog.daftcode.pl/csi-python-type-system-episode-2-baf5168038c0
@@ -562,7 +571,36 @@ https://en.wikipedia.org/wiki/Covariance_and_contravariance_(computer_science)
 - https://xavierleroy.org/bibrefs/Leroy-unboxed.html
 - https://en.wikipedia.org/wiki/Type_system#Polymorphism_and_types
 
-## Abstractions and types
+## Concrete vs abstract types
+
+Most programming languages differentiate between concrete and abstract types.
+A concrete type corresponds to the concept of a "data structure", a collection of data values and the relationships between them.
+A concrete type in a programming language precisely defines the memory layout of the data that objects of that type hold.
+
+**TODO: some more info on concrete types**
+
+Abstract types correspond to the concept of an "abstract data type" (ADTs) which is a mathematical model of a type.
+An ADT defines a type by its behavior from the point of view of its user. [@wiki-abstract], [@tt-oop]
+
+> An ADT's user need not know how the object it represents is implemented [...]
+> In addition to the intellectual leverage for programmers who can take bigger strides in their thoughts,
+> it provides flexibility in modifying the ADT implementation [@tt-oop, p. 34]
+
+An abstract type defines behavior. It defines an "interface", a set of "calls" to which the objects of that type respond to. It describes
+how to interact with that object. Abstract types manifest themself in a number of different ways in programming languages:
+
+- interfaces
+- abstract classes
+- pure virtual functions
+- **TODO: what else?**
+
+Abstract types are related to but should not be confused with the general concept of "abstraction" which I'll talk about below.
+
+## Abstraction and types
+
+Abstraction is the principle of reducing something  to its essential characteristics, removing everything that is unnecessary
+to accurately represent it for a particular usage. Abstraction reduces complexity and increases efficiency. [@whatis-abstraction]
+
 - [Fleury: abstractions](fleury-abs)
 - [destroyallsoftware: types](destroyall)
 - [types in go](ardanlabs)
@@ -574,18 +612,6 @@ https://en.wikipedia.org/wiki/Covariance_and_contravariance_(computer_science)
 [leroy-dot]: https://xavierleroy.org/bibrefs/Cardelli-Leroy-dot.html
 
 **TODO: see "Types, abstraction and parametric polymorphism" paper in thesis_papers dir**
-
-**TODO: such a great quote! need to connect it somehow**
-
-> An ADT's user need not know how the object it represents is implemented [...]
-> In addition to the intellectual leverage for programmers who can take bigger strides in their thoughts,
-> it provides flexibility in modifying the ADT implementation [@tt-oop]
-
-Polymorphism is closely related to the concept of abstraction.
-It is the concept of having internally different objects that provide the same interface.
-Even though they implement different behaviour, they look the same from the outside and so they can be used
-interchangeably. This frees their users (other entities in the program that use them) from having to differentiate
-between them and allows them to ... **TODO: finish note**
 
 ## Type systems and software security
 **TODO: google "type systems and security"**
@@ -617,7 +643,7 @@ between them and allows them to ... **TODO: finish note**
 > [@leroy-intro-tic98 p. 5] 
 
 
-# Own research: surveying a selected list of programming languages
+# Own research: type systems of programming languages
 
 **TODO: short intro, why the chosen languages**
 
@@ -627,12 +653,16 @@ In the following, I'm going to introduce the type systems of an exotic assortmen
 each one features a different concept or idea with regards to type systems. My aim is to introduce a wide range of type systems
 concepts with concrete examples of real programming languages.
 
+**TODO: more info? "existential types"?**
+
 ...
 
 Implementing the same program in all these languages with the intent of comparing them would make little sense as they all
 serve different purposes.
 
 **TODO: based on what? need some qualitative approach! how and what to compare?**
+
+...
 
 ## Structure, methods of analysis
 For each language I'll try to highlight one or two key type systems features and examine how those affect writing programs in the language.
@@ -816,8 +846,21 @@ It is a "proof assistant" that can also be used for general purpose programming.
 
 **TODO: http://learnyouanagda.liamoc.net/pages/introduction.html**
 
-- inductive and dependent types
+- inductive types
 - total functions
+
+#### Dependent types
+
+Dependent types are based on the idea of using scalars or values to more precisely describe the type of some other value. [@wiki-type-systems]
+Dependent types can express the rules of matrix multiplication:
+
+\begin{equation*}
+    \frac{\Gamma \vdash A : matrix(l,m), \ \Gamma \vdash B : matrix(m,n)}{\Gamma \vdash A \times B : matrix(l,n)}
+\end{equation*}
+
+**TODO: revise after having tried such a language!**
+
+Which we read as "if $A$ is an $l \times m$ matrix and $B$ is a $m \times n$ matrix, then their product is an $l \times n$ matrix".
 
 ...
 

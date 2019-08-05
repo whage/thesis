@@ -90,3 +90,6 @@ https://seamk.libguides.com/instructionsforbachelorsthesis/thesisprocessandstruc
 
 ## The future: interesting new developments
 - https://graydon2.dreamwidth.org/253769.html
+
+# this guy seems passionate and knowledgeable about types
+http://tomasp.net/blog/2015/against-types/
