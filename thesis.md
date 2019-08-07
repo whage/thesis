@@ -287,6 +287,8 @@ happen at runtime.
 In the next section I'll give a brief overview of static and dynamic languages and will later go into much more
 details when surveying my selected list of programming languages.
 
+**TODO: https://danluu.com/empirical-pl/**
+
 ## Static languages
 Programmers make errors. Advanced programming languages should allow the automatic checking of inconsistencies
 in programs. The most popular of these consistency checks is called static type checking (or static typing).
