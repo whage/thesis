@@ -23,7 +23,7 @@ I became more and more interested in the possibilities of static checking and ty
 I started wondering what else was out there that could increase programmer productivity
 and software quality. This curiosity led me to choosing type systems as the topic of my thesis.
 
-My goal with this thesis is to gain a more fundamental understanding of programming languages,
+My goal with this thesis is to gain a more fundamental understanding of the semantics of programming languages,
 the structures and algorithms behind them.
 First, I'll survey the history and theoretical background of type systems.
 I'll look at how type systems evolved, and how they can be categorized.
@@ -746,7 +746,8 @@ between different modules. Unfortunately, it also hides the dependencies between
 
 ### Java
 
-Java is a staticly typed, safe language. It features a static type system enhanced with various dynamic checks.
+Java is a staticly typed, "safe" language. **TODO: why safe?**
+It features a static type system enhanced with various dynamic checks.
 
 ...
 
@@ -770,7 +771,7 @@ regards to their type systems.
 
 - also JVM based
 - dynamic
-- talk about some interesting features of LISPs
+- talk about some interesting TYPE SYSTEM features of LISPs
 
 ...
 
@@ -795,9 +796,12 @@ first class support for concurrency ...
 
 ...
 
-### OCaml, Haskell (any ML language)
+### OCaml, Haskell, Elm (any ML language)
 
 The ML family of languages are the prominent representatives of the functional paradigm.
+**TODO: 1-2 sentence about "functional"**
+
+**TODO: Hindley-Milner - https://en.wikipedia.org/wiki/Hindley%E2%80%93Milner_type_system**
 
 from [@abrahamson-quora]
 
@@ -810,8 +814,6 @@ from [@abrahamson-quora]
 - linear types,
 - anonymous record types,
 - polymorphic variant types
-
-**TODO: Hindley-Milner - https://en.wikipedia.org/wiki/Hindley%E2%80%93Milner_type_system**
 
 ...
 
@@ -868,7 +870,7 @@ Which we read as "if $A$ is an $l \times m$ matrix and $B$ is a $m \times n$ mat
 
 ### Rust
 
-Rust is a fairly young language that is rapidly gaining popularity. It aims to provide a replacement to low level,
+Rust is a fairly young language that is rapidly gaining popularity. It aims to provide an alternative to low level,
 high-performance but unsafe languages like C and C++ by promising both memory safety and highly optimal machine code.
 
 - ownership, borrows
