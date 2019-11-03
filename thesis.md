@@ -566,8 +566,8 @@ https://blog.daftcode.pl/csi-python-type-system-episode-1-1c2ee1f8047c
 https://blog.daftcode.pl/csi-python-type-system-episode-2-baf5168038c0
 https://en.wikipedia.org/wiki/Covariance_and_contravariance_(computer_science)
 
-### Ad-hoc polymorphism - Typeclasses
-**TODO: typeclasses**
+### Ad-hoc polymorphism - Type classes
+**TODO: type classes**
 
 - https://en.wikipedia.org/wiki/Polymorphism_(computer_science)
 - https://xavierleroy.org/bibrefs/Leroy-unboxed.html
@@ -796,7 +796,7 @@ first class support for concurrency ...
 
 ...
 
-### OCaml, Haskell, Elm (any ML language)
+### OCaml, Haskell, Elm (ML family)
 
 The ML family of languages are the prominent representatives of the functional paradigm.
 **TODO: 1-2 sentence about "functional"**
@@ -815,6 +815,8 @@ from [@abrahamson-quora]
 - anonymous record types,
 - polymorphic variant types
 
+**TODO: get inspired by Elm custom types: https://guide.elm-lang.org/types/custom_types.html**
+
 ...
 
 #### Algebraic data types
@@ -832,6 +834,7 @@ of a composite type and allow the type system to check whether we we covered all
     - Maybe / Option
         - note: "nullable" in dynamic languages where ther is NULL, "option" or "maybe" in static languages
         - Null pointer exceptions vs. "Maybe" types
+            - https://guide.elm-lang.org/error_handling/maybe.html
     - Try
 - Product types
 - https://en.wikipedia.org/wiki/Algebraic_data_type
