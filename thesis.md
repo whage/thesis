@@ -109,8 +109,8 @@ As [@pierce-types-and-prog] puts it, the abstraction of a safe language can be u
 it is necessary to keep in mind the low level details, like how data is structured in memory or how allocations take place
 in order to understand how the program might misbehave.
 
-Note that "language safety" can be achieved by static type checking but also by run-time checks, like array-bounds checking is
-performed by many languages during runtime.
+Note that "language safety" can be achieved by static type checking but also by run-time checks, like
+array-bounds checking which is performed by many languages during runtime.
 
 Chappell [@types-primer] says that a programming language or language construct is type-safe if it forbids
 operations that are incorrect for the types on which they operate. The author notes that some languages
@@ -134,9 +134,10 @@ The author suggests declaring a subset of possible execution errors as forbidden
 To summarize the thoughts of the authors above: a language can be called safe if every program written in it
 that can reach execution is well behaved. A well behaved program is one that does not produce forbidden / untrapped errors.
 Informally, safe languages are often referred to as "strongly typed".
+In a theoretical context, "type soundness" is usually used instead of safety but the two are more or less synonyms.
 
 ### Preservation and progress
-Formally, a language can be called type safe if the following properties hold:
+Formally, a language can be called "type safe" or "sound" if the following properties hold:
 
 \begin{enumerate}
   \item If $e : \tau$ and $e \rightarrow e'$, then $e' : \tau$
@@ -146,8 +147,14 @@ Formally, a language can be called type safe if the following properties hold:
 The first property is called "preservation": it states that evaluation preserves the type of an expression.
 The second property is called progress, it states that a well typed expression is either a value or it can be evaluated
 further (until it is reduced to value). Type safety is the conjunction of preservation and progress. [@pfpl-2016]
+Bonnaire-Sergeant [@uiut] Summarises "preservation" beautifully:
 
-Note that safety is not a property of a type system, but that of a language. There are operations that
+> The essential property of type soundness is “type preservation”, which says that a
+> type system’s approximation of the result of a computation (a type) is “preserved” at every
+> intermediate computational stage. In other words, the type system’s job is to model a computation,
+> and this model should not lose accuracy as the program evaluates.
+
+Note that safety is not a property of a type system, but that of a language. There might be operations that
 would pass type checking but produce an error during runtime, like division by zero. Enhancing a type system
 so that it could protect against division by zero erros would make it too restrictive (too many programs would
 be ruled out as ill-formed). It is not possible to predict statically that an expression would evaluate to zero,
@@ -171,8 +178,6 @@ in widspread use, mainly for one reason: performance.
 
 The question arises: are there languages that provide both safety and performance at the same time?
 I'll get back to this when discussing "Type systems and program performance".
-
-**TODO: "are unsound type systems wrong?" https://blog.ambrosebs.com/2018/04/07/unsoundness-in-untyped-types.html**
 
 ## Formalization of type systems
 
@@ -274,20 +279,21 @@ Dynamically typed languages do type checking during run-time. Both sides have th
 
 Proponents of dynamic languages criticize static ones as being too rigid and cumbersome to work with. The other camp
 complains that dynamic languages offer little protection against logical errors and let too many of the errors
-happen at runtime.
+happen at runtime. I'll discuss each approach separately in a later section.
 
 ## Type checking algorithms
 
 ...
 
-[link](letswrite)
-
-[letswrite]: https://speakerdeck.com/igstan/lets-write-a-type-checker
+https://www.youtube.com/watch?v=oPVTNxiMcSU
+	- slides: https://speakerdeck.com/igstan/lets-write-a-type-checker
 
 In the next section I'll give a brief overview of static and dynamic languages and will later go into much more
 details when surveying my selected list of programming languages.
 
 **TODO: https://danluu.com/empirical-pl/**
+	- look into the first linked paper, see what they mean by "strong/weak typing"
+	- omg there are a LOT of papers about language comparisons!!
 
 ## Static languages
 Programmers make errors. Advanced programming languages should allow the automatic checking of inconsistencies
@@ -588,8 +594,9 @@ An ADT defines a type by its behavior from the point of view of its user. [@wiki
 > In addition to the intellectual leverage for programmers who can take bigger strides in their thoughts,
 > it provides flexibility in modifying the ADT implementation [@tt-oop, p. 34]
 
-An abstract type defines behavior. It defines an "interface", a set of "calls" to which the objects of that type respond to. It describes
-how to interact with that object. Abstract types manifest themself in a number of different ways in programming languages:
+An abstract type defines behavior. It defines an "interface", a set of "calls" to which the
+objects of that type respond to. It describes how to interact with that object.
+Abstract types manifest themself in a number of different ways in programming languages:
 
 - interfaces
 - abstract classes
@@ -636,7 +643,8 @@ to accurately represent it for a particular usage. Abstraction reduces complexit
 
 ## Run-time type information
 
-> Many programming languages require compiled programs to manipulate some amount of type information at run-time [@leroy-intro-tic98 p. 4] 
+> Many programming languages require compiled programs to manipulate some amount
+> of type information at run-time [@leroy-intro-tic98 p. 4] 
 
 ...
 
@@ -647,13 +655,20 @@ to accurately represent it for a particular usage. Abstraction reduces complexit
 
 # Own research: type systems of programming languages
 
+**TODO: ezeket vizsgálni a nyelveknél:**
+```
+- hogyan jelennek meg a típusok a nyelvben? milyen nyelvi elem(ek) által?
+- milyen kapcsolatokat képes a nyelv modellezni a típusok között? mit jelentenek ezek?
+    - Elm tanulás közben jutott eszembe. Ott a típusok "üresnek tűnnek" (egyszerű "type" definíciókban csak neveket adunk meg, metódusok/függvények nem részei a típusdefiníciónak), és mégis sokrétűen lehet őket használni (generikusság, paraméterek)
+```
+
 **TODO: short intro, why the chosen languages**
 
 **TODO:find what methods are used for comparing type systems**
 
-In the following, I'm going to introduce the type systems of an exotic assortment of languages. The languages were selected so that
-each one features a different concept or idea with regards to type systems. My aim is to introduce a wide range of type systems
-concepts with concrete examples of real programming languages.
+In the following, I'm going to introduce the type systems of an exotic assortment of languages.
+The languages were selected so that each one features a different concept or idea with regards to type systems.
+My aim is to introduce a wide range of type systems concepts with concrete examples of real programming languages.
 
 **TODO: more info? "existential types"?**
 
@@ -672,17 +687,23 @@ For each language I'll try to highlight one or two key type systems features and
 ... 
 
 ### Assembly
- 
+> [assembly language] is any low-level programming language in which there is a very strong correspondence
+> between the instructions in the language and the architecture's machine code instructions.
+
+http://programmedlessons.org/AssemblyTutorial/Chapter-31/ass31_11.html
+
 **TODO: Explain why assembly has no types! Are there any advantages of not having types?**
 
+Typed Assembly Language papers (from around 1999)
+http://www.cs.cornell.edu/talc/papers.html
 
 ...
 
 ### Javascript
 
-Javascript is a dynamic language, often referred to as a "weakly typed" (or unsafe) one because it makes many implicit type conversions
-during runtime. Javascript is one of the most popular languages of the 2010s mainly because it is the scripting language of
-web browsers.
+Javascript is a dynamic language, often referred to as a "weakly typed" (or unsafe) one because it makes many
+implicit type conversions during runtime. Javascript is one of the most popular languages of the 2010s mainly
+because it is the scripting language of web browsers.
 
 #### Static / strong variants
 
@@ -690,6 +711,8 @@ Javascript's wild popularity and ubiquitousness prompted organizations to invest
 The most popular staticly typed variants of the language are:
 
 - TypeScript (Microsoft)
+	- https://blog.ambrosebs.com/2018/04/07/unsoundness-in-untyped-types.html
+		- https://users.soe.ucsc.edu/~abadi/Papers/FTS-submitted.pdf (from the above, this is the important one!)
 - Closure (Google)
 - Flow (Facebook)
 
@@ -747,7 +770,8 @@ between different modules. Unfortunately, it also hides the dependencies between
 ### Java
 
 Java is a staticly typed, "safe" language. **TODO: why safe?**
-It features a static type system enhanced with various dynamic checks.
+It features a static type system enhanced with various dynamic checks provided by its runtime
+environment, the Java Virtual Machine (JVM).
 
 ...
 
@@ -815,7 +839,29 @@ from [@abrahamson-quora]
 - anonymous record types,
 - polymorphic variant types
 
+#### Elm
+**Elm's type system: https://elmprogramming.com/type-system.html**
 **TODO: get inspired by Elm custom types: https://guide.elm-lang.org/types/custom_types.html**
+
+https://elmprogramming.com/type-system.html
+
+- the compiler feels like a co-pilot helping me all the time
+	- it almost feels like pair programming
+- it is the type system that makes it possible for the compiler to produce such helpful messages!
+
+```
+Ezen pedig gondolkodni, kifejteni:
+
+type Result error value
+    = Ok value
+    | Err error
+
+Itt error és value mintha típus paraméterek lennének, de úgy tudom, állhatna ott konkrét típus (vagy talán még value is?). Mikor mi? Mi a különbség az egyes esetek között? Ha ez a generikusság megfelelője Elm-ben, akkor ki kéne fejteni, hogy pl C#-ban hogy volt ez. Ott lehet mixelni típus paraméterrel konkrét típusokat?
+```
+
+https://package.elm-lang.org/packages/elm-lang/core/5.1.1/Json-Decode#map
+> Note: If you run out of map functions, take a look at elm-decode-pipeline which makes it easier
+to handle large objects, but produces lower quality type errors.
 
 ...
 
@@ -858,25 +904,33 @@ It is a "proof assistant" that can also be used for general purpose programming.
 
 #### Dependent types
 
-Dependent types are based on the idea of using scalars or values to more precisely describe the type of some other value. [@wiki-type-systems]
-Dependent types can express the rules of matrix multiplication:
+Dependent types are based on the idea of using scalars or values to more precisely describe the type
+of some other value. [@wiki-type-systems] Dependent types can express the rules of matrix multiplication:
 
 \begin{equation*}
     \frac{\Gamma \vdash A : matrix(l,m), \ \Gamma \vdash B : matrix(m,n)}{\Gamma \vdash A \times B : matrix(l,n)}
 \end{equation*}
 
-**TODO: revise after having tried such a language!**
-
 Which we read as "if $A$ is an $l \times m$ matrix and $B$ is a $m \times n$ matrix, then their product is an $l \times n$ matrix".
+
+**TODO: revise after having tried such a language!**
 
 ...
 
 ### Rust
 
+
+https://www.youtube.com/watch?v=2wZ1pCpJUIM
+- rust part begins at `25:05`
+- algebraic data types `29:40`
+	- **Algebraic types allow robust, concise error handling** - what does this mean? why?
+- 
+
 Rust is a fairly young language that is rapidly gaining popularity. It aims to provide an alternative to low level,
 high-performance but unsafe languages like C and C++ by promising both memory safety and highly optimal machine code.
 
 - ownership, borrows
+	-ownership: a novel system whereby it can statically determine when a memory object is no longer in use
 - immutability
 - etc
 

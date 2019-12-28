@@ -93,3 +93,8 @@ https://seamk.libguides.com/instructionsforbachelorsthesis/thesisprocessandstruc
 
 # this guy seems passionate and knowledgeable about types
 http://tomasp.net/blog/2015/against-types/
+
+# magyar típusrendszer anyagok
+https://people.inf.elte.hu/pgj/nytr_msc/ 
+https://www.inf.elte.hu/dstore/document/788/Kaposi_Ambrus_Nyelvek%20t%C3%ADpusrendszere_jegyzet_2017.pdf
+https://akaposi.github.io/hott_bevezeto.pdf
