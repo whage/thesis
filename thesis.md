@@ -5,12 +5,13 @@ author: "András Sallai"
 date: "2019"
 keywords: [Type systems, Programming languages]
 ...
-
+\pagenumbering{gobble}
 \pagebreak
 
 \tableofcontents
 
 \pagebreak
+\pagenumbering{arabic} 
 
 # Introduction, personal motivation
 After having worked only with dynamic languages for a few years, when I first started using
