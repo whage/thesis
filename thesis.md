@@ -283,10 +283,17 @@ happen at runtime. I'll discuss each approach separately in a later section.
 
 ## Type checking algorithms
 
-...
-
 https://www.youtube.com/watch?v=oPVTNxiMcSU
 	- slides: https://speakerdeck.com/igstan/lets-write-a-type-checker
+
+There are various approaches but the general idea behind type checking algorithms is the following:
+
+1. Parse the source code into an "Abstract Syntax Tree" (AST)
+2. Annotate each node in the AST with a "type annotation"
+3. Generate constraints: enumerate all the known relations between the types of the nodes. **example?**
+4. Use constraint solving to see if the constraints can be satisfied.
+
+**TODO: revise the above. There is both type inference and type checking there**
 
 In the next section I'll give a brief overview of static and dynamic languages and will later go into much more
 details when surveying my selected list of programming languages.
@@ -816,7 +823,9 @@ first class support for concurrency ...
 
 #### Type assertions vs type conversions
 
-**TODO: https://groups.google.com/d/msg/golang-nuts/dwSPKq9YDso/xJMn4qgttGoJ**
+https://tour.golang.org/methods/15
+https://stackoverflow.com/a/20494572/1772429
+https://groups.google.com/d/msg/golang-nuts/dwSPKq9YDso/xJMn4qgttGoJ
 
 ...
 
@@ -885,6 +894,9 @@ of a composite type and allow the type system to check whether we we covered all
 - Product types
 - https://en.wikipedia.org/wiki/Algebraic_data_type
 
+**TODO: https://stackoverflow.com/a/10510934/1772429 - what does this mean?**
+> Algebraic data types allows sums as well as products, whereas OO-style classes only allow products.
+
 ### Agda / Idris / Coq
 
 **TODO: take a look at them, decide which one to focus on**
@@ -903,7 +915,6 @@ It is a "proof assistant" that can also be used for general purpose programming.
 - total functions
 
 #### Dependent types
-
 Dependent types are based on the idea of using scalars or values to more precisely describe the type
 of some other value. [@wiki-type-systems] Dependent types can express the rules of matrix multiplication:
 
@@ -913,12 +924,16 @@ of some other value. [@wiki-type-systems] Dependent types can express the rules 
 
 Which we read as "if $A$ is an $l \times m$ matrix and $B$ is a $m \times n$ matrix, then their product is an $l \times n$ matrix".
 
+The scalar values that the types depend on must not be constant values...
+**TODO: read all of these! good material!**
+- https://cs.stackexchange.com/a/40098/30429
+- https://softwareengineering.stackexchange.com/a/401220/90623
+
 **TODO: revise after having tried such a language!**
 
 ...
 
 ### Rust
-
 
 https://www.youtube.com/watch?v=2wZ1pCpJUIM
 - rust part begins at `25:05`
