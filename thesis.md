@@ -115,8 +115,7 @@ array-bounds checking which is performed by many languages during runtime.
 
 Chappell [@types-primer] says that a programming language or language construct is type-safe if it forbids
 operations that are incorrect for the types on which they operate. The author notes that some languages
-may discourage incorrect operations or make them difficult without completely forbidding them so
-we may compare the level of type safety offered by two programming languages.
+may discourage incorrect operations or make them difficult without completely forbidding them.
 
 Cardelli [@cardelli-96] differentiates between trapped errors, that cause execution to stop immadiately and
 untrapped errors that go unnoticed and later cause arbitrary behaviour. An untrapped error, for example, is
@@ -136,6 +135,9 @@ To summarize the thoughts of the authors above: a language can be called safe if
 that can reach execution is well behaved. A well behaved program is one that does not produce forbidden / untrapped errors.
 Informally, safe languages are often referred to as "strongly typed".
 In a theoretical context, "type soundness" is usually used instead of safety but the two are more or less synonyms.
+
+People often conflate static typing, dynamic typing and type safety. Static and dynamic languages are discussed
+in a later section but 
 
 ### Preservation and progress
 Formally, a language can be called "type safe" or "sound" if the following properties hold:
@@ -342,10 +344,7 @@ This is what makes static type checking possible (and effective). [@py-s-vs-d]
 
 ### Advantages of static languages
 
-...
-
 #### Early feedback and correctness
-
 > Good types lead to better code maintainability, faster failure on bad code [...]
 > [@abrahamson-quora]
 
@@ -355,7 +354,6 @@ This is what makes static type checking possible (and effective). [@py-s-vs-d]
 > [@oracle-generics]
 
 #### Performance
-
 > Static typing guarantees certain properties and invariants on the data manipulated by the program;
 > the compiler can take advantage of these semantic guarantees to generate better code [@leroy-intro-tic98, p. 1]
 
@@ -381,7 +379,6 @@ Type information is also useful in the optimization of method dispatch in object
 > generated instead. [@leroy-intro-tic98 p. 1]
 
 #### Documentation
-
 "The comment is lying". Source code comments usually get ignored when updating a code segment
 that they refer to and since they don't have any meaning in the program, the runtime or the compiler
 can't give any warning about updating them: they "drift" from the code, often stating the exact opposite of what is implemented.
@@ -398,7 +395,6 @@ code and since they are verified by the typechecker they cannot drift.
 > It's documentation that doesn't need to be maintained or even written. [@debating-type-systems]
 
 ## Dynamic languages
-
 Dynamic (or dynamically typed) languages don't require the programmer to fix the types of the constructs in their programs.
 For example, dynamic languages let us define functions that can accept multiple types. The exact type of the arguments
 will only be known when the program is running and if the types don't match the operations performed
@@ -431,17 +427,11 @@ resume program execution after the error was handled. [@wiki-type-systems]
 
 ### Advantages of dynamic languages
 
-**TODO: clean up this sentence: "Some of the following topics are mentioned in [@parmer-type-systems]."**
-
 #### Productivity, faster prototyping
-
 Dynamic languages have rapid edit-compile-test cycles. In the absence of a compiler, these languages favor prototyping and
 small scale software development where creating proof-of-concept systems quickly are crucial.
 
-- short term gains, long term losses?
-
 #### Reflection
-
 > Programs lives in files. To change a system, we must edit these files, recompile them, and restart the system [...]
 > Surprisingly little effort has been invested over the years in developing languages
 > that support run-time change to the persistent program state [@revival-2005, p. 2]
@@ -769,17 +759,21 @@ between different modules. Unfortunately, it also hides the dependencies between
 
 ### C / C++
 
-**TODO: maybe talk about virtual dispatch in C++?**
+**TODO: maybe talk about virtual dispatch in C++? Is it related to type systems?**
 
 ...
 
-**TODO: talk about what safety features are added by C++ (references, what else?)**
+**TODO: talk about what safety features are added by C++ (are references safety features? why? what else?)**
 
 ### Java
 
 Java is a staticly typed, "safe" language. **TODO: why safe?**
 It features a static type system enhanced with various dynamic checks provided by its runtime
 environment, the Java Virtual Machine (JVM).
+
+Fundamentals of java generics
+http://www.angelikalanger.com/GenericsFAQ/FAQSections/Fundamentals.html
+	- link from the above: http://www.angelikalanger.com/GenericsFAQ/FAQSections/TechnicalDetails.html#Why%20does%20the%20compiler%20add%20casts%20when%20it%20translates%20generics?
 
 ...
 
