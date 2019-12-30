@@ -68,6 +68,8 @@ runtime checks to rule out errors. For example, they may check array bounds or d
 recoverable exceptions. This checking process during runtime is called dynamic checking.
 [@cardelli-96]
 
+**TODO: move to static languages part?**
+
 > Even statically checked languages usually need to perform tests at run time to achieve safety. [...]
 > The fact that a language is statically checked does not necessarily mean that execution can proceed entirely blindly.
 > [@cardelli-96, p. 3]
@@ -97,90 +99,6 @@ are formal systems which means they define rules for inferring theorems (stateme
 
 Type theory lays down the theoretical foudation for the type systems found in programming languages and
 the typechecking algorithms behind them.
-
-## Language safety
-
-> A safe language is one that protects its own abstractions [...]
-> Every high-level language provides abstractions of machine services. Safety refers to the language’s
-> ability to guarantee the integrity of these abstractions and of higher-level abstractions
-> introduced by the programmer using the definitional facilities of the language.
-> [@pierce-types-and-prog, p. 6]
-
-As [@pierce-types-and-prog] puts it, the abstraction of a safe language can be used "abstractly", whereas in an unsafe language
-it is necessary to keep in mind the low level details, like how data is structured in memory or how allocations take place
-in order to understand how the program might misbehave.
-
-Note that "language safety" can be achieved by static type checking but also by run-time checks, like
-array-bounds checking which is performed by many languages during runtime.
-
-Chappell [@types-primer] says that a programming language or language construct is type-safe if it forbids
-operations that are incorrect for the types on which they operate. The author notes that some languages
-may discourage incorrect operations or make them difficult without completely forbidding them.
-
-Cardelli [@cardelli-96] differentiates between trapped errors, that cause execution to stop immadiately and
-untrapped errors that go unnoticed and later cause arbitrary behaviour. An untrapped error, for example, is
-accessing data past the end of an array in absence of run time bounds checks. A trapped error would be division
-by zero or accessing an illegal address. He calls a language safe if untrapped errors are impossible in it.
-The author suggests declaring a subset of possible execution errors as forbidden errors
-(all of the untrapped and some of the trapped erros) and says that a program can be called
-"well behaved" if no such forbidden errors can happen during execution.
-
-> Most programming languages exhibit a phase distinction between the static and dynamic phases of
-> processing. The static phase consists of parsing and type checking to ensure that the program is
-> well-formed; the dynamic phase consists of execution of well-formed programs. A language is
-> said to be safe exactly when well-formed programs are well-behaved when executed.
-> [@pfpl-2016, p. 35]
-
-To summarize the thoughts of the authors above: a language can be called safe if every program written in it
-that can reach execution is well behaved. A well behaved program is one that does not produce forbidden / untrapped errors.
-Informally, safe languages are often referred to as "strongly typed".
-In a theoretical context, "type soundness" is usually used instead of safety but the two are more or less synonyms.
-
-People often conflate static typing, dynamic typing and type safety. Static and dynamic languages are discussed
-in a later section but 
-
-### Preservation and progress
-Formally, a language can be called "type safe" or "sound" if the following properties hold:
-
-\begin{enumerate}
-  \item If $e : \tau$ and $e \rightarrow e'$, then $e' : \tau$
-  \item If $e : \tau$, then either $e$ is a value or there exists $e'$ such that $e \rightarrow e'$
-\end{enumerate}
-
-The first property is called "preservation": it states that evaluation preserves the type of an expression.
-The second property is called progress, it states that a well typed expression is either a value or it can be evaluated
-further (until it is reduced to value). Type safety is the conjunction of preservation and progress. [@pfpl-2016]
-Bonnaire-Sergeant [@uiut] Summarises "preservation" beautifully:
-
-> The essential property of type soundness is “type preservation”, which says that a
-> type system’s approximation of the result of a computation (a type) is “preserved” at every
-> intermediate computational stage. In other words, the type system’s job is to model a computation,
-> and this model should not lose accuracy as the program evaluates.
-
-Note that safety is not a property of a type system, but that of a language. There might be operations that
-would pass type checking but produce an error during runtime, like division by zero. Enhancing a type system
-so that it could protect against division by zero erros would make it too restrictive (too many programs would
-be ruled out as ill-formed). It is not possible to predict statically that an expression would evaluate to zero,
-so if we want our language to be safe, we need to add dynamic (runtime) checks. Even though it is not part
-of the static type system, such a language is still considered safe. [@pfpl-2016]
-
-### Should languages be safe?
-
-Safety reduces debugging time by adding fail-stop behavior in case of execution erros.
-Many security problems exist because of buffer overflows made possible by unsafe
-casting and pointer arithmetic operations. Languages that provide safety through bounds checking provide protection
-against such sources of exploits. Safety guarantees the integrity of run time structures,
-and therefore enables garbage collection. [@cardelli-96] Yet there are still unsafe languages
-in widspread use, mainly for one reason: performance.
-
-> Some languages, like C, are deliberately unsafe because of performance considerations: the run
-> time checks needed to achieve safety are sometimes considered too expensive.
-> [...] Thus, the choice between a safe and unsafe language may be ultimately related to a trade-
-> off between development and maintenance time, and execution time.
-> [@cardelli-96, p. 5.]
-
-The question arises: are there languages that provide both safety and performance at the same time?
-I'll get back to this when discussing "Type systems and program performance".
 
 ## Formalization of type systems
 
@@ -465,6 +383,93 @@ To solve the above issues, the reflective capabilities of the language must be s
 > Dynamic languages are more tolerant to change; code refactors tend to be more localized (they have a smaller area of effect)
 > [@hackernoon-s-vs-d]
 
+## Language/type safety
+
+> A safe language is one that protects its own abstractions [...]
+> Every high-level language provides abstractions of machine services. Safety refers to the language’s
+> ability to guarantee the integrity of these abstractions and of higher-level abstractions
+> introduced by the programmer using the definitional facilities of the language.
+> [@pierce-types-and-prog, p. 6]
+
+As [@pierce-types-and-prog] puts it, the abstraction of a safe language can be used "abstractly", whereas in an unsafe language
+it is necessary to keep in mind the low level details, like how data is structured in memory or how allocations take place
+in order to understand how the program might misbehave.
+
+Note that "language safety" can be achieved by static type checking but also by run-time checks, like
+array-bounds checking which is performed by many languages during runtime.
+
+Chappell [@types-primer] says that a programming language or language construct is type-safe if it forbids
+operations that are incorrect for the types on which they operate. The author notes that some languages
+may discourage incorrect operations or make them difficult without completely forbidding them.
+
+Cardelli [@cardelli-96] differentiates between trapped errors, that cause execution to stop immadiately and
+untrapped errors that go unnoticed and later cause arbitrary behaviour. An untrapped error, for example, is
+accessing data past the end of an array in absence of run time bounds checks. A trapped error would be division
+by zero or accessing an illegal address. He calls a language safe if untrapped errors are impossible in it.
+The author suggests declaring a subset of possible execution errors as forbidden errors
+(all of the untrapped and some of the trapped erros) and says that a program can be called
+"well behaved" if no such forbidden errors can happen during execution.
+
+> Most programming languages exhibit a phase distinction between the static and dynamic phases of
+> processing. The static phase consists of parsing and type checking to ensure that the program is
+> well-formed; the dynamic phase consists of execution of well-formed programs. A language is
+> said to be safe exactly when well-formed programs are well-behaved when executed.
+> [@pfpl-2016, p. 35]
+
+To summarize the thoughts of the authors above: a language can be called safe if every program written in it
+that can reach execution is well behaved. A well behaved program is one that does not produce forbidden / untrapped errors.
+In a theoretical context, "type soundness" is usually used instead of safety but the two are more or less synonyms.
+
+People often conflate static typing, dynamic typing and type safety. Regardless of whether type checking happens
+statically (before running the program) or dynamically (during running the program), a language may or may not be called safe,
+we'll see examples later when discussing the type systems of specific languages.
+"Strongly typed" and "weakly typed" are also in wide use among programmers but their meaning is not clearly defined and are
+often used to mean certain combinations of language attributes. They are often used to refer to how much implicit conversion
+(also known as "coercion") between types is done by the language.
+
+There might be operations that would pass type checking but produce an error during runtime, like division by zero.
+Enhancing a type system so that it could protect against division by zero erros would make it too restrictive
+(too many programs would be ruled out as ill-formed).
+It is not possible to predict statically that an expression would evaluate to zero,
+so if we want our language to be safe, we need to add dynamic (runtime) checks. Even though it is not part
+of the static type system, such a language is still considered safe. [@pfpl-2016]
+
+### Preservation and progress
+Formally, a language can be called "sound" or "type safe" if the following properties hold:
+
+\begin{enumerate}
+  \item If $e : \tau$ and $e \rightarrow e'$, then $e' : \tau$
+  \item If $e : \tau$, then either $e$ is a value or there exists $e'$ such that $e \rightarrow e'$
+\end{enumerate}
+
+The first property is called "preservation": it states that evaluation preserves the type of an expression.
+The second property is called progress, it states that a well typed expression is either a value or it can be evaluated
+further (until it is reduced to value). Type safety is the conjunction of preservation and progress. [@pfpl-2016]
+Bonnaire-Sergeant [@uiut] Summarises "preservation" beautifully:
+
+> The essential property of type soundness is “type preservation”, which says that a
+> type system’s approximation of the result of a computation (a type) is “preserved” at every
+> intermediate computational stage. In other words, the type system’s job is to model a computation,
+> and this model should not lose accuracy as the program evaluates.
+
+### Should languages be safe?
+
+Safety reduces debugging time by adding fail-stop behavior in case of execution erros.
+Many security problems exist because of buffer overflows made possible by unsafe
+casting and pointer arithmetic operations. Languages that provide safety through bounds checking provide protection
+against such sources of exploits. Safety guarantees the integrity of run time structures,
+and therefore enables garbage collection. [@cardelli-96] Yet there are still unsafe languages
+in widspread use, mainly for one reason: performance.
+
+> Some languages, like C, are deliberately unsafe because of performance considerations: the run
+> time checks needed to achieve safety are sometimes considered too expensive.
+> [...] Thus, the choice between a safe and unsafe language may be ultimately related to a trade-
+> off between development and maintenance time, and execution time.
+> [@cardelli-96, p. 5.]
+
+The question arises: are there languages that provide both safety and performance at the same time?
+I'll get back to this when discussing "Type systems and program performance".
+
 # A short history of type systems
 The first type systems appeared in the 1950s, when the designers of the Fortran language wanted to make
 numerical computations more efficient by distinguishing between integer-valued arithmetic expressions
@@ -556,7 +561,9 @@ overriding some parts to facilitates code reuse.
 
 #### Structural vs Nominal
 
-...
+Structural typing is a way of relating types based solely on their members. This is in contrast with nominal typing.
+In the case of a nominally-typed language, a subtype must explicitly declare itself to be related to the supertype.
+[@typescript-docs]
 
 #### Variance
 
@@ -699,7 +706,11 @@ http://www.cs.cornell.edu/talc/papers.html
 
 ### Javascript
 
-Javascript is a dynamic language, often referred to as a "weakly typed" (or unsafe) one because it makes many
+**TODO: safety?**
+	- https://stackoverflow.com/a/25157350/1772429
+	- https://stackoverflow.com/a/39642986/1772429
+
+Javascript is a dynamic language, often referred to as a "weakly typed" one because it makes many
 implicit type conversions during runtime. Javascript is one of the most popular languages of the 2010s mainly
 because it is the scripting language of web browsers.
 
@@ -711,6 +722,8 @@ The most popular staticly typed variants of the language are:
 - TypeScript (Microsoft)
 	- https://blog.ambrosebs.com/2018/04/07/unsoundness-in-untyped-types.html
 		- https://users.soe.ucsc.edu/~abadi/Papers/FTS-submitted.pdf (from the above, this is the important one!)
+	- https://www.typescriptlang.org/docs/handbook/type-compatibility.html
+		- look for "unsound" keyword!
 - Closure (Google)
 - Flow (Facebook)
 
@@ -722,7 +735,7 @@ The most popular staticly typed variants of the language are:
 
 ### Python
 
-Python features a dynamic type system. It is usually called a "strongly typed" (or safe) language because even
+Python features a dynamic type system. It is usually called a "strongly typed" language because even
 though its type system doesn't enforce strict typing rules at compile type it is very strict about what operations
 are allowed on what types during runtime and it will not do automatic type conversions that could go unnoticed.
 
@@ -759,6 +772,14 @@ between different modules. Unfortunately, it also hides the dependencies between
 
 ### C / C++
 
+**TODO: unsafe!**
+	- "unchecked casting" - **TODO: correct term?**
+	- pointers, pointer arithmetic - **TODO: eplain why unsafe!**
+	- https://stackoverflow.com/a/25157350/1772429
+	- https://stackoverflow.com/a/969095/1772429
+		- see part about conversion being dynamically checked
+			- `instead of treating the bytes of the array object as if they were a FileStream`
+
 **TODO: maybe talk about virtual dispatch in C++? Is it related to type systems?**
 
 ...
@@ -768,6 +789,7 @@ between different modules. Unfortunately, it also hides the dependencies between
 ### Java
 
 Java is a staticly typed, "safe" language. **TODO: why safe?**
+	- `not?`: https://www.cis.upenn.edu/~bcpierce/courses/629/papers/Saraswat-javabug.html
 It features a static type system enhanced with various dynamic checks provided by its runtime
 environment, the Java Virtual Machine (JVM).
 
@@ -810,6 +832,7 @@ first class support for concurrency ...
 
 **TODO: talk about channel types**
 
+- structural subtyping
 - non-classical OOP
 - inheritance vs composition (https://hackthology.com/object-oriented-inheritance-in-go.html)
     - no subtype polymorphism for stucts but there is for interfaces
