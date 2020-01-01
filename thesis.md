@@ -33,7 +33,7 @@ give an overview of the possibilities of recent advances in type systems and pro
 
 \pagebreak
 
-# Type systems
+# Part 1: Type systems - rivew of literature
 > Modern software engineering recognizes a broad range of formal methods for helping ensure that a system behaves correctly [...]
 > by far the most popular and best established lightweight formal methods are type systems.
 > [@pierce-types-and-prog, p. 1]
@@ -495,6 +495,9 @@ program more efficient.
 
 In this section I'd like to introduce a few type systems concepts...
 
+**TODO: "existential types", "universal types"?**
+https://stackoverflow.com/a/5520212/1772429
+
 ...
 
 ## Gradual typing
@@ -512,9 +515,10 @@ to expressions in a program by examining the operations that are performed on th
 > and deciding what the types of its variables are - have existed for many years now
 > [@debating-type-systems]
 
-**TODO: "not to be confused with dynamic typing! type inference is still static (before execution)!" correct?**
+Type inference should not to be confused with dynamic typing.
+Even though, types may not be visible in the source code in an inferred language, it might check those type statically (before execution).
 
-**TODO: pros/cons**
+**TODO: pros/cons of type inference**
 
 ## Polymorphic typing
 **TODO: the "distinct identity function" part should go under parametric polymorphism, no? Maybe not!**
@@ -572,7 +576,6 @@ In the case of a nominally-typed language, a subtype must explicitly declare its
 - contravariance
 
 **TODO: read these:**
-
 https://blog.daftcode.pl/csi-python-type-system-episode-1-1c2ee1f8047c
 https://blog.daftcode.pl/csi-python-type-system-episode-2-baf5168038c0
 https://en.wikipedia.org/wiki/Covariance_and_contravariance_(computer_science)
@@ -658,7 +661,7 @@ to accurately represent it for a particular usage. Abstraction reduces complexit
 > [@leroy-intro-tic98 p. 5] 
 
 
-# Own research: type systems of programming languages
+# Part 2: Own research - type systems in programming languages
 
 **TODO: ezeket vizsgálni a nyelveknél:**
 ```
@@ -671,11 +674,28 @@ to accurately represent it for a particular usage. Abstraction reduces complexit
 
 **TODO:find what methods are used for comparing type systems**
 
-In the following, I'm going to introduce the type systems of an exotic assortment of languages.
-The languages were selected so that each one features a different concept or idea with regards to type systems.
-My aim is to introduce a wide range of type systems concepts with concrete examples of real programming languages.
+In the following, I'm going to examine list of programming languages.
+My goal is to introduce a wide range of type systems concepts with concrete examples.
 
-**TODO: more info? "existential types"?**
+The languages:
+
+- Assembly
+- Javascript
+- Python
+- C/C++
+- Java
+- Clojure `*`
+- Go
+- ML languages (Ocaml, Haskell, Elm)
+- Agda / Idris/ Coq `*`
+- Rust `*`
+
+The languages were selected based on my interests and so that each one features a different
+concept or idea with regards to type systems. My original goal with this thesis was to gain a deeper understanding
+of programming language concepts and try out some languages that I've been interested in for a long time.
+Items marked with an asterix (\*) are languages with which I had no prior experience.
+I'll focus on their type systems based on material I found as well as my own experiences
+with the language. I'll highlight notable features and also weaknesses.
 
 ...
 
@@ -686,8 +706,9 @@ serve different purposes.
 
 ...
 
-## Structure, methods of analysis
-For each language I'll try to highlight one or two key type systems features and examine how those affect writing programs in the language.
+## Structure, method of analysis
+For each language I'll try to highlight one or two key type systems features and examine how those affect
+writing programs in the language.
 
 ... 
 
@@ -710,11 +731,16 @@ http://www.cs.cornell.edu/talc/papers.html
 	- https://stackoverflow.com/a/25157350/1772429
 	- https://stackoverflow.com/a/39642986/1772429
 
-Javascript is a dynamic language, often referred to as a "weakly typed" one because it makes many
-implicit type conversions during runtime. Javascript is one of the most popular languages of the 2010s mainly
-because it is the scripting language of web browsers.
+Javascript is one of the most popular languages of the 2010s mainly
+because it is the scripting language of web browsers which, thanks to their ubiquitousness, are becoming
+the platform of choice for networked applications. Javascript is a dynamic language.
+Types of the program variables are not known before run time.
+The language is often referred to as a "weakly typed" one because the runtime makes many
+implicit type conversions between types. The conversion rules are often inconsistent but are strictly 
+specified. Because of these inconsistencies, people often refer to Javascript as not being "type safe" in a loose meaning
+of the term.
 
-#### Static / strong variants
+#### Static variants
 
 Javascript's wild popularity and ubiquitousness prompted organizations to invest in creating a static type system for the language.
 The most popular staticly typed variants of the language are:
@@ -737,7 +763,7 @@ The most popular staticly typed variants of the language are:
 
 Python features a dynamic type system. It is usually called a "strongly typed" language because even
 though its type system doesn't enforce strict typing rules at compile type it is very strict about what operations
-are allowed on what types during runtime and it will not do automatic type conversions that could go unnoticed.
+are allowed on what types during run time and it will not do automatic type conversions that could go unnoticed.
 
 #### Optional type annotations in Python 3
 
