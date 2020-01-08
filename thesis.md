@@ -22,7 +22,7 @@ of the program and be confident that it was still working as expected.
 It was a different, a much more pleasant way of writing software than I had done before.
 I became more and more interested in the possibilities of static checking and type systems.
 I started wondering what else was out there that could increase programmer productivity
-and software quality. This curiosity led me to choosing type systems as the topic of my thesis.
+and software quality. This curiosity led me to choosing type systems as the topic of this work.
 
 My goal with this thesis is to gain a more fundamental understanding of the semantics of programming languages,
 the structures and algorithms behind them.
@@ -52,8 +52,8 @@ attempts to prove that no operation violates them.
 
 Such a violation is called a type error. It is an inconsistency in a program according to the type system's rules.
 Exactly what constitutes a type error is defined by the type system of the language.
-A program that violates the rules of its type system is often called ill typed. A program that conforms
-to the rules of the language's type system is a well typed program. [@wiki-type-systems]
+A program that violates the rules of its type system is often called "ill typed". A program that conforms
+to those rules is a "well typed" program. [@wiki-type-systems]
 
 > Type systems are used to define the notion of well typing, which is itself a static approximation of good behavior [...]
 > Well typing further facilitates program development by trapping execution errors before run time. [@cardelli-96, p. 6]
@@ -67,12 +67,6 @@ programs from ever running. Untyped languages can enforce good behavior by perfo
 runtime checks to rule out errors. For example, they may check array bounds or division operations and generate
 recoverable exceptions. This checking process during runtime is called dynamic checking.
 [@cardelli-96]
-
-**TODO: move to static languages part?**
-
-> Even statically checked languages usually need to perform tests at run time to achieve safety. [...]
-> The fact that a language is statically checked does not necessarily mean that execution can proceed entirely blindly.
-> [@cardelli-96, p. 3]
 
 By using the facilities provided by the type system, we can add more information in our programs.
 We can create a safety-net against execution errors by making it possible for automated tools to verify the steps
@@ -227,18 +221,18 @@ details when surveying my selected list of programming languages.
 Programmers make errors. Advanced programming languages should allow the automatic checking of inconsistencies
 in programs. The most popular of these consistency checks is called static type checking (or static typing).
 
-> The strength of static typing is that it guarantees the absence of type errors in the programs it
-> accepts. The weakness of static typing is that it rejects some programs that are in fact correct, but
-> too complex to be recognized as such by the type system used. From this tension follows the search
-> for more and more expressive type systems [...]
-> [@leroy-phd, p. 3]
-
-...
+> We do static checking without any input to the program [@cse-341, p. 13]
 
 Static type systems help us detect programming errors even before we could run our programs.
 It is not just the simple mistakes (like forgetting toconvert a string to a number) that can be caught by a type checker.
 A language with a rich set of types offers the opportunity to encode complex information about structure in terms of types
 but it requires attention and willingness from the programmer to make good use of the language's facilities.
+
+> The strength of static typing is that it guarantees the absence of type errors in the programs it
+> accepts. The weakness of static typing is that it rejects some programs that are in fact correct, but
+> too complex to be recognized as such by the type system used. From this tension follows the search
+> for more and more expressive type systems [...]
+> [@leroy-phd, p. 3]
 
 Static type systems are "conservative", meaning that they sometimes reject programs that actually behave
 well at run time. For example
@@ -259,6 +253,10 @@ static analysis cannot deftermine that this is the case. [@pierce-types-and-prog
 
 Static languages usually don't allow rebinding a variable to an object of a different type during run-time.
 This is what makes static type checking possible (and effective). [@py-s-vs-d]
+
+> Even statically checked languages usually need to perform tests at run time to achieve safety. [...]
+> The fact that a language is statically checked does not necessarily mean that execution can proceed entirely blindly.
+> [@cardelli-96, p. 3]
 
 ### Advantages of static languages
 
@@ -420,6 +418,19 @@ To summarize the thoughts of the authors above: a language can be called safe if
 that can reach execution is well behaved. A well behaved program is one that does not produce forbidden / untrapped errors.
 In a theoretical context, "type soundness" is usually used instead of safety but the two are more or less synonyms.
 
+In a more practical sense, soundness is the ability for a type checker to catch every single error that might happen at runtime.
+This sometimes means catching errors that will not actually happen at run time.
+As a sidenote "completeness" in type systems means the "inverse" of soundness: it is the ability for a
+type checker to only ever catch errors that would happen at runtime.
+This comes at the cost of sometimes missing errors that will happen at runtime. [@flowjs]
+
+> In modern languages, type systems are sound (they prevent what they claim to) but not complete
+> (they reject programs they need not reject). Soundness is important because it lets language users
+> and language implementers rely on X never happening [...]
+> Type systems are not complete because for almost anything you might like to check statically, it is impossible
+> to implement a static checker that given any program in your language (a) always terminates, (b) is sound,
+> and (c) is complete. [@cse-341, p.15]
+
 People often conflate static typing, dynamic typing and type safety. Regardless of whether type checking happens
 statically (before running the program) or dynamically (during running the program), a language may or may not be called safe,
 we'll see examples later when discussing the type systems of specific languages.
@@ -434,7 +445,7 @@ It is not possible to predict statically that an expression would evaluate to ze
 so if we want our language to be safe, we need to add dynamic (runtime) checks. Even though it is not part
 of the static type system, such a language is still considered safe. [@pfpl-2016]
 
-### Preservation and progress
+### Formal soundness: preservation and progress
 Formally, a language can be called "sound" or "type safe" if the following properties hold:
 
 \begin{enumerate}
@@ -680,7 +691,7 @@ My goal is to introduce a wide range of type systems concepts with concrete exam
 The languages:
 
 - Assembly
-- Javascript
+- JavaScript
 - Python
 - C/C++
 - Java
@@ -725,33 +736,40 @@ http://www.cs.cornell.edu/talc/papers.html
 
 ...
 
-### Javascript
+### JavaScript
+
+**TODO: talk about ECMAScript and versions!**
 
 **TODO: safety?**
 	- https://stackoverflow.com/a/25157350/1772429
 	- https://stackoverflow.com/a/39642986/1772429
 
-Javascript is one of the most popular languages of the 2010s mainly
+JavaScript is one of the most popular languages of the 2010s mainly
 because it is the scripting language of web browsers which, thanks to their ubiquitousness, are becoming
-the platform of choice for networked applications. Javascript is a dynamic language.
+the platform of choice for networked applications. JavaScript is a dynamic language.
 Types of the program variables are not known before run time.
 The language is often referred to as a "weakly typed" one because the runtime makes many
 implicit type conversions between types. The conversion rules are often inconsistent but are strictly 
-specified. Because of these inconsistencies, people often refer to Javascript as not being "type safe" in a loose meaning
+specified. Because of these inconsistencies, people often refer to JavaScript as not being "type safe" in a loose meaning
 of the term.
 
-#### Static variants
+JavaScript's wild popularity and ubiquitousness prompted organizations to invest in creating a static type system for the language.
 
-Javascript's wild popularity and ubiquitousness prompted organizations to invest in creating a static type system for the language.
-The most popular staticly typed variants of the language are:
+#### TypeScript (Microsoft)
+Typescript extends the JavaScript language with optional type annotations. This means that every valid JavaScript program
+is also a valid TypeScript program.
 
-- TypeScript (Microsoft)
-	- https://blog.ambrosebs.com/2018/04/07/unsoundness-in-untyped-types.html
-		- https://users.soe.ucsc.edu/~abadi/Papers/FTS-submitted.pdf (from the above, this is the important one!)
-	- https://www.typescriptlang.org/docs/handbook/type-compatibility.html
-		- look for "unsound" keyword!
-- Closure (Google)
-- Flow (Facebook)
+- https://blog.ambrosebs.com/2018/04/07/unsoundness-in-untyped-types.html
+	- https://users.soe.ucsc.edu/~abadi/Papers/FTS-submitted.pdf (from the above, this is the important one!)
+- https://www.typescriptlang.org/docs/handbook/type-compatibility.html
+	- look for "unsound" keyword!
+
+#### Closure Compiler (Google)
+Google's Closure Compiler is a static code analyzer and transpiler (compiles to a specific form of the same language).
+It includes a type checker that can read specifically formatted comment sections  -JsDoc- [@jsdoc] which
+contain typing information.
+
+#### Flow (Facebook) https://flow.org/en/docs/lang/
 
 **TODO: why add a static type system?**
 
