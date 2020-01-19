@@ -881,6 +881,10 @@ first class support for concurrency ...
 - inheritance vs composition (https://hackthology.com/object-oriented-inheritance-in-go.html)
     - no subtype polymorphism for stucts but there is for interfaces
 
+> [...] relationship between concrete types and abstract types (interfaces) is implicit, so a
+> concrete type may satisfy an interface that the type’s designer was unaware of.
+> [@tgpl, p. XV]
+
 ...
 
 #### Type assertions vs type conversions
