@@ -918,6 +918,9 @@ from [@abrahamson-quora]
 **Elm's type system: https://elmprogramming.com/type-system.html**
 **TODO: get inspired by Elm custom types: https://guide.elm-lang.org/types/custom_types.html**
 
+Types in elm feel extremely lightweight. They are almost just labels on the underlying data. **TODO: revise, expand!**
+https://medium.com/elm-shorts/an-intro-to-constructors-in-elm-57af7a72b11e
+
 https://elmprogramming.com/type-system.html
 
 - the compiler feels like a co-pilot helping me all the time
