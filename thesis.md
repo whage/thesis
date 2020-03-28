@@ -874,26 +874,37 @@ first class support for concurrency ...
 
 **TODO: https://thenewstack.io/understanding-golang-type-system/**
 
-**TODO: talk about channel types**
-
 - structural subtyping
 - non-classical OOP
-- inheritance vs composition (https://hackthology.com/object-oriented-inheritance-in-go.html)
-    - no subtype polymorphism for stucts but there is for interfaces
+	- there is no inheritance as in classical OOP! instead there is composition
+	- inheritance vs composition (https://hackthology.com/object-oriented-inheritance-in-go.html)
+		- https://stackoverflow.com/questions/49002/prefer-composition-over-inheritance
+			- composition: changing behavior is possible at runtime (?)
+		- https://www.javaworld.com/article/3409071/java-challenger-7-debugging-java-inheritance.html
+	- difficult at first because most of us is trained to think in a classical OOP way
+	- **TODO: benefits of Go's non-classical OOP model ?**
+- no subtype polymorphism for stucts but there is for interfaces
 
 > [...] relationship between concrete types and abstract types (interfaces) is implicit, so a
 > concrete type may satisfy an interface that the type’s designer was unaware of.
-> [@tgpl, p. XV]
+> [@gopl, p. XV]
 
-...
+**TODO: Unsafe package:**
+> Chapter 13 explains the gory details of low-level programming that uses the unsafe
+> package to step around Go’s type system, and when that is appropriate.
+
+#### Channels - **TODO: revise later!**
+Go's type system extends to its concurrency model. The language has first class suppor (meaning syntactic elements)
+for concurrency primitives called channels.
+
+> [...] typed conduit through which you can send and receive values
+> 
 
 #### Type assertions vs type conversions
 
 https://tour.golang.org/methods/15
 https://stackoverflow.com/a/20494572/1772429
 https://groups.google.com/d/msg/golang-nuts/dwSPKq9YDso/xJMn4qgttGoJ
-
-...
 
 ### OCaml, Haskell, Elm (ML family)
 
@@ -923,7 +934,7 @@ https://medium.com/elm-shorts/an-intro-to-constructors-in-elm-57af7a72b11e
 
 https://elmprogramming.com/type-system.html
 
-- the compiler feels like a co-pilot helping me all the time
+- the compiler feels like a co-pilot that is constantly helping
 	- it almost feels like pair programming
 - it is the type system that makes it possible for the compiler to produce such helpful messages!
 
@@ -941,7 +952,6 @@ https://package.elm-lang.org/packages/elm-lang/core/5.1.1/Json-Decode#map
 > Note: If you run out of map functions, take a look at elm-decode-pipeline which makes it easier
 to handle large objects, but produces lower quality type errors.
 
-...
 
 #### Algebraic data types
 Algebraic data types are composite types: they are defined as a combination of other types.
@@ -1013,7 +1023,7 @@ https://www.youtube.com/watch?v=2wZ1pCpJUIM
 Rust is a fairly young language that is rapidly gaining popularity. It aims to provide an alternative to low level,
 high-performance but unsafe languages like C and C++ by promising both memory safety and highly optimal machine code.
 
-- ownership, borrows
+- ownership, borrows - **TODO: this is exciting type systems material!**
 	-ownership: a novel system whereby it can statically determine when a memory object is no longer in use
 - immutability
 - etc
