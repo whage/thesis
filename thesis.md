@@ -17,12 +17,13 @@ keywords: [Type systems, Programming languages]
 After having worked only with dynamic languages for a few years, when I first started using
 staticly typed languages (C# and Java in my case) I was struck by how much their
 type system and typechecker helped write code more effectively and more confidently.
-The type system made me think more thoroughly, it allowed me to change parts
-of the program and be confident that it was still working as expected.
+The type system forced me to think more thoroughly, it gave me confidence when
+changing large parts of the program.
 It was a different, a much more pleasant way of writing software than I had done before.
 I became more and more interested in the possibilities of static checking and type systems.
-I started wondering what else was out there that could increase programmer productivity
-and software quality. This curiosity led me to choosing type systems as the topic of this work.
+I started wondering what features do other programming languages provide that could increase
+programmer productivity and software quality.
+This curiosity led me to choosing type systems as the topic of this work.
 
 My goal with this thesis is to gain a more fundamental understanding of the semantics of programming languages,
 the structures and algorithms behind them.
