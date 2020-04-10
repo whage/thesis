@@ -14,14 +14,14 @@ keywords: [Type systems, Programming languages]
 \pagenumbering{arabic} 
 
 # Introduction, personal motivation
-After having worked only with dynamic languages for a few years, when I first started using
-staticly typed languages (C# and Java in my case) I was struck by how much their
-type system and typechecker helped write code more effectively and more confidently.
-The type system forced me to think more thoroughly, it gave me confidence when
-changing large parts of the program.
-It was a different, a much more pleasant way of writing software than I had done before.
+The first languages I worked with were dynamic scripting languages. Software development
+was a process of trial-and-error with the error part happening only when I ran my programs. 
+When I first started using staticly typed languages it was more difficult but also much more rewarading.
+The static type system helped write code more effectively and more confidently.
+It forced me to think more thoroughly, it gave me confidence when changing parts of the program.
+It was much more pleasant to write software like this.
 I became more and more interested in the possibilities of static checking and type systems.
-I started wondering what features do other programming languages provide that could increase
+I started wondering what features other programming languages provide that could further increase
 programmer productivity and software quality.
 This curiosity led me to choosing type systems as the topic of this work.
 
@@ -382,6 +382,8 @@ To solve the above issues, the reflective capabilities of the language must be s
 > Dynamic languages are more tolerant to change; code refactors tend to be more localized (they have a smaller area of effect)
 > [@hackernoon-s-vs-d]
 
+**TODO: consult Rich Hickey for advantages of dynamic languages**
+
 ## Language/type safety
 
 > A safe language is one that protects its own abstractions [...]
@@ -532,7 +534,7 @@ Even though, types may not be visible in the source code in an inferred language
 
 **TODO: pros/cons of type inference**
 
-## Polymorphic typing
+## Polymorphic typing - polymorphism
 **TODO: the "distinct identity function" part should go under parametric polymorphism, no? Maybe not!**
 
 A language, where every expression has a single type is called monomorphic. In such a language
@@ -563,23 +565,40 @@ https://homepages.inf.ed.ac.uk/wadler/papers/papers-we-love/milner-type-polymorp
 
 http://www.cs.cornell.edu/info/projects/nuprl/book/node177.html
 
-### Parametric polymorphism - Generics
-Sometimes called "compile-time polymorphism", ... **TODO: continue**
-- https://docs.oracle.com/javase/tutorial/java/generics/index.html
+### Ad-hoc polymorphism - Interfaces
+Ad-hoc polymorphism is when we can define a common interface for an arbitrary set of individually specified types.
+The typical example are interfaces in most OOP languages. The types that implement the interface may not otherwise be related.
+[@wiki-polymorphism]
 
-### Subtyping
+- https://en.wikipedia.org/wiki/Polymorphism_(computer_science)
+- https://xavierleroy.org/bibrefs/Leroy-unboxed.html
+- https://en.wikipedia.org/wiki/Type_system#Polymorphism_and_types
 
+### Subtype polymorphism - Subtyping
 Subtyping (Subtype polymorphism or runtime polymorphism) is the process of taking a type (the base type)
 and defining a more specialised type (the subtype) based on it by extending it with functionality or
 overriding some parts to facilitates code reuse.
 
-...
+#### Structural vs Nominal subtyping
+Structural subtyping is a way of relating types based solely on their members. Structural typing requires
+that a type supports a given set of operations. [@so-svic-typing]
 
-#### Structural vs Nominal
+Duck typing is a loose form of structural subtyping: the implementation must be provided at run-time, not necessarily at compile time.
+There are no explicitly defined interfaces in the language which makes for terse and concise code as well as minimal coupling
+between different modules. Unfortunately, it also hides the dependencies between classes. [@nascimento-duck]
+The phrase comes from the American poet, James Whitcomb Riley's duck test:
+"if it walks like a duck, and quacks like a duck, then it probably is a duck".
 
-Structural typing is a way of relating types based solely on their members. This is in contrast with nominal typing.
-In the case of a nominally-typed language, a subtype must explicitly declare itself to be related to the supertype.
+> In duck typing a statement calling a method m on an object does not rely on the declared type of the object; only that the object,
+> of whatever type, must supply an implementation of the method called, when called, at run-time. [@wiki-type-systems]
+
+Structural subtyping is in contrast with nominal subtyping. In the case of a nominally-typed language,
+a subtype must explicitly declare itself to be related to the supertype. Nominal is more strict than structural.
 [@typescript-docs]
+
+### Parametric polymorphism - Generics
+Sometimes called "compile-time polymorphism", ... **TODO: continue**
+- https://docs.oracle.com/javase/tutorial/java/generics/index.html
 
 #### Variance
 
@@ -591,13 +610,7 @@ In the case of a nominally-typed language, a subtype must explicitly declare its
 https://blog.daftcode.pl/csi-python-type-system-episode-1-1c2ee1f8047c
 https://blog.daftcode.pl/csi-python-type-system-episode-2-baf5168038c0
 https://en.wikipedia.org/wiki/Covariance_and_contravariance_(computer_science)
-
-### Ad-hoc polymorphism - Type classes
-**TODO: type classes**
-
-- https://en.wikipedia.org/wiki/Polymorphism_(computer_science)
-- https://xavierleroy.org/bibrefs/Leroy-unboxed.html
-- https://en.wikipedia.org/wiki/Type_system#Polymorphism_and_types
+https://en.wikipedia.org/wiki/Covariant_return_type
 
 ## Concrete vs abstract types
 
@@ -804,16 +817,9 @@ The programmer has to use one of the external type checkers to make use of type 
 on the above code indeed reports type errors complaining about an incompatible return type declaration and incompatible
 argument types when calling the the function with integer values.
 
-A major feature of Python's (and in fact most dynamic lanuage's) type system is "duck typing".
-The phrase comes from the American poet, James Whitcomb Riley's duck test:
-"if it walks like a duck, and quacks like a duck, then it probably is a duck".
-
-> In duck typing a statement calling a method m on an object does not rely on the declared type of the object; only that the object,
-> of whatever type, must supply an implementation of the method called, when called, at run-time. [@wiki-type-systems]
-
-Duck typing is a loose form of structural subtyping: the implementation must be provided at run-time, not necessarily at compile time.
-There are no explicitly defined interfaces in the language which makes for terse and concise code as well as minimal coupling
-between different modules. Unfortunately, it also hides the dependencies between classes. [@nascimento-duck]
+Python's type system famously features "duck typing", as discussed in the "Subtyping" section.
+This dynamic, loose type system is critical in Python's reputation as a language of quick, agile
+software development, prototyping and ...
 
 ### C / C++
 
@@ -825,11 +831,23 @@ between different modules. Unfortunately, it also hides the dependencies between
 		- see part about conversion being dynamically checked
 			- `instead of treating the bytes of the array object as if they were a FileStream`
 
-**TODO: maybe talk about virtual dispatch in C++? Is it related to type systems?**
-
 ...
 
 **TODO: talk about what safety features are added by C++ (are references safety features? why? what else?)**
+
+RedHat article about static analysis: adding -fanalyze flag to GCC
+https://developers.redhat.com/blog/2020/03/26/static-analysis-in-gcc-10/
+
+Virtual functions/methods & dynamic dispatch
+- **TODO: also applies to Java on this list**
+> In object-oriented programming, in languages such as C++, and Object Pascal, a virtual function or virtual method is an inheritable and overridable function or method for which dynamic dispatch is facilitated. This concept is an important part of the (runtime) polymorphism portion of object-oriented programming (OOP). In short, a virtual function defines a target function to be executed, but the target might not be known at compile time.
+> https://en.wikipedia.org/wiki/Virtual_function
+
+Really good article on static/dynamic dispatch:
+https://medium.com/ingeniouslysimple/static-and-dynamic-dispatch-324d3dc890a3
+
+Dynamic binding and polymorphism
+https://rcweb.dartmouth.edu/doc/ibmcxx/en_US/doc/language/concepts/cndbpoly.htm
 
 ### Java
 
@@ -878,17 +896,26 @@ first class support for concurrency ...
 - structural subtyping
 - non-classical OOP
 	- there is no inheritance as in classical OOP! instead there is composition
-	- inheritance vs composition (https://hackthology.com/object-oriented-inheritance-in-go.html)
+	- inheritance vs composition
 		- https://stackoverflow.com/questions/49002/prefer-composition-over-inheritance
 			- composition: changing behavior is possible at runtime (?)
 		- https://www.javaworld.com/article/3409071/java-challenger-7-debugging-java-inheritance.html
 	- difficult at first because most of us is trained to think in a classical OOP way
 	- **TODO: benefits of Go's non-classical OOP model ?**
-- no subtype polymorphism for stucts but there is for interfaces
+
+> Embedding is a limited form of inheritance which allows types to share data and code.
+> [@oo-inheritance-in-go]
+
+Go's struct with methods resemble classes in classical OOP languages but in Go there is no subtype polymorphism
+(or any kind of polymorphism) for stucts. Instead there is ad-hoc polymorphism for interfaces
 
 > [...] relationship between concrete types and abstract types (interfaces) is implicit, so a
 > concrete type may satisfy an interface that the type’s designer was unaware of.
 > [@gopl, p. XV]
+
+Interfaces
+> interfaces—these are fundamental to Go’s approach to **type-safe duck typing**
+> [@summerfield-go, p. 254.]
 
 **TODO: Unsafe package:**
 > Chapter 13 explains the gory details of low-level programming that uses the unsafe
@@ -925,6 +952,8 @@ from [@abrahamson-quora]
 - linear types,
 - anonymous record types,
 - polymorphic variant types
+
+**TODO: Ad-hoc polymorphism and Type classes**
 
 #### Elm
 **Elm's type system: https://elmprogramming.com/type-system.html**
