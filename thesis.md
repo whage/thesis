@@ -574,27 +574,31 @@ The typical example are interfaces in most OOP languages. The types that impleme
 - https://xavierleroy.org/bibrefs/Leroy-unboxed.html
 - https://en.wikipedia.org/wiki/Type_system#Polymorphism_and_types
 
-### Subtype polymorphism - Subtyping
-Subtyping (Subtype polymorphism or runtime polymorphism) is the process of taking a type (the base type)
-and defining a more specialised type (the subtype) based on it by extending it with functionality or
-overriding some parts to facilitates code reuse.
-
-#### Structural vs Nominal subtyping
-Structural subtyping is a way of relating types based solely on their members. Structural typing requires
+#### Structural vs Nominal typing
+Structural typing is a way of relating types based solely on their members. Structural typing requires
 that a type supports a given set of operations. [@so-svic-typing]
 
-Duck typing is a loose form of structural subtyping: the implementation must be provided at run-time, not necessarily at compile time.
+Duck typing is a loose form of structural typing: the implementation must be provided at run-time, not necessarily at compile time.
 There are no explicitly defined interfaces in the language which makes for terse and concise code as well as minimal coupling
 between different modules. Unfortunately, it also hides the dependencies between classes. [@nascimento-duck]
 The phrase comes from the American poet, James Whitcomb Riley's duck test:
 "if it walks like a duck, and quacks like a duck, then it probably is a duck".
 
-> In duck typing a statement calling a method m on an object does not rely on the declared type of the object; only that the object,
-> of whatever type, must supply an implementation of the method called, when called, at run-time. [@wiki-type-systems]
+> In duck typing a statement calling a method on an object does not rely on the declared type of the object; only that the object,
+> of whatever type, must supply an implementation of the method called, when called, at run-time.
+> [@wiki-type-systems]
 
-Structural subtyping is in contrast with nominal subtyping. In the case of a nominally-typed language,
+Structural typing is in contrast with nominal typing. In the case of a nominally-typed language,
 a subtype must explicitly declare itself to be related to the supertype. Nominal is more strict than structural.
 [@typescript-docs]
+
+### Subtype polymorphism - Subtyping
+Subtype polymorphism or runtime polymorphism is the process of taking a type (the base type)
+and defining a more specialised type (the subtype) based on it by extending it with functionality or
+overriding some parts to facilitate code reuse.
+The subtype is related to the supertype by the notion of substitutability which means that in a program the subtype
+can be used wherever the supertype is expected. Subtyping is related to but should not be confused with inheritance.
+[@wiki-subtyping]
 
 ### Parametric polymorphism - Generics
 Sometimes called "compile-time polymorphism", ... **TODO: continue**
@@ -889,33 +893,43 @@ regards to their type systems.
 ### GO
 
 Developed by progamming language veterans at Google, GO features an interesting combination of stong static typing,
-first class support for concurrency ...
+first class support for concurrency and an object oriented style built around composition.
 
 **TODO: https://thenewstack.io/understanding-golang-type-system/**
 
-- structural subtyping
-- non-classical OOP
-	- there is no inheritance as in classical OOP! instead there is composition
-	- inheritance vs composition
-		- https://stackoverflow.com/questions/49002/prefer-composition-over-inheritance
-			- composition: changing behavior is possible at runtime (?)
-		- https://www.javaworld.com/article/3409071/java-challenger-7-debugging-java-inheritance.html
-	- difficult at first because most of us is trained to think in a classical OOP way
-	- **TODO: benefits of Go's non-classical OOP model ?**
+- there is no inheritance as in classical OOP! instead there is composition
+- inheritance vs composition
+	- https://stackoverflow.com/questions/49002/prefer-composition-over-inheritance
+		- composition: changing behavior is possible at runtime (?)
+	- https://www.javaworld.com/article/3409071/java-challenger-7-debugging-java-inheritance.html
+- difficult at first because most of us is trained to think in a classical OOP way
+- **TODO: benefits of Go's non-classical OOP model ?**
 
-> Embedding is a limited form of inheritance which allows types to share data and code.
+Go is a good example of how subtyping is a different concept from inheritance.
+Struct with methods resemble classes in classical OOP languages but in Go there is no subtype polymorphism
+(or any kind of polymorphism) for stucts. Struct types can embed other stuct types where the embedder type
+gains access to the methods of the embedded type. This provides a limited form of inheritance. The embedder
+type however doesn't become a subtype of the embedded one. Most programmers are trained to think in a classical
+object oriented way where derived classes not just inherit from, but also become subtypes of their parents.
+I also come from such a backgroud and in my experience, learning the basics of Go and using it in a procedural style
+is simple. Once we had to write more complex type relationships and resort to the language's object oriented features,
+it became much harder and I was stuck for a good while trying to understand how my familiar object hierarchies
+can be expressed with this language.
+
+> In Go the line between inheritance and composition is pretty blurry [...]
+> Syntactically, inheritance looks almost identical to composition.
 > [@oo-inheritance-in-go]
 
-Go's struct with methods resemble classes in classical OOP languages but in Go there is no subtype polymorphism
-(or any kind of polymorphism) for stucts. Instead there is ad-hoc polymorphism for interfaces
+**TODO: continue with own experience, especially after understanding the Go way of OOP**
+
+Go's interfaces provide ad-hoc polymorphism and are a form of sturctural subtyping.
+
+> interfaces—these are fundamental to Go’s approach to **type-safe duck typing**
+> [@summerfield-go, p. 254.]
 
 > [...] relationship between concrete types and abstract types (interfaces) is implicit, so a
 > concrete type may satisfy an interface that the type’s designer was unaware of.
 > [@gopl, p. XV]
-
-Interfaces
-> interfaces—these are fundamental to Go’s approach to **type-safe duck typing**
-> [@summerfield-go, p. 254.]
 
 **TODO: Unsafe package:**
 > Chapter 13 explains the gory details of low-level programming that uses the unsafe
