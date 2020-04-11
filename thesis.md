@@ -937,10 +937,7 @@ Go's interfaces provide ad-hoc polymorphism and are a form of sturctural subtypi
 
 #### Channels - **TODO: revise later!**
 Go's type system extends to its concurrency model. The language has first class suppor (meaning syntactic elements)
-for concurrency primitives called channels.
-
-> [...] typed conduit through which you can send and receive values
-> 
+for manipulating _channels_. Channels are typed conduits through which we can send and receive values.
 
 #### Type assertions vs type conversions
 
