@@ -78,7 +78,7 @@ us when we later change parts of the program or add new components to it.
 Type systems are the glue between mathematical logic and computer programs. They make it possible to
 prove that our programs behave correctly. Advanced, sophisticated type systems allow us to express
 a finer, more precise structure and thus more properties of our sofware may be proven by automated tools
-at compile time and more optimization may be carried out to improve runtime performance.
+and more optimization may be carried out to improve performance.
 
 ## Type theory
 Type theory is a branch of mathematical symbolic logic: a system of representing logical expressions
@@ -212,7 +212,7 @@ There are various approaches but the general idea behind type checking algorithm
 **TODO: revise the above. There is both type inference and type checking there**
 
 In the next section I'll give a brief overview of static and dynamic languages and will later go into much more
-details when surveying my selected list of programming languages.
+detail when surveying my selected list of programming languages.
 
 **TODO: https://danluu.com/empirical-pl/**
 	- look into the first linked paper, see what they mean by "strong/weak typing"
@@ -296,7 +296,9 @@ Type information is also useful in the optimization of method dispatch in object
 > generated instead. [@leroy-intro-tic98 p. 1]
 
 #### Documentation
-"The comment is lying". Source code comments usually get ignored when updating a code segment
+> "The comment is lying!" - senior programmer
+
+Source code comments usually get ignored when updating a code segment
 that they refer to and since they don't have any meaning in the program, the runtime or the compiler
 can't give any warning about updating them: they "drift" from the code, often stating the exact opposite of what is implemented.
 
@@ -771,7 +773,7 @@ implicit type conversions between types. The conversion rules are often inconsis
 specified. Because of these inconsistencies, people often refer to JavaScript as not being "type safe" in a loose meaning
 of the term.
 
-JavaScript's wild popularity and ubiquitousness prompted organizations to invest in creating a static type system for the language.
+JavaScript's popularity and ubiquitousness prompted organizations to invest in creating a static type system for the language.
 
 #### TypeScript (Microsoft)
 Typescript extends the JavaScript language with optional type annotations. This means that every valid JavaScript program
@@ -825,17 +827,39 @@ Python's type system famously features "duck typing", as discussed in the "Subty
 This dynamic, loose type system is critical in Python's reputation as a language of quick, agile
 software development, prototyping and ...
 
-### C / C++
+### C
+
+- procedural, not OOP!
+- lots of missing type system features
+- what does C have in place of all the OOP concepts?
+	- interfaces?
+	- inheritance?
+	- polymorphism?
+
+**TODO: talk about how huge, important and popular software projects are still written in C (Linux kernel!) despite the lack of OOP support**
 
 **TODO: unsafe!**
-	- "unchecked casting" - **TODO: correct term?**
-	- pointers, pointer arithmetic - **TODO: eplain why unsafe!**
-	- https://stackoverflow.com/a/25157350/1772429
-	- https://stackoverflow.com/a/969095/1772429
-		- see part about conversion being dynamically checked
-			- `instead of treating the bytes of the array object as if they were a FileStream`
+- "unchecked casting" - **TODO: correct term?**
+- pointers, pointer arithmetic - **TODO: eplain why unsafe!**
+- https://stackoverflow.com/a/25157350/1772429
+- https://stackoverflow.com/a/969095/1772429
+	- see part about conversion being dynamically checked
+		- `instead of treating the bytes of the array object as if they were a FileStream`
 
-...
+Union types
+`untagged unions`: https://golang.org/doc/faq#unions
+
+### C++
+
+Examining C++ after C is a good way of demonstrating ...
+
+TODO: list major type system features that C++ adds to C
+- classes, (abstract classes as interfaces)
+- polymorphism
+	- inheritance is not really a type system feature, is it?
+- templates (generics)
+- multiple inheritance
+	- does this fit into type systems?
 
 **TODO: talk about what safety features are added by C++ (are references safety features? why? what else?)**
 
@@ -864,7 +888,7 @@ Fundamentals of java generics
 http://www.angelikalanger.com/GenericsFAQ/FAQSections/Fundamentals.html
 	- link from the above: http://www.angelikalanger.com/GenericsFAQ/FAQSections/TechnicalDetails.html#Why%20does%20the%20compiler%20add%20casts%20when%20it%20translates%20generics?
 
-...
+Unified type system (maybe only for C#?): https://en.wikipedia.org/wiki/Comparison_of_C_Sharp_and_Java#Unified_type_system
 
 #### Type erasure
 
@@ -888,7 +912,7 @@ regards to their type systems.
 - dynamic
 - talk about some interesting TYPE SYSTEM features of LISPs
 
-...
+Lisp type system: https://lispcookbook.github.io/cl-cookbook/type.html
 
 ### GO
 
@@ -926,6 +950,10 @@ Go's interfaces provide ad-hoc polymorphism and are a form of sturctural subtypi
 
 > interfaces—these are fundamental to Go’s approach to **type-safe duck typing**
 > [@summerfield-go, p. 254.]
+
+To make use of polymorphism, we define interfaces. Interfaces are nothing more than a set of function signatures.
+To make use of interfaces, we define _methods_. Methods are functions defined on a specific type.
+An interface is automatically implemented by a type if it has all the methods required by the interface. 
 
 > [...] relationship between concrete types and abstract types (interfaces) is implicit, so a
 > concrete type may satisfy an interface that the type’s designer was unaware of.
@@ -992,7 +1020,6 @@ Itt error és value mintha típus paraméterek lennének, de úgy tudom, állhat
 https://package.elm-lang.org/packages/elm-lang/core/5.1.1/Json-Decode#map
 > Note: If you run out of map functions, take a look at elm-decode-pipeline which makes it easier
 to handle large objects, but produces lower quality type errors.
-
 
 #### Algebraic data types
 Algebraic data types are composite types: they are defined as a combination of other types.
