@@ -1061,6 +1061,9 @@ It is a "proof assistant" that can also be used for general purpose programming.
 - inductive types
 - total functions
 
+type driven development in Idris:
+https://codesync.global/media/idris-2-type-driven-development-idris-edwin-brady/
+
 #### Dependent types
 Dependent types are based on the idea of using scalars or values to more precisely describe the type
 of some other value. [@wiki-type-systems] Dependent types can express the rules of matrix multiplication:
