@@ -21,7 +21,7 @@ The static type system helped write code more effectively and more confidently.
 It forced me to think more thoroughly, it gave me confidence when changing parts of the program.
 It was much more pleasant to write software like this.
 I became more and more interested in the possibilities of static checking and type systems.
-I started wondering what features other programming languages provide that could further increase
+I started wondering what features can programming languages provide to increase
 programmer productivity and software quality.
 This curiosity led me to choosing type systems as the topic of this work.
 
@@ -34,7 +34,7 @@ give an overview of the possibilities of recent advances in type systems and pro
 
 \pagebreak
 
-# Part 1: Type systems - rivew of literature
+# Part 1: Type systems - review of literature
 > Modern software engineering recognizes a broad range of formal methods for helping ensure that a system behaves correctly [...]
 > by far the most popular and best established lightweight formal methods are type systems.
 > [@pierce-types-and-prog, p. 1]
@@ -75,7 +75,7 @@ we take throughout our code.
 Through types, we can add more meaning, a deeper, more solid structure. That structure aids
 us when we later change parts of the program or add new components to it.
 
-Type systems are the glue between mathematical logic and computer programs. They make it possible to
+The way I see it, type systems are the glue between mathematical logic and computer programs. They make it possible to
 prove that our programs behave correctly. Advanced, sophisticated type systems allow us to express
 a finer, more precise structure and thus more properties of our sofware may be proven by automated tools
 and more optimization may be carried out to improve performance.
@@ -307,7 +307,7 @@ can't give any warning about updating them: they "drift" from the code, often st
 > about behavior. [@pierce-types-and-prog, p. 5]
 
 Explicit type declarations are "living documentation". Type annotations provide information about the
-code and since they are verified by the typechecker they cannot drift.
+code and since they are verified by the typechecker they cannot drift, they always stay up to date.
 
 > Static type systems build ideas that help explain a system and what it does. [...]
 > They capture information about the inputs and outputs of various functions and modules. [...]
@@ -642,11 +642,11 @@ Abstract types manifest themself in a number of different ways in programming la
 - pure virtual functions
 - **TODO: what else?**
 
-Abstract types are related to but should not be confused with the general concept of "abstraction" which I'll talk about below.
+Abstract types are related to but should not be confused with the general concept of "abstraction".
 
 ## Abstraction and types
 
-Abstraction is the principle of reducing something  to its essential characteristics, removing everything that is unnecessary
+Abstraction is the principle of reducing something to its essential characteristics, removing everything that is unnecessary
 to accurately represent it for a particular usage. Abstraction reduces complexity and increases efficiency. [@whatis-abstraction]
 
 - [Fleury: abstractions](fleury-abs)
@@ -725,8 +725,7 @@ The languages were selected based on my interests and so that each one features 
 concept or idea with regards to type systems. My original goal with this thesis was to gain a deeper understanding
 of programming language concepts and try out some languages that I've been interested in for a long time.
 Items marked with an asterix (\*) are languages with which I had no prior experience.
-I'll focus on their type systems based on material I found as well as my own experiences
-with the language. I'll highlight notable features and also weaknesses.
+I'll focus on their type systems based on material I could find as well as my own experiences.
 
 ...
 
@@ -766,23 +765,28 @@ http://www.cs.cornell.edu/talc/papers.html
 
 JavaScript is one of the most popular languages of the 2010s mainly
 because it is the scripting language of web browsers which, thanks to their ubiquitousness, are becoming
-the platform of choice for networked applications. JavaScript is a dynamic language.
-Types of the program variables are not known before run time.
+the platform of choice for user-facing networked applications. JavaScript is a dynamic language.
+Types of program variables are not known before run time.
 The language is often referred to as a "weakly typed" one because the runtime makes many
 implicit type conversions between types. The conversion rules are often inconsistent but are strictly 
 specified. Because of these inconsistencies, people often refer to JavaScript as not being "type safe" in a loose meaning
 of the term.
 
+**TODO: more on dynamic type system features**
+
 JavaScript's popularity and ubiquitousness prompted organizations to invest in creating a static type system for the language.
 
 #### TypeScript (Microsoft)
-Typescript extends the JavaScript language with optional type annotations. This means that every valid JavaScript program
-is also a valid TypeScript program.
+Typescript extends the JavaScript language with optional type annotations and provides a typechecker and transpiler
+for JavaScript programs. Thanks to its type inference, every valid JavaScript program is also a valid TypeScript program
+so it is possible to gradually transform a JavaScript codebase into a TypeScript one.
 
 - https://blog.ambrosebs.com/2018/04/07/unsoundness-in-untyped-types.html
 	- https://users.soe.ucsc.edu/~abadi/Papers/FTS-submitted.pdf (from the above, this is the important one!)
 - https://www.typescriptlang.org/docs/handbook/type-compatibility.html
 	- look for "unsound" keyword!
+
+**TODO: nice notes about its typesystem: https://www.typescriptlang.org/docs/handbook/intro.html#get-started**
 
 #### Closure Compiler (Google)
 Google's Closure Compiler is a static code analyzer and transpiler (compiles to a specific form of the same language).
@@ -800,8 +804,8 @@ contain typing information.
 ### Python
 
 Python features a dynamic type system. It is usually called a "strongly typed" language because even
-though its type system doesn't enforce strict typing rules at compile type it is very strict about what operations
-are allowed on what types during run time and it will not do automatic type conversions that could go unnoticed.
+though its type system doesn't enforce strict typing rules at compile type it is strict about what operations
+are allowed on what types during run time and it will rarely do automatic type conversions.
 
 #### Optional type annotations in Python 3
 
@@ -823,9 +827,16 @@ The programmer has to use one of the external type checkers to make use of type 
 on the above code indeed reports type errors complaining about an incompatible return type declaration and incompatible
 argument types when calling the the function with integer values.
 
-Python's type system famously features "duck typing", as discussed in the "Subtyping" section.
+The language is radically dynamic. Python's variables are just names that are bound to objects. They can be rebound any time during
+execution and they always take on the type of the bound object, thus potentially changing their type.
 This dynamic, loose type system is critical in Python's reputation as a language of quick, agile
-software development, prototyping and ...
+software development and prototyping. 
+
+The central element of its type system is the class. Python classes work the same way as they do in other classical OOP languages but
+they - and their instances - are extremely dynamic.
+Member variables and methods can be added to instances of classes after they have been instantiated. They can also be modified
+or deleted altogether. Objects can change class, classes can change base classes.
+The excessive dynamism of the language makes it hard to do static analysis and early error detection on python code. [@dynamic-python]
 
 ### C
 
@@ -881,6 +892,11 @@ https://rcweb.dartmouth.edu/doc/ibmcxx/en_US/doc/language/concepts/cndbpoly.htm
 
 Java is a staticly typed, "safe" language. **TODO: why safe?**
 	- `not?`: https://www.cis.upenn.edu/~bcpierce/courses/629/papers/Saraswat-javabug.html
+
+It is a "mandatory OOP" language, meaning that the class is the basic unit of code organization, and also the basic
+container of all data and behavior at runtime.
+[@typescript-docs]
+
 It features a static type system enhanced with various dynamic checks provided by its runtime
 environment, the Java Virtual Machine (JVM).
 
@@ -930,7 +946,7 @@ first class support for concurrency and an object oriented style built around co
 - **TODO: benefits of Go's non-classical OOP model ?**
 
 Go is a good example of how subtyping is a different concept from inheritance.
-Struct with methods resemble classes in classical OOP languages but in Go there is no subtype polymorphism
+Structs (a collection of related attributes) with methods resemble classes of classical OOP languages but in Go there is no subtype polymorphism
 (or any kind of polymorphism) for stucts. Struct types can embed other stuct types where the embedder type
 gains access to the methods of the embedded type. This provides a limited form of inheritance. The embedder
 type however doesn't become a subtype of the embedded one. Most programmers are trained to think in a classical
@@ -1094,12 +1110,19 @@ https://www.youtube.com/watch?v=2wZ1pCpJUIM
 Rust is a fairly young language that is rapidly gaining popularity. It aims to provide an alternative to low level,
 high-performance but unsafe languages like C and C++ by promising both memory safety and highly optimal machine code.
 
+**TODO about the above quote:**
+- what is memory safety?
+- how does one language generate more optimal machine code than the other?
+
 - ownership, borrows - **TODO: this is exciting type systems material!**
 	-ownership: a novel system whereby it can statically determine when a memory object is no longer in use
 - immutability
 - etc
 
 **TODO: nice paper: https://sergio.bz/docs/rusty-types-2016.pdf**
+
+https://github.com/doctorn/micro-mitten
+> "Like Rust, micro-mitten offers a static approach to memory management"
 
 ...
 
