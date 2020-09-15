@@ -996,6 +996,8 @@ The ML family of languages are the prominent representatives of the functional p
 
 **TODO: Hindley-Milner - https://en.wikipedia.org/wiki/Hindley%E2%80%93Milner_type_system**
 
+**TODO: no exceptions seem to be needed in these languages. true? why?**
+
 from [@abrahamson-quora]
 
 - sum types,
@@ -1009,10 +1011,22 @@ from [@abrahamson-quora]
 - polymorphic variant types
 
 **TODO: Ad-hoc polymorphism and Type classes**
+ad-hoc: https://stackoverflow.com/a/42417159/1772429
 
 #### Elm
 **Elm's type system: https://elmprogramming.com/type-system.html**
 **TODO: get inspired by Elm custom types: https://guide.elm-lang.org/types/custom_types.html**
+
+**TODO: write about MY experience with every other language!**
+
+#### My Elm experience
+As a beginner Elm user, programming in the language feels very much like a fight, or rather an argument with the typechecker.
+"I want this done here. No you can't do that, unless you do it that way there, there and there."
+Everywhere the types need to match and even the slightest change can trigger an avalanche of type errors.
+This can be a source of much frustration but as tiresome it may seem, the resulting software is remarkably bug free.
+This is because the type system creates a solid underlying structure to the program.
+At first sight the language seems hostile to the programmer, but as our code grows in complexity, the warnings of the type checker
+become more and more valuable. We are not doing more work, we just do more of the work _before_ we ship our software.
 
 Types in elm feel extremely lightweight. They are almost just labels on the underlying data. **TODO: revise, expand!**
 https://medium.com/elm-shorts/an-intro-to-constructors-in-elm-57af7a72b11e
