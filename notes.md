@@ -101,3 +101,7 @@ https://akaposi.github.io/hott_bevezeto.pdf
 
 # markdown, latex page numbering
 https://stackoverflow.com/a/38768279/1772429
+
+# Let's write a type checker - youtube video + slides
+https://www.youtube.com/watch?v=oPVTNxiMcSU
+https://speakerdeck.com/igstan/lets-write-a-type-checker

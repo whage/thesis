@@ -16,7 +16,7 @@ keywords: [Type systems, Programming languages]
 # Introduction, personal motivation
 The first languages I worked with were dynamic scripting languages. Software development
 was a process of trial-and-error with the error part happening only when I ran my programs. 
-When I first started using staticly typed languages it was more difficult but also much more rewarading.
+When I first started using statically typed languages it was more difficult but also much more rewarading.
 The static type system helped write code more effectively and more confidently.
 It forced me to think more thoroughly, it gave me confidence when changing parts of the program.
 It was much more pleasant to write software like this.
@@ -37,7 +37,7 @@ give an overview of the possibilities of recent advances in type systems and pro
 # Part 1: Type systems - review of literature
 > Modern software engineering recognizes a broad range of formal methods for helping ensure that a system behaves correctly [...]
 > by far the most popular and best established lightweight formal methods are type systems.
-> [@pierce-types-and-prog, p. 1]
+> [@tapl, p. 1]
 
 A type system is a set of rules that associate a property called a type to various constructs in a computer program.
 A type defines a range of values as well as possible operations on instances of that type.
@@ -181,7 +181,7 @@ by the program. Type checking can be done by automated tools called typecheckers
 built into compilers or linkers. [@debating-type-systems]
 
 There are two main branches of languages with regards to type checking (or "typing"): static and dynamic.
-Staticly typed languages carry out type checking before the program is actually run.
+Statically typed languages carry out type checking before the program is actually run.
 Dynamically typed languages do type checking during run-time. Both sides have their advantages and disadvantages.
 
 > The debate regarding the advantages and drawbacks of static or dynamic type systems is
@@ -199,26 +199,25 @@ happen at runtime. I'll discuss each approach separately in a later section.
 
 ## Type checking algorithms
 
-https://www.youtube.com/watch?v=oPVTNxiMcSU
-	- slides: https://speakerdeck.com/igstan/lets-write-a-type-checker
-
-There are various approaches but the general idea behind type checking algorithms is the following:
+There are various approaches to type checking but the general idea behind the algorithms is the following:
 
 1. Parse the source code into an "Abstract Syntax Tree" (AST)
 2. Annotate each node in the AST with a "type annotation"
-3. Generate constraints: enumerate all the known relations between the types of the nodes. **example?**
+3. Generate constraints: enumerate all the known relations between the types of the nodes.
 4. Use constraint solving to see if the constraints can be satisfied.
 
-**TODO: revise the above. There is both type inference and type checking there**
-
-In the next section I'll give a brief overview of static and dynamic languages and will later go into much more
+In the next section I'll give a brief overview of static and dynamic languages highlighting the differences and will later go into much more
 detail when surveying my selected list of programming languages.
 
 **TODO: https://danluu.com/empirical-pl/**
-	- look into the first linked paper, see what they mean by "strong/weak typing"
-	- omg there are a LOT of papers about language comparisons!!
+	- A Large-Scale Study of Programming Languages and Code Quality in GitHub
+		- see what they mean by "strong/weak typing"
+	- 0install: Replacing Python; Leonard, T., pt2, pt3
+	- The Unreasonable Effectiveness of Dynamic Typing for Practical Programs
+	- Do Developers Benefit from Generic Types?
+		- https://scihub.wikicn.top/10.1145/2509136.2509528
 
-## Static languages
+## Static type checking
 Programmers make errors. Advanced programming languages should allow the automatic checking of inconsistencies
 in programs. The most popular of these consistency checks is called static type checking (or static typing).
 
@@ -243,7 +242,7 @@ if <complex test> then 5 else <type error>
 ```
 
 will always be rejected as ill-typed even if `<complex test>` always evaluates to true, because
-static analysis cannot deftermine that this is the case. [@pierce-types-and-prog]
+static analysis cannot deftermine that this is the case. [@tapl]
 
 > ... [static typing] ... consists in detecting a
 > large family of errors: the application of operations to objects over which they are not defined [...]
@@ -254,10 +253,6 @@ static analysis cannot deftermine that this is the case. [@pierce-types-and-prog
 
 Static languages usually don't allow rebinding a variable to an object of a different type during run-time.
 This is what makes static type checking possible (and effective). [@py-s-vs-d]
-
-> Even statically checked languages usually need to perform tests at run time to achieve safety. [...]
-> The fact that a language is statically checked does not necessarily mean that execution can proceed entirely blindly.
-> [@cardelli-96, p. 3]
 
 ### Advantages of static languages
 
@@ -304,7 +299,7 @@ can't give any warning about updating them: they "drift" from the code, often st
 
 > Types are also useful when reading programs. The type declarations in procedure
 > headers and module interfaces constitute a form of documentation, giving useful hints
-> about behavior. [@pierce-types-and-prog, p. 5]
+> about behavior. [@tapl, p. 5]
 
 Explicit type declarations are "living documentation". Type annotations provide information about the
 code and since they are verified by the typechecker they cannot drift, they always stay up to date.
@@ -313,7 +308,12 @@ code and since they are verified by the typechecker they cannot drift, they alwa
 > They capture information about the inputs and outputs of various functions and modules. [...]
 > It's documentation that doesn't need to be maintained or even written. [@debating-type-systems]
 
-## Dynamic languages
+## Dynamic type checking
+
+> Even statically checked languages usually need to perform tests at run time to achieve safety. [...]
+> The fact that a language is statically checked does not necessarily mean that execution can proceed entirely blindly.
+> [@cardelli-96, p. 3]
+
 Dynamic (or dynamically typed) languages don't require the programmer to fix the types of the constructs in their programs.
 For example, dynamic languages let us define functions that can accept multiple types. The exact type of the arguments
 will only be known when the program is running and if the types don't match the operations performed
@@ -392,9 +392,9 @@ To solve the above issues, the reflective capabilities of the language must be s
 > Every high-level language provides abstractions of machine services. Safety refers to the language’s
 > ability to guarantee the integrity of these abstractions and of higher-level abstractions
 > introduced by the programmer using the definitional facilities of the language.
-> [@pierce-types-and-prog, p. 6]
+> [@tapl, p. 6]
 
-As [@pierce-types-and-prog] puts it, the abstraction of a safe language can be used "abstractly", whereas in an unsafe language
+As [@tapl] puts it, the abstraction of a safe language can be used "abstractly", whereas in an unsafe language
 it is necessary to keep in mind the low level details, like how data is structured in memory or how allocations take place
 in order to understand how the program might misbehave.
 
@@ -451,7 +451,7 @@ so if we want our language to be safe, we need to add dynamic (runtime) checks. 
 of the static type system, such a language is still considered safe. [@pfpl-2016]
 
 ### Formal soundness: preservation and progress
-Formally, a language can be called "sound" or "type safe" if the following properties hold:
+Formally, a language can be called "sound" or "type safe" if the following properties hold [@pfpl-2016]:
 
 \begin{enumerate}
   \item If $e : \tau$ and $e \rightarrow e'$, then $e' : \tau$
@@ -459,9 +459,20 @@ Formally, a language can be called "sound" or "type safe" if the following prope
 \end{enumerate}
 
 The first property is called "preservation": it states that evaluation preserves the type of an expression.
-The second property is called progress, it states that a well typed expression is either a value or it can be evaluated
-further (until it is reduced to value). Type safety is the conjunction of preservation and progress. [@pfpl-2016]
-Bonnaire-Sergeant [@uiut] Summarises "preservation" beautifully:
+The second property is called "progress", it states that a well typed expression (one that passes the type checker)
+is either a value or it can be further evaluated.
+
+> Progress says that if a term passes the type-checker, it will
+> be able to make a step of evaluation (unless it is already a value); preservation says that
+> the result of this step will have the same type as the original. If we interleave these
+> steps (first progress, then preservation; repeat), we can conclude that the final answer
+> will indeed have the same type as the original, so the type system is indeed sound.
+> [@krishnamurthi-plai, p. 146.]
+
+Together they state that if we take an expression (or a piece of program) which has type $t$ and evaluate it
+then the resulting value will also have type $t$. [@krishnamurthi-plai]
+
+Bonnaire-Sergeant [@uiut] summarizes "preservation" beautifully:
 
 > The essential property of type soundness is “type preservation”, which says that a
 > type system’s approximation of the result of a computation (a type) is “preserved” at every
@@ -491,7 +502,7 @@ The first type systems appeared in the 1950s, when the designers of the Fortran 
 numerical computations more efficient by distinguishing between integer-valued arithmetic expressions
 and real-valued ones. This allowed the compiler to generate the appropriate machine instruction making the
 program more efficient.
-[@pierce-types-and-prog], [@tt-oop]
+[@tapl], [@tt-oop]
 
 > In the late 1950s and early 1960s, this classification was extended to structured data (arrays of records, etc.)
 > and higher-order functions. In the 1970s, a number of even richer concepts (parametric polymorphism,
@@ -499,7 +510,7 @@ program more efficient.
 > At the same time, computer scientists began to be aware of the connections between the type systems
 > found in programming languages and those studied in mathematical logic, leading to a rich interplay
 > that continues to the present.
-> [@pierce-types-and-prog, p. 10]
+> [@tapl, p. 10]
 
 **TODO:**
 
@@ -522,8 +533,8 @@ https://stackoverflow.com/a/5520212/1772429
 Really good article:
 http://wphomes.soic.indiana.edu/jsiek/what-is-gradual-typing/
 
-## Type inference
-Type inference is the process of automatically (instead of manually, by the programmer) assigning types
+## Type reconstruction
+Type reconstruction or informally, type inference is the process of automatically (instead of manually, by the programmer) assigning types
 to expressions in a program by examining the operations that are performed on them.
 
 > The first statically typed languages were explicitly typed by necessity.
@@ -890,7 +901,7 @@ https://rcweb.dartmouth.edu/doc/ibmcxx/en_US/doc/language/concepts/cndbpoly.htm
 
 ### Java
 
-Java is a staticly typed, "safe" language. **TODO: why safe?**
+Java is a statically typed, "safe" language. **TODO: why safe?**
 	- `not?`: https://www.cis.upenn.edu/~bcpierce/courses/629/papers/Saraswat-javabug.html
 
 It is a "mandatory OOP" language, meaning that the class is the basic unit of code organization, and also the basic
@@ -989,7 +1000,7 @@ https://tour.golang.org/methods/15
 https://stackoverflow.com/a/20494572/1772429
 https://groups.google.com/d/msg/golang-nuts/dwSPKq9YDso/xJMn4qgttGoJ
 
-### OCaml, Haskell, Elm (ML family)
+### ML family - OCaml, Haskell, F#, Elm
 
 The ML family of languages are the prominent representatives of the functional paradigm.
 **TODO: 1-2 sentence about "functional"**
@@ -1140,7 +1151,13 @@ https://github.com/doctorn/micro-mitten
 
 ...
 
-## Conclusions
+## Summary
+In my own experience, a statically typed language is clearly a better tool for writing good, working software.
+I am surprised at the lack of evidence that can back this claim. **TODO: revise!**
+
+Dynamic languages offer a low barrier to entry and apparent agility that provides quick results with short development times.
+Many originally dynamic languages (javascript, python, ruby, php) however added support for some form of optional typing later in their
+development. **TODO: revise!**
 
 ...
 
