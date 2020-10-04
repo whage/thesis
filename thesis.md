@@ -29,8 +29,14 @@ My goal with this thesis is to gain a more fundamental understanding of the sema
 the structures and algorithms behind them.
 First, I'll survey the history and theoretical background of type systems.
 I'll look at how type systems evolved, and how they can be categorized.
+**TODO: revise:**
 I'll compare the type systems of widely used programming languages and will try to
 give an overview of the possibilities of recent advances in type systems and programming language design.
+
+# Hypotheses
+1. Untyped languages are inferior to typed ones. **Why are types missing from assemblers?**
+2. Static type checking can measurably increase programmer productivity. **Likely false, there seems to be no evidence**
+3. 
 
 \pagebreak
 
@@ -294,7 +300,7 @@ Type information is also useful in the optimization of method dispatch in object
 > "The comment is lying!" - senior programmer
 
 Source code comments usually get ignored when updating a code segment
-that they refer to and since they don't have any meaning in the program, the runtime or the compiler
+they refer to and since they don't have any meaning in the program, the runtime or the compiler
 can't give any warning about updating them: they "drift" from the code, often stating the exact opposite of what is implemented.
 
 > Types are also useful when reading programs. The type declarations in procedure
@@ -324,25 +330,19 @@ the program stay consistent. Typical runtime checks include
 
 - division-by-zero checks
 - array bounds checking,
-- verifying that a downcast is valid or not
-- **TODO: find what other dynamic checks are usually performed: On the Revival of Dynamic Languages**
+- verifying if a downcast is valid or not
+- null pointer dereference check
 
 When a dynamic check fails, the language runtime produces a runtime error. It depends on the language if a certain
 runtim error is recoverable or not: the language may allow the programmer to write error handling code and
 resume program execution after the error was handled. [@wiki-type-systems]
 
-> We need to come to terms with persistency, inconsistency and change in pro-
-> gramming languages. This means that dynamic programming languages should
+> We need to come to terms with persistency, inconsistency and change in programming
+> languages. This means that dynamic programming languages should
 > support the notion of software as living, changing systems, they should provide
 > support multiple and possibly inconsistent viewpoints of these systems. Static
-> type systems still have their place, but they should serve rather than hinder ex-
-> pressiveness. [@revival-2005, p. 10]
-
-**TODO: do we need the following? Find a place for them or delete them!**
-- overhead of type systems during runtime?
-- will it be visible in the complied program?
-- how much code does it add?
-- does it decrease performance? after all, we are doing more "checks" ???
+> type systems still have their place, but they should serve rather than hinder expressiveness.
+> [@revival-2005, p. 10]
 
 ### Advantages of dynamic languages
 
@@ -355,15 +355,18 @@ small scale software development where creating proof-of-concept systems quickly
 > Surprisingly little effort has been invested over the years in developing languages
 > that support run-time change to the persistent program state [@revival-2005, p. 2]
 
-> Reflection enables the changing of systems without the need to rebuild or even restart them. [@revival-2005, p. 6]
-
 Reflection is an umbrella term for programming language features that allow us to inspect and modify a program while it is running.
-Most static programming languages provide reflection facilities, but with limited support.
+It is an inherently dynamic process and so it conflicts with many of the principles of statically typed languages.
+Most static programming languages do provide reflection facilities, but with limited support because
+it is essentially a way of circumventing the static type system.
 
-**TODO: write about the advantages of reflection**
-...
+> Reflection enables the changing of systems without the need to rebuild or even restart them.
+> This is an important basis for building the dynamic sytems of the future: Mobile, Ubiquitous, Always-On.
+> [@revival-2005, p. 6]
 
-A totally reflective (dynamic) system with "unscoped" reflection suffers from many disadvantages:
+When used cautiously, reflection can give the programmer power over parts of a program that would not otherwise
+be accessible by the runtime like internals of private/protected components or 3rd party libraries.
+However, a totally reflective (dynamic) system with "unscoped" reflection suffers from many disadvantages:
 
 - Security: The clients that use reflection can do anything
 - Stability: The effects of reflection are global. One client using reflection affects the other clients
@@ -543,9 +546,11 @@ to expressions in a program by examining the operations that are performed on th
 > [@debating-type-systems]
 
 Type inference should not to be confused with dynamic typing.
-Even though, types may not be visible in the source code in an inferred language, it might check those type statically (before execution).
+Even though types may not be visible in the source code in an inferred language, it might check those type statically (before execution).
 
-**TODO: pros/cons of type inference**
+The challenge of type inference is not assigning a type to untyped terms in a program, but rather to find the balance between the
+most general and most specific type that could have been declared in the program.
+[@type-inf-ml]
 
 ## Polymorphic typing - polymorphism
 **TODO: the "distinct identity function" part should go under parametric polymorphism, no? Maybe not!**
@@ -757,9 +762,19 @@ writing programs in the language.
 > [assembly language] is any low-level programming language in which there is a very strong correspondence
 > between the instructions in the language and the architecture's machine code instructions.
 
-http://programmedlessons.org/AssemblyTutorial/Chapter-31/ass31_11.html
+**TODO: finish video**: https://vimeo.com/74354480
+	- 12:15
+
+Assembly languages are - barring some academic derivatives - untyped. The values that we can manipulate in the language
+are just byte sequences. There is no way of knowing what a register or memory address holds just by looking at the assembly code.
+A given bit pattern may have multiple valid interpretations as different types. A certain system call might expect an 8 byte integer
+value for printing, but an 8byte floating-point value can also be interpreted as an integer.
+Assemblers don't try to check for matching types. Why has this
+**TODO: Why is that?**
 
 **TODO: Explain why assembly has no types! Are there any advantages of not having types?**
+
+**TODO: look into untyped languages, summarize them here!**
 
 Typed Assembly Language papers (from around 1999)
 http://www.cs.cornell.edu/talc/papers.html
@@ -768,15 +783,13 @@ http://www.cs.cornell.edu/talc/papers.html
 
 ### JavaScript
 
-**TODO: talk about ECMAScript and versions!**
-
 **TODO: safety?**
 	- https://stackoverflow.com/a/25157350/1772429
 	- https://stackoverflow.com/a/39642986/1772429
 
 JavaScript is one of the most popular languages of the 2010s mainly
 because it is the scripting language of web browsers which, thanks to their ubiquitousness, are becoming
-the platform of choice for user-facing networked applications. JavaScript is a dynamic language.
+the platform of choice for user-facing networked applications. JavaScript is a dynamically typed language.
 Types of program variables are not known before run time.
 The language is often referred to as a "weakly typed" one because the runtime makes many
 implicit type conversions between types. The conversion rules are often inconsistent but are strictly 
@@ -785,13 +798,22 @@ of the term.
 
 **TODO: more on dynamic type system features**
 
-JavaScript's popularity and ubiquitousness prompted organizations to invest in creating a static type system for the language.
+JavaScript's popularity and ubiquitousness prompted organizations to invest in creating a statically checked variants of the language.
 
 #### TypeScript (Microsoft)
 Typescript extends the JavaScript language with optional type annotations and provides a typechecker and transpiler
 for JavaScript programs. Thanks to its type inference, every valid JavaScript program is also a valid TypeScript program
 so it is possible to gradually transform a JavaScript codebase into a TypeScript one.
 
+Optional typing means the programmer can choose to make use of the type checker or not. Type annotated parts of the
+code will be typecheked, the other parts will not.
+In my experience, this tends to make the programmer more lazy. Omitting type annotations can help finish writing a certain part
+of the program faster. The program might even run without error when tested. The problem is that we likely didn't cover all the
+possible execution paths and by "shutting down" the typechecker we made it harder to find the possible inconsistencies in the code.
+The program seems to behave correctly but had we defined types properly, we could have been warned about type errors
+that will now show themselves later at an unexpected time.
+
+**TODO:**
 - https://blog.ambrosebs.com/2018/04/07/unsoundness-in-untyped-types.html
 	- https://users.soe.ucsc.edu/~abadi/Papers/FTS-submitted.pdf (from the above, this is the important one!)
 - https://www.typescriptlang.org/docs/handbook/type-compatibility.html

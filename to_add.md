@@ -9,3 +9,7 @@ Basic tradeoff
 # pfpl
 Thus what is called the void type in many languages is really the type unit because it
 indicates that an expression has no interesting value, not that it has no value at all!
+
+# type system overhead in dynamic languages
+- overhead of type systems during runtime?
+- how much will be visible in the complied program?
