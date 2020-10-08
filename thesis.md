@@ -179,6 +179,27 @@ Our aim when constructing a derivation is to infer the type(s) of an expression.
 that make up the derivation serve as markers for assigning types to the expression at the root of the derivation.
 [@pfpl-2016], [@cardelli-96], [@ranta2012]
 
+## A short history of type systems
+The first type systems appeared in the 1950s, when the designers of the Fortran language wanted to make
+numerical computations more efficient by distinguishing between integer-valued arithmetic expressions
+and real-valued ones. This allowed the compiler to generate the appropriate machine instruction making the
+program more efficient.
+[@tapl], [@tt-oop]
+
+> In the late 1950s and early 1960s, this classification was extended to structured data (arrays of records, etc.)
+> and higher-order functions. In the 1970s, a number of even richer concepts (parametric polymorphism,
+> abstract data types, module systems, and subtyping) were introduced, and type systems emerged as a field in its own right.
+> At the same time, computer scientists began to be aware of the connections between the type systems
+> found in programming languages and those studied in mathematical logic, leading to a rich interplay
+> that continues to the present.
+> [@tapl, p. 10]
+
+**TODO:**
+
+- the different stages of development
+- important innovations
+- timeline
+
 # Type checking
 
 Type checking is the process of deciding whether a term is well typed or not.
@@ -320,12 +341,12 @@ code and since they are verified by the typechecker they cannot drift, they alwa
 > The fact that a language is statically checked does not necessarily mean that execution can proceed entirely blindly.
 > [@cardelli-96, p. 3]
 
-Dynamic (or dynamically typed) languages don't require the programmer to fix the types of the constructs in their programs.
-For example, dynamic languages let us define functions that can accept multiple types. The exact type of the arguments
+In dynamically typed languages the types of program constructs don't have to be associated with a fixed type.
+Such languages let us, for example define functions that can accept multiple types of values. The exact type of the arguments
 will only be known when the program is running and if the types don't match the operations performed
 on them, they only report that at run-time.
-Such languages don't attempt static checks. In order to sustain safety (prevent unintended program behavior) these
-languages p, they instead perform various dynamic (run-time) checks to make sure that the data structures of
+Such languages don't attempt static checks. In order to maintain type safety (prevent unintended program behavior) these
+languages instead perform various dynamic (run-time) checks to make sure that the data structures of
 the program stay consistent. Typical runtime checks include
 
 - division-by-zero checks
@@ -346,9 +367,12 @@ resume program execution after the error was handled. [@wiki-type-systems]
 
 ### Advantages of dynamic languages
 
-#### Productivity, faster prototyping
-Dynamic languages have rapid edit-compile-test cycles. In the absence of a compiler, these languages favor prototyping and
-small scale software development where creating proof-of-concept systems quickly are crucial.
+**TODO: summarize https://vimeo.com/74354480 - Not my favourite talk, but has good points**
+
+#### Quick results
+Dynamic languages have rapid edit-compile-test cycles. In the absence of a pre-runtime type checking phase, these languages favor prototyping and
+agile software development where creating proof-of-concept systems quickly are crucial.
+**TODO: more**
 
 #### Reflection
 > Programs lives in files. To change a system, we must edit these files, recompile them, and restart the system [...]
@@ -382,7 +406,10 @@ To solve the above issues, the reflective capabilities of the language must be s
 
 #### Flexibility
 
-...
+A dynamic type system can help write more modular and decoupled code which may lead to a more flexible design.
+Module boundaries (the types, structures, interfaces that each module expects to see from another one) are not fixed down
+so it becomes possible to "plug in" other modules that may provide the required set of constructs without having to
+match them together. Modifying modules to meet interface requirements of other modules can be done incrementally.
 
 > Dynamic languages are more tolerant to change; code refactors tend to be more localized (they have a smaller area of effect)
 > [@hackernoon-s-vs-d]
@@ -499,27 +526,6 @@ in widspread use, mainly for one reason: performance.
 
 The question arises: are there languages that provide both safety and performance at the same time?
 I'll get back to this when discussing "Type systems and program performance".
-
-# A short history of type systems
-The first type systems appeared in the 1950s, when the designers of the Fortran language wanted to make
-numerical computations more efficient by distinguishing between integer-valued arithmetic expressions
-and real-valued ones. This allowed the compiler to generate the appropriate machine instruction making the
-program more efficient.
-[@tapl], [@tt-oop]
-
-> In the late 1950s and early 1960s, this classification was extended to structured data (arrays of records, etc.)
-> and higher-order functions. In the 1970s, a number of even richer concepts (parametric polymorphism,
-> abstract data types, module systems, and subtyping) were introduced, and type systems emerged as a field in its own right.
-> At the same time, computer scientists began to be aware of the connections between the type systems
-> found in programming languages and those studied in mathematical logic, leading to a rich interplay
-> that continues to the present.
-> [@tapl, p. 10]
-
-**TODO:**
-
-- the different stages of development
-- important innovations
-- timeline
 
 # Related concepts
 
@@ -781,7 +787,7 @@ http://www.cs.cornell.edu/talc/papers.html
 
 ...
 
-### JavaScript
+### JavaScript and static variants
 
 **TODO: safety?**
 	- https://stackoverflow.com/a/25157350/1772429
