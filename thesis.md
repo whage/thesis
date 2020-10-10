@@ -34,9 +34,9 @@ I'll compare the type systems of widely used programming languages and will try 
 give an overview of the possibilities of recent advances in type systems and programming language design.
 
 # Hypotheses
-1. Untyped languages are inferior to typed ones. **Why are types missing from assemblers?**
+1. Untyped languages have no advantages compared to typed ones. **Why are types missing from assemblers?**
 2. Static type checking can measurably increase programmer productivity. **Likely false, there seems to be no evidence**
-3. 
+3. Highly experienced programmers tend to favor statically typed languges. **Likely false, Rich Hickey, Robert Smallshire, who else?**
 
 \pagebreak
 
@@ -102,7 +102,6 @@ Type theory lays down the theoretical foudation for the type systems found in pr
 the typechecking algorithms behind them.
 
 ## Formalization of type systems
-
 > How can we guarantee that well typed programs are really well behaved? [...]
 > Formal type systems are the mathematical characterizations of the informal type systems
 > that are described in programming language manuals. Once a type system is formalized, we can
@@ -116,7 +115,6 @@ discussing formal type systems. Hopefully, by the end of this introduction I'll 
 just enough theoretical foudation that I can also talk about what this leads to in practice.
 
 ### Judgements and rules
-
 An expression is a syntactically correct fragment of a program that can be evaluated to a value.
 Type systems associate expressions with types. We call this the _has type_ relationship:
 $e : M$, where expression $e$ has type $M$. This is called a judgement.
@@ -137,8 +135,9 @@ The collection of such typing rules form the type system of a programming langua
 > Type rules assert the validity of certain judgments on the basis of other judgments that are already
 > known to be valid. The process gets off the ground by some intrinsically valid judgment [@cardelli-96, p. 10]
 
-In a program, the type of a variable can only be decided by looking at its context (or environment) which is defined by
-the declarations of the variables. We can think of context as a lookup table of (variable, type) pairs:
+In a program, the type of a variable can only be decided by looking at its context (or typing environment) which is a
+finite sequence of bindings of program variables to types and is defined by the declarations of the variables.
+We can think of context as a lookup table of (variable, type) pairs:
 
 \begin{equation*}
     x_{1}:A_{1}, \ldots \ x_{n}:A_{n}
@@ -157,7 +156,6 @@ In the standard notaton, context is denoted by the greek letter Gamma:
 Which we read as "expression $e$ has type $T$ in context $\Gamma$".
 
 ### Derivations
-
 > A derivation of a judgment is a finite composition of rules, starting with axioms and ending with
 > that judgment. It can be thought of as a tree in which each node is a rule whose children are
 > derivations of its premises. We sometimes say that a derivation of $J$ is evidence for the validity of
@@ -180,11 +178,26 @@ that make up the derivation serve as markers for assigning types to the expressi
 [@pfpl-2016], [@cardelli-96], [@ranta2012]
 
 ## A short history of type systems
-The first type systems appeared in the 1950s, when the designers of the Fortran language wanted to make
-numerical computations more efficient by distinguishing between integer-valued arithmetic expressions
+The origins of type systems and type theory go back to the early 1900s. Type systems were first formalized as a means to avoid
+Russell's paradox [@wiki-russells]. It was a mathematical framework at first, "a field of study in logic, mathematics, and philosophy"
+as Pierce [@tapl] puts it, with no connection to programming or computers.
+
+> During the twentieth century, types have become standard tools in logic, especially in proof theory [...]
+> and have permeated the language of philosophy and science.
+> [@tapl, p. 1]
+
+The first type systems in programming language context appeared in the 1950s, when the designers of the Fortran (Backus) and Algol-60 (Naur et al.)
+languages wanted to make numerical computations more efficient by distinguishing between integer-valued arithmetic expressions
 and real-valued ones. This allowed the compiler to generate the appropriate machine instruction making the
 program more efficient.
 [@tapl], [@tt-oop]
+
+In the 1960s, the Curry-Howard correspondence was discovered by Haskell Curry and William Alvin Howard.
+It is the direct relationship between computer programs and mathematical proofs, the link between logic and computation.
+[@wiki-curry-howard]
+
+The Pascal programming language with "strong typing" was developed in the 1970s (Wirth), so was Martin Löf's Type Thery
+born and the ML family of languages created.
 
 > In the late 1950s and early 1960s, this classification was extended to structured data (arrays of records, etc.)
 > and higher-order functions. In the 1970s, a number of even richer concepts (parametric polymorphism,
@@ -194,14 +207,9 @@ program more efficient.
 > that continues to the present.
 > [@tapl, p. 10]
 
-**TODO:**
-
-- the different stages of development
-- important innovations
-- timeline
+The 1980s brought existential types, dependent types and effect systems.
 
 # Type checking
-
 Type checking is the process of deciding whether a term is well typed or not.
 A type checker verifies that the constraints posed by the type system are not violated
 by the program. Type checking can be done by automated tools called typecheckers, which are usually
@@ -225,7 +233,6 @@ complains that dynamic languages offer little protection against logical errors 
 happen at runtime. I'll discuss each approach separately in a later section.
 
 ## Type checking algorithms
-
 There are various approaches to type checking but the general idea behind the algorithms is the following:
 
 1. Parse the source code into an "Abstract Syntax Tree" (AST)
@@ -270,6 +277,8 @@ if <complex test> then 5 else <type error>
 
 will always be rejected as ill-typed even if `<complex test>` always evaluates to true, because
 static analysis cannot deftermine that this is the case. [@tapl]
+For this reason, they are often criticized as too rigid: static type systems might reject programs that 
+never produce type errors in practice.
 
 > ... [static typing] ... consists in detecting a
 > large family of errors: the application of operations to objects over which they are not defined [...]
@@ -317,6 +326,15 @@ Type information is also useful in the optimization of method dispatch in object
 > class to which the object belongs is known at compile-time, a more efficient direct invocation of the method code can be
 > generated instead. [@leroy-intro-tic98 p. 1]
 
+The ML Kit compiler features a so called "region inference algorith" which is a static analysis technique
+to examine the lifetime of dynamically allocated values in a prgram that makes it possible to replace garbage collection with
+stack-based memory management. [@region-inference]
+
+> Region inference restores the coupling of allocation and deallocation; after region inference,
+> lifetimes are explicit as block structure in the program, making it easier to reason about memory usage [...]
+> in some cases, the compiler can prove the absence of memory leaks or warn about the possibility of memory leaks
+> [@region-inference, p. 725.]
+
 #### Documentation
 > "The comment is lying!" - senior programmer
 
@@ -336,7 +354,6 @@ code and since they are verified by the typechecker they cannot drift, they alwa
 > It's documentation that doesn't need to be maintained or even written. [@debating-type-systems]
 
 ## Dynamic type checking
-
 > Even statically checked languages usually need to perform tests at run time to achieve safety. [...]
 > The fact that a language is statically checked does not necessarily mean that execution can proceed entirely blindly.
 > [@cardelli-96, p. 3]
@@ -405,7 +422,6 @@ To solve the above issues, the reflective capabilities of the language must be s
 [@revival-2005]
 
 #### Flexibility
-
 A dynamic type system can help write more modular and decoupled code which may lead to a more flexible design.
 Module boundaries (the types, structures, interfaces that each module expects to see from another one) are not fixed down
 so it becomes possible to "plug in" other modules that may provide the required set of constructs without having to
@@ -417,7 +433,6 @@ match them together. Modifying modules to meet interface requirements of other m
 **TODO: consult Rich Hickey for advantages of dynamic languages**
 
 ## Language/type safety
-
 > A safe language is one that protects its own abstractions [...]
 > Every high-level language provides abstractions of machine services. Safety refers to the language’s
 > ability to guarantee the integrity of these abstractions and of higher-level abstractions
@@ -510,7 +525,6 @@ Bonnaire-Sergeant [@uiut] summarizes "preservation" beautifully:
 > and this model should not lose accuracy as the program evaluates.
 
 ### Should languages be safe?
-
 Safety reduces debugging time by adding fail-stop behavior in case of execution erros.
 Many security problems exist because of buffer overflows made possible by unsafe
 casting and pointer arithmetic operations. Languages that provide safety through bounds checking provide protection
@@ -528,19 +542,8 @@ The question arises: are there languages that provide both safety and performanc
 I'll get back to this when discussing "Type systems and program performance".
 
 # Related concepts
-
-In this section I'd like to introduce a few type systems concepts...
-
-**TODO: "existential types", "universal types"?**
-https://stackoverflow.com/a/5520212/1772429
-
-...
-
-## Gradual typing
-**TODO: just a short mention that such things also exist**
-
-Really good article:
-http://wphomes.soic.indiana.edu/jsiek/what-is-gradual-typing/
+In this section I'll introduce a few type systems concepts and their manifestations that have significant
+practical value in common programming languages.
 
 ## Type reconstruction
 Type reconstruction or informally, type inference is the process of automatically (instead of manually, by the programmer) assigning types
@@ -558,9 +561,9 @@ The challenge of type inference is not assigning a type to untyped terms in a pr
 most general and most specific type that could have been declared in the program.
 [@type-inf-ml]
 
-## Polymorphic typing - polymorphism
-**TODO: the "distinct identity function" part should go under parametric polymorphism, no? Maybe not!**
+**TODO: mention some practical examples of type inference**
 
+## Polymorphic typing - polymorphism
 A language, where every expression has a single type is called monomorphic. In such a language
 there is a distinct identity function of each type: $\lambda \ (x : \tau ) \ x$ even though the
 behavior is exactly the same for each choice if $\tau$. Although they all have the same
@@ -628,8 +631,7 @@ can be used wherever the supertype is expected. Subtyping is related to but shou
 Sometimes called "compile-time polymorphism", ... **TODO: continue**
 - https://docs.oracle.com/javase/tutorial/java/generics/index.html
 
-#### Variance
-
+#### Variance **TODO: only when everything else is done. Might dump this topic.**
 - invariance
 - covariance
 - contravariance
@@ -641,12 +643,9 @@ https://en.wikipedia.org/wiki/Covariance_and_contravariance_(computer_science)
 https://en.wikipedia.org/wiki/Covariant_return_type
 
 ## Concrete vs abstract types
-
 Most programming languages differentiate between concrete and abstract types.
 A concrete type corresponds to the concept of a "data structure", a collection of data values and the relationships between them.
 A concrete type in a programming language precisely defines the memory layout of the data that objects of that type hold.
-
-**TODO: some more info on concrete types**
 
 Abstract types correspond to the concept of an "abstract data type" (ADTs) which is a mathematical model of a type.
 An ADT defines a type by its behavior from the point of view of its user. [@wiki-abstract], [@tt-oop]
@@ -667,7 +666,6 @@ Abstract types manifest themself in a number of different ways in programming la
 Abstract types are related to but should not be confused with the general concept of "abstraction".
 
 ## Abstraction and types
-
 Abstraction is the principle of reducing something to its essential characteristics, removing everything that is unnecessary
 to accurately represent it for a particular usage. Abstraction reduces complexity and increases efficiency. [@whatis-abstraction]
 
@@ -703,7 +701,6 @@ to accurately represent it for a particular usage. Abstraction reduces complexit
 - 50:00 great thoughts about the `jmp` machine instruction
 
 ## Run-time type information
-
 > Many programming languages require compiled programs to manipulate some amount
 > of type information at run-time [@leroy-intro-tic98 p. 4] 
 
@@ -713,7 +710,6 @@ to accurately represent it for a particular usage. Abstraction reduces complexit
 > arbitrary data structures and streams of bytes – a crucial mechanism for persistence and distributed programming.
 > [@leroy-intro-tic98 p. 5] 
 
-
 # Part 2: Own research - type systems in programming languages
 
 **TODO: ezeket vizsgálni a nyelveknél:**
@@ -721,14 +717,17 @@ to accurately represent it for a particular usage. Abstraction reduces complexit
 - hogyan jelennek meg a típusok a nyelvben? milyen nyelvi elem(ek) által?
 - milyen kapcsolatokat képes a nyelv modellezni a típusok között? mit jelentenek ezek?
     - Elm tanulás közben jutott eszembe. Ott a típusok "üresnek tűnnek" (egyszerű "type" definíciókban csak neveket adunk meg, metódusok/függvények nem részei a típusdefiníciónak), és mégis sokrétűen lehet őket használni (generikusság, paraméterek)
+- saját tapasztalatok a nyelvvel, type system előnyei/hiányosságai
 ```
 
 **TODO: short intro, why the chosen languages**
 
 **TODO:find what methods are used for comparing type systems**
 
-In the following, I'm going to examine list of programming languages.
-My goal is to introduce a wide range of type systems concepts with concrete examples.
+In the following, I'm going to examine and compare a list of programming languages based on their type system's features.
+My goal is to introduce a wide range of type systems concepts found in real, popular languages.
+For each one, I'll try to highlight one or two key type systems features **and examine how those affect
+writing programs in the language**.
 
 The languages:
 
@@ -754,16 +753,6 @@ I'll focus on their type systems based on material I could find as well as my ow
 Implementing the same program in all these languages with the intent of comparing them would make little sense as they all
 serve different purposes.
 
-**TODO: based on what? need some qualitative approach! how and what to compare?**
-
-...
-
-## Structure, method of analysis
-For each language I'll try to highlight one or two key type systems features and examine how those affect
-writing programs in the language.
-
-... 
-
 ### Assembly
 > [assembly language] is any low-level programming language in which there is a very strong correspondence
 > between the instructions in the language and the architecture's machine code instructions.
@@ -782,13 +771,14 @@ Assemblers don't try to check for matching types. Why has this
 
 **TODO: look into untyped languages, summarize them here!**
 
-Typed Assembly Language papers (from around 1999)
-http://www.cs.cornell.edu/talc/papers.html
+Typed Assembly Language papers (from around 1999) - Morrisett et al.
+	- http://www.cs.cornell.edu/talc/papers.html
+	- https://www.cs.princeton.edu/~dpw/papers/tal-toplas.pdf
+	- https://www.cis.upenn.edu/~stevez/papers/MCGG99.pdf
 
 ...
 
 ### JavaScript and static variants
-
 **TODO: safety?**
 	- https://stackoverflow.com/a/25157350/1772429
 	- https://stackoverflow.com/a/39642986/1772429
@@ -809,9 +799,9 @@ JavaScript's popularity and ubiquitousness prompted organizations to invest in c
 #### TypeScript (Microsoft)
 Typescript extends the JavaScript language with optional type annotations and provides a typechecker and transpiler
 for JavaScript programs. Thanks to its type inference, every valid JavaScript program is also a valid TypeScript program
-so it is possible to gradually transform a JavaScript codebase into a TypeScript one.
+so it is possible to gradually transform a JavaScript codebase into a TypeScript one. Such languages are said to be gradually typed.
 
-Optional typing means the programmer can choose to make use of the type checker or not. Type annotated parts of the
+Gradual typing means the programmer can choose to make use of the type checker or not. Type annotated parts of the
 code will be typecheked, the other parts will not.
 In my experience, this tends to make the programmer more lazy. Omitting type annotations can help finish writing a certain part
 of the program faster. The program might even run without error when tested. The problem is that we likely didn't cover all the
@@ -833,7 +823,6 @@ It includes a type checker that can read specifically formatted comment sections
 contain typing information.
 
 #### Flow (Facebook) https://flow.org/en/docs/lang/
-
 **TODO: why add a static type system?**
 
 **TODO: read through [@type-or-not-js]**
@@ -841,17 +830,15 @@ contain typing information.
 [@type-or-not-js]
 
 ### Python
-
 Python features a dynamic type system. It is usually called a "strongly typed" language because even
 though its type system doesn't enforce strict typing rules at compile type it is strict about what operations
 are allowed on what types during run time and it will rarely do automatic type conversions.
 
 #### Optional type annotations in Python 3
-
 Even though Python 3 is dynamically typed, the language allows optional "type hints" which are similar to
 type declarations in languages like Java. These annotations may be used together with type checkers like `mypy`,
 `pyre-check` or `pytype` [@py-type]. The programmer is free to annotate only parts of the source code.
-The Python 3 runtime itself doesn't typecheck the type hints. Thanks to python's dynamic nature,
+The Python 3 runtime itself doesn't typecheck the type hints. Due to python's dynamic nature,
 the following code will be executed without any errors in Python 3.5.2:
 
 ~~~{.python}
@@ -878,7 +865,6 @@ or deleted altogether. Objects can change class, classes can change base classes
 The excessive dynamism of the language makes it hard to do static analysis and early error detection on python code. [@dynamic-python]
 
 ### C
-
 - procedural, not OOP!
 - lots of missing type system features
 - what does C have in place of all the OOP concepts?
@@ -900,7 +886,6 @@ Union types
 `untagged unions`: https://golang.org/doc/faq#unions
 
 ### C++
-
 Examining C++ after C is a good way of demonstrating ...
 
 TODO: list major type system features that C++ adds to C
@@ -928,7 +913,6 @@ Dynamic binding and polymorphism
 https://rcweb.dartmouth.edu/doc/ibmcxx/en_US/doc/language/concepts/cndbpoly.htm
 
 ### Java
-
 Java is a statically typed, "safe" language. **TODO: why safe?**
 	- `not?`: https://www.cis.upenn.edu/~bcpierce/courses/629/papers/Saraswat-javabug.html
 
@@ -946,13 +930,11 @@ http://www.angelikalanger.com/GenericsFAQ/FAQSections/Fundamentals.html
 Unified type system (maybe only for C#?): https://en.wikipedia.org/wiki/Comparison_of_C_Sharp_and_Java#Unified_type_system
 
 #### Type erasure
-
 **TODO: https://en.wikipedia.org/wiki/Generics_in_Java#Problems_with_type_erasure**
 
 ...
 
 #### Other JVM-based languages
-
 There are other languages, some quite popular that also use the JVM runtime but are wildly different from Java with
 regards to their type systems.
 
@@ -960,7 +942,6 @@ regards to their type systems.
 - Scala
 
 ### Clojure (LISP family)
-
 **TODO: look up some articles/papers on Clojure's type system and dynamic model**
 
 - also JVM based
@@ -970,9 +951,8 @@ regards to their type systems.
 Lisp type system: https://lispcookbook.github.io/cl-cookbook/type.html
 
 ### GO
-
 Developed by progamming language veterans at Google, GO features an interesting combination of stong static typing,
-first class support for concurrency and an object oriented style built around composition.
+first class support for concurrency and an object oriented style built around composition instead of inheritance.
 
 **TODO: https://thenewstack.io/understanding-golang-type-system/**
 
@@ -1023,13 +1003,11 @@ Go's type system extends to its concurrency model. The language has first class 
 for manipulating _channels_. Channels are typed conduits through which we can send and receive values.
 
 #### Type assertions vs type conversions
-
 https://tour.golang.org/methods/15
 https://stackoverflow.com/a/20494572/1772429
 https://groups.google.com/d/msg/golang-nuts/dwSPKq9YDso/xJMn4qgttGoJ
 
 ### ML family - OCaml, Haskell, F#, Elm
-
 The ML family of languages are the prominent representatives of the functional paradigm.
 **TODO: 1-2 sentence about "functional"**
 
@@ -1066,6 +1044,8 @@ This can be a source of much frustration but as tiresome it may seem, the result
 This is because the type system creates a solid underlying structure to the program.
 At first sight the language seems hostile to the programmer, but as our code grows in complexity, the warnings of the type checker
 become more and more valuable. We are not doing more work, we just do more of the work _before_ we ship our software.
+
+...
 
 Types in elm feel extremely lightweight. They are almost just labels on the underlying data. **TODO: revise, expand!**
 https://medium.com/elm-shorts/an-intro-to-constructors-in-elm-57af7a72b11e
@@ -1114,7 +1094,6 @@ of a composite type and allow the type system to check whether we we covered all
 > Algebraic data types allows sums as well as products, whereas OO-style classes only allow products.
 
 ### Agda / Idris / Coq
-
 **TODO: take a look at them, decide which one to focus on**
 
 Agda might be an outlier in this list, but I definitely wanted to include it and talk about its facilities.
@@ -1153,7 +1132,6 @@ The scalar values that the types depend on must not be constant values...
 ...
 
 ### Rust
-
 https://www.youtube.com/watch?v=2wZ1pCpJUIM
 - rust part begins at `25:05`
 - algebraic data types `29:40`
