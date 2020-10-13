@@ -752,8 +752,7 @@ I'll focus on their type systems based on material I could find as well as my ow
 
 ...
 
-Implementing the same program in all these languages with the intent of comparing them would make little sense as they all
-serve different purposes.
+**TODO: write about MY experience with every language!**
 
 ### Assembly
 > [assembly language] is any low-level programming language in which there is a very strong correspondence
@@ -1032,11 +1031,11 @@ from [@abrahamson-quora]
 **TODO: Ad-hoc polymorphism and Type classes**
 ad-hoc: https://stackoverflow.com/a/42417159/1772429
 
+**TODO: why are there no runtime errors? For which ML language is this true? Is it true for Elm? Why?**
+
 #### Elm
 **Elm's type system: https://elmprogramming.com/type-system.html**
 **TODO: get inspired by Elm custom types: https://guide.elm-lang.org/types/custom_types.html**
-
-**TODO: write about MY experience with every other language!**
 
 #### My Elm experience
 As a beginner Elm user, programming in the language feels very much like a fight, or rather an argument with the typechecker.
