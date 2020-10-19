@@ -7,15 +7,19 @@
 \pagenumbering{arabic} 
 
 # Introduction, personal motivation {-}
-The first languages I worked with were dynamic scripting languages. Software development
-was a process of trial-and-error with the error part happening only when I ran my programs. 
+The first programming languages that got me into programming were dynamic scripting languages. Writing software
+in such languages was a process of trial-and-error with a lot of uncertainty even after I ran my programs.
+
+**TODO: rephrase!**
 When I first started using statically typed languages it was more difficult but also much more rewarading.
 The static type system helped write code more effectively and more confidently.
 It forced me to think more thoroughly, it gave me confidence when changing parts of the program.
 It was much more pleasant to write software like this.
+
+
 I became more and more interested in the possibilities of static checking and type systems.
 I started wondering what features can programming languages provide to increase
-programmer productivity and software quality.
+programmer productivity and improve software quality.
 This curiosity led me to choosing type systems as the topic of this work.
 
 My goal with this thesis is to gain a more fundamental understanding of the semantics of programming languages,
