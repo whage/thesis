@@ -1,10 +1,3 @@
----
-title: "A survey of type systems in programming languages"
-subtitle: "Óbudai Egyetem - Neumann János Informatikai Kar, mérnökinformatikus szak"
-author: "András Sallai"
-date: "2019"
-keywords: [Type systems, Programming languages]
-...
 \pagenumbering{gobble}
 \pagebreak
 
@@ -13,7 +6,7 @@ keywords: [Type systems, Programming languages]
 \pagebreak
 \pagenumbering{arabic} 
 
-# Introduction, personal motivation
+# Introduction, personal motivation {-}
 The first languages I worked with were dynamic scripting languages. Software development
 was a process of trial-and-error with the error part happening only when I ran my programs. 
 When I first started using statically typed languages it was more difficult but also much more rewarading.
@@ -32,10 +25,10 @@ I'll look at how type systems evolved, and how they can be categorized.
 I'll compare the type systems of widely used programming languages and will try to
 give an overview of the possibilities of recent advances in type systems and programming language design.
 
-# Hypotheses
-1. Untyped languages have no advantages compared to typed ones. **Why are types missing from assemblers?**
-2. Static type checking can measurably increase programmer productivity. **Likely false, there seems to be no evidence**
-3. Highly experienced programmers tend to favor statically typed languges. **Likely false, Rich Hickey, Robert Smallshire, who else?**
+# Hypotheses {-}
+1. Untyped languages have no advantages compared to typed ones. **TODO: Why are types missing from assemblers?**
+2. Static type checking can measurably increase programmer productivity. **TODO: Likely false, there seems to be no evidence**
+3. Highly experienced programmers tend to favor statically typed languges. **TODO: Likely false, Rich Hickey, Robert Smallshire, who else?**
 
 \pagebreak
 
@@ -495,12 +488,11 @@ resume program execution after the error was handled. [@wiki-type-systems]
 
 ### Advantages of dynamic languages
 
-**TODO: summarize https://vimeo.com/74354480 - Not my favourite talk, but has good points**
-
-#### Quick results
-Dynamic languages have rapid edit-compile-test cycles. In the absence of a pre-runtime type checking phase, these languages favor prototyping and
+#### Easy to write and read
+Dynamic languages have rapid edit-compile-test cycles (compilation usually happens while the program is already running).
+In the absence of a pre-runtime type checking phase, these languages favor prototyping and
 agile software development where creating proof-of-concept systems quickly are crucial.
-**TODO: more**
+The code is free of type annotations and casting which makes it easier to write and read which can help maintainability.
 
 #### Reflection
 > Programs lives in files. To change a system, we must edit these files, recompile them, and restart the system [...]
@@ -534,14 +526,13 @@ To solve the above issues, the reflective capabilities of the language must be s
 
 #### Flexibility
 A dynamic type system can help write more modular and decoupled code which may lead to a more flexible design.
+Dynamic typing encourages "generic code", code that is not "tightened down", free of fixed types that helps to think more abstractly.
 Module boundaries (the types, structures, interfaces that each module expects to see from another one) are not fixed down
 so it becomes possible to "plug in" other modules that may provide the required set of constructs without having to
 match them together. Modifying modules to meet interface requirements of other modules can be done incrementally.
 
 > Dynamic languages are more tolerant to change; code refactors tend to be more localized (they have a smaller area of effect)
 > [@hackernoon-s-vs-d]
-
-**TODO: consult Rich Hickey for advantages of dynamic languages**
 
 # Related concepts
 In this section I'll introduce a few type systems concepts and their manifestations that have significant
@@ -563,7 +554,10 @@ The challenge of type inference is not assigning a type to untyped terms in a pr
 most general and most specific type that could have been declared in the program.
 [@type-inf-ml]
 
-**TODO: mention some practical examples of type inference**
+By utilizing type inference, code written in the language can be more concise and more easily understandable.
+Having to spell out complex types can be a burden and can hurt readability and often provide no benefit.
+Type inference seems to be the golden mean: making static type checking possible while not enforcing the programmer
+to be explicit about their types.
 
 ## Polymorphic typing - polymorphism
 A language, where every expression has a single type is called monomorphic. In such a language
@@ -575,33 +569,22 @@ behavior when executed, each choice requires a different program. [@pfpl-2016]
 > the concept of polymorphism is central to an impressive variety of seemingly disparate concepts [...]
 > [@pfpl-2016 p. 141.]
 
+Polymorphism is the concept of having internally different objects that provide the same interface.
+Even though they implement different behaviour, they look the same from the outside and so they can be used
+interchangeably.
+
 To facilitate code-reuse, most programming languages feature a polymorphic type system.
 A polymorphic languages are those of which the type systems allows different data types to be handled
 in a uniform interface. [@ots-2008] Stated more simply: in a polymorphic language, a program fragment
 may have multiple types. There are different kinds of polymorphisms, I will look at each of them in
 more detail below.
 
-Polymorphism is the concept of having internally different objects that provide the same interface.
-Even though they implement different behaviour, they look the same from the outside and so they can be used
-interchangeably. This frees their users (other entities in the program that use them) from having to differentiate
-between them and allows them to ... **TODO: finish note**
-
-**TODO: find some good parts in this: (Robin Milner, Turing Award winner, paper from 1983)**
-
-https://homepages.inf.ed.ac.uk/wadler/papers/papers-we-love/milner-type-polymorphism.pdf
-
-**TODO: summarize thoughts in this link**
-
-http://www.cs.cornell.edu/info/projects/nuprl/book/node177.html
-
-### Ad-hoc polymorphism - Interfaces
+### Ad-hoc polymorphism - Interfaces, overloading
 Ad-hoc polymorphism is when we can define a common interface for an arbitrary set of individually specified types.
-The typical example are interfaces in most OOP languages. The types that implement the interface may not otherwise be related.
-[@wiki-polymorphism]
-
-- https://en.wikipedia.org/wiki/Polymorphism_(computer_science)
-- https://xavierleroy.org/bibrefs/Leroy-unboxed.html
-- https://en.wikipedia.org/wiki/Type_system#Polymorphism_and_types
+The typical example are interfaces and method overloading in most OOP languages.
+In case of interfaces, the types that implement the interface may not otherwise be related, hence the word, "ad-hoc". [@wiki-polymorphism]
+Method overloading is the provision of different implementations depending on the type of arguments the method (function) is called on
+and this can happen statically or dynamicall. [@tapl]
 
 #### Structural vs Nominal typing
 Structural typing is a way of relating types based solely on their members. Structural typing requires
@@ -626,12 +609,19 @@ Subtype polymorphism or runtime polymorphism is the process of taking a type (th
 and defining a more specialised type (the subtype) based on it by extending it with functionality or
 overriding some parts to facilitate code reuse.
 The subtype is related to the supertype by the notion of substitutability which means that in a program the subtype
-can be used wherever the supertype is expected. Subtyping is related to but should not be confused with inheritance.
-[@wiki-subtyping]
+should be able to be used wherever the supertype is expected. [@wiki-subtyping]
+In most classical object oriented languages subtyping is tied to inheritance in the form of class hierarchies.
+Class hierarchies together with method overriding (providing different or extended implementations in child classes)
+is the primary vehicle of subtype polymorphism that is made possible by dynamic method dispatch.
 
 ### Parametric polymorphism - Generics
-Sometimes called "compile-time polymorphism", ... **TODO: continue**
-- https://docs.oracle.com/javase/tutorial/java/generics/index.html
+Sometimes called "compile-time polymorphism", parametric polymorphism means that concrete types are abstracted away
+from the implementation and type parameters (or type arguments) are used instead. This way type checking can still be done
+based on type variables while providing flexibility since they can take on any type as long as that type is used
+consistently within the scope of the type parameters. The simplest use case for parametric polymorphism is implementing
+generic "container" types in statically typed languages where the emphasis is not on the type of the values in the container
+but instead on their consistent use within the container (generic lists, generic tuples). The typechecker can aid
+in enforcing the consistent usage without dictating the exact types of the values.
 
 #### Variance **TODO: only when everything else is done. Might dump this topic.**
 - invariance
@@ -663,7 +653,6 @@ Abstract types manifest themself in a number of different ways in programming la
 - interfaces
 - abstract classes
 - pure virtual functions
-- **TODO: what else?**
 
 Abstract types are related to but should not be confused with the general concept of "abstraction".
 
@@ -942,8 +931,10 @@ regards to their type systems.
 - Groovy
 - Scala
 
-### Clojure (LISP family)
+### Clojure, Racket (LISP family)
 **TODO: look up some articles/papers on Clojure's type system and dynamic model**
+
+**TODO: clojure vid: https://www.infoq.com/presentations/Clojure-The-Art-of-Abstraction/**
 
 - also JVM based
 - dynamic
@@ -1016,6 +1007,9 @@ The ML family of languages are the prominent representatives of the functional p
 
 **TODO: no exceptions seem to be needed in these languages. true? why?**
 
+**TODO: write about why it is hard to work with untyped data (JSON APIs) in Elm**
+	some good thoughts: https://lispcast.com/clojure-and-types/#json-and-adts
+
 from [@abrahamson-quora]
 
 - sum types,
@@ -1036,6 +1030,12 @@ ad-hoc: https://stackoverflow.com/a/42417159/1772429
 #### Elm
 **Elm's type system: https://elmprogramming.com/type-system.html**
 **TODO: get inspired by Elm custom types: https://guide.elm-lang.org/types/custom_types.html**
+
+#### Haskell
+
+> Haskell was designed as a lingua franca for functional programming research and type theory research.
+> It famously “avoids success at all costs” by sticking to its principles of purity and typeability.
+> [@clojure-and-types]
 
 #### My Elm experience
 As a beginner Elm user, programming in the language feels very much like a fight, or rather an argument with the typechecker.
@@ -1159,12 +1159,18 @@ https://github.com/doctorn/micro-mitten
 ...
 
 ## Summary
-In my own experience, a statically typed language is clearly a better tool for writing good, working software.
-I am surprised at the lack of evidence that can back this claim. **TODO: revise!**
+In my own experience, a statically typed language is a better tool for writing good, working software.
+I am surprised at the lack of evidence that can back this claim.
+In my view (which might change in the future) dynamic languages do have their place which is small-scale sofware development, typically small services
+or scripts that are not expected to grow much. The small size usually means a smaller "input space", less things to go wrong
+and less things in which a static type system might really help and on the other hand, being free from type constraints
+increases the speed of development.
+Dynamic languages offer a low barrier to entry and agility that provides quick results with short development times.
 
-Dynamic languages offer a low barrier to entry and apparent agility that provides quick results with short development times.
-Many originally dynamic languages (javascript, python, ruby, php) however added support for some form of optional typing later in their
-development. **TODO: revise!**
+Many originally dynamic languages (javascript, python, ruby, php) seem to be adding support for some form of optional typing later in their
+development, this suggests a dissatisfaction with dynamic typing as projects grow larger.
+
+**TODO: continue!**
 
 # Suggestions for further research
 

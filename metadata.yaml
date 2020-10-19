@@ -1,4 +1,17 @@
 ---
+title: |
+  A survey of type systems in programming languages
+  \break\break\break\break
+  ![](obudai.png){width=1in}
+author: |
+  Óbuda University  
+  John von Neumann faculty of informatics  
+date: |
+  András Sallai
+  \break
+  \break
+  2020
+keywords: [Type systems, Programming languages]
 numbersections: true
 link-citations: true
 ---
