@@ -8,7 +8,7 @@
 
 # Introduction, personal motivation {-}
 The first programming languages that got me into programming were dynamic scripting languages. Writing software
-in such languages was a process of trial-and-error with a lot of uncertainty even after I ran my programs.
+in those was a process of trial-and-error with a lot of uncertainty even after I ran my programs.
 
 **TODO: rephrase!**
 When I first started using statically typed languages it was more difficult but also much more rewarading.
@@ -32,7 +32,7 @@ give an overview of the possibilities of recent advances in type systems and pro
 # Hypotheses {-}
 1. Untyped languages have no advantages compared to typed ones. **TODO: Why are types missing from assemblers?**
 2. Static type checking can measurably increase programmer productivity. **TODO: Likely false, there seems to be no evidence**
-3. Highly experienced programmers tend to favor statically typed languges. **TODO: Likely false, Rich Hickey, Robert Smallshire, who else?**
+3. More experienced programmers tend to favor statically typed languges. **TODO: Likely false, Rich Hickey, Robert Smallshire, who else?**
 
 \pagebreak
 
