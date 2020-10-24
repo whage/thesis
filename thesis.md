@@ -7,21 +7,15 @@
 \pagenumbering{arabic} 
 
 # Introduction, personal motivation {-}
-The first programming languages that got me into programming were dynamic scripting languages. Writing software
-in those was a process of trial-and-error with a lot of uncertainty even after I ran my programs.
-
-**TODO: rephrase!**
-When I first started using statically typed languages it was more difficult but also much more rewarading.
+I started programming with dynamic scripting languages. Writing software in those involved lots of trial and
+error, edit-run-debug cycles with a lot of uncertainty even after I successfully ran my programs.
+My first real exposure to statically typed languages was at the university and it was C# and Java.
+First they felt slow and hard to work with but it didn't take long until I started feeling the benefits.
 The static type system helped write code more effectively and more confidently.
 It forced me to think more thoroughly, it gave me confidence when changing parts of the program.
-It was much more pleasant to write software like this.
-
-
 I became more and more interested in the possibilities of static checking and type systems.
-I started wondering what features can programming languages provide to increase
-programmer productivity and improve software quality.
-This curiosity led me to choosing type systems as the topic of this work.
-
+I started wondering what features can programming languages provide to increase programmer productivity
+and improve software quality. This curiosity led me to choosing type systems as the topic of this work.
 My goal with this thesis is to gain a more fundamental understanding of the semantics of programming languages,
 the structures and algorithms behind them.
 First, I'll survey the history and theoretical background of type systems.
@@ -32,11 +26,11 @@ give an overview of the possibilities of recent advances in type systems and pro
 # Hypotheses {-}
 1. Untyped languages have no advantages compared to typed ones. **TODO: Why are types missing from assemblers?**
 2. Static type checking can measurably increase programmer productivity. **TODO: Likely false, there seems to be no evidence**
-3. More experienced programmers tend to favor statically typed languges. **TODO: Likely false, Rich Hickey, Robert Smallshire, who else?**
+3. Using statically typed languages results in more reliable software.
 
 \pagebreak
 
-# Type systems - review of literature
+# Type systems
 > Modern software engineering recognizes a broad range of formal methods for helping ensure that a system behaves correctly [...]
 > by far the most popular and best established lightweight formal methods are type systems.
 > [@tapl, p. 1]
@@ -350,14 +344,6 @@ There are various approaches to type checking but the general idea behind the al
 
 In the next section I'll give a brief overview of static and dynamic languages highlighting the differences and will later go into much more
 detail when surveying my selected list of programming languages.
-
-**TODO: https://danluu.com/empirical-pl/**
-	- A Large-Scale Study of Programming Languages and Code Quality in GitHub
-		- see what they mean by "strong/weak typing"
-	- 0install: Replacing Python; Leonard, T., pt2, pt3
-	- The Unreasonable Effectiveness of Dynamic Typing for Practical Programs
-	- Do Developers Benefit from Generic Types?
-		- https://scihub.wikicn.top/10.1145/2509136.2509528
 
 ## Static type checking
 Programmers make errors. Advanced programming languages should allow the automatic checking of inconsistencies
