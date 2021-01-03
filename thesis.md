@@ -318,8 +318,9 @@ by the program. Type checking can be done by automated tools called typecheckers
 built into compilers or linkers. [@debating-type-systems]
 
 There are two main branches of languages with regards to type checking (or "typing"): static and dynamic.
-Statically typed languages carry out type checking before the program is actually run.
-Dynamically typed languages do type checking during run-time. Both sides have their advantages and disadvantages.
+Statically typed languages, where variables have a "static" or "unchangeable" type, carry out type checking before the program is actually run.
+Dynamically typed languages do type checking during run-time, since variables may change their types during program execution.
+Both sides have their advantages and disadvantages.
 
 > The debate regarding the advantages and drawbacks of static or dynamic type systems is
 > ongoing in both academia and the software industry. While statically typed programming
@@ -706,7 +707,7 @@ to accurately represent it for a particular usage. Abstraction reduces complexit
 **TODO:find what methods are used for comparing type systems**
 
 In the following, I'm going to examine and compare a list of programming languages based on their type system's features.
-My goal is to introduce a wide range of type systems concepts found in real, popular languages.
+My goal is to introduce a range of type systems concepts found in real, popular languages.
 For each one, I'll try to highlight one or two key type systems features **and examine how those affect
 writing programs in the language**.
 
@@ -1004,7 +1005,7 @@ from [@abrahamson-quora]
 
 - sum types,
 - purity,
-- effect types,
+- effect types, effect systems: https://www.stephendiehl.com/posts/exotic03.html
 - quantified/generic types,
 - quantified modules,
 - region types,
@@ -1141,16 +1142,25 @@ high-performance but unsafe languages like C and C++ by promising both memory sa
 - immutability
 - etc
 
+**TODO: read "Ownership" part, see linked paper: https://hacks.mozilla.org/2019/01/fearless-security-memory-safety/**
+**TODO: the linked paper: "affine type system": https://gankra.github.io/blah/linear-rust/**
+
 **TODO: nice paper: https://sergio.bz/docs/rusty-types-2016.pdf**
 
 https://github.com/doctorn/micro-mitten
 > "Like Rust, micro-mitten offers a static approach to memory management"
 
+**TODO: Option, Result types, "variants", "borrows", "lifetimes": https://fasterthanli.me/articles/a-half-hour-to-learn-rust**
+**TODO: how do the above fit into the type system?**
+
 ...
 
 ## Summary
 In my own experience, a statically typed language is a better tool for writing good, working software.
-I am surprised at the lack of evidence that can back this claim.
+I am surprised by the lack of evidence that can back this claim. In fact, all the studies I could find conclude that there is no objective, measurable
+difference between the quality of software produced with dynamicall or statically typed languages.
+This suggests that it is a matter of personal taste that someone might feel more productive or confident with one or the other.
+
 In my view (which might change in the future) dynamic languages do have their place which is small-scale sofware development, typically small services
 or scripts that are not expected to grow much. The small size usually means a smaller "input space", less things to go wrong
 and less things in which a static type system might really help and on the other hand, being free from type constraints
