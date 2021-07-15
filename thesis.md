@@ -7,26 +7,27 @@
 \pagenumbering{arabic} 
 
 # Introduction, personal motivation {-}
-I started programming with dynamic scripting languages. Writing software in those involved lots of trial and
-error, edit-run-debug cycles with a lot of uncertainty even after I successfully ran my programs.
-My first real exposure to statically typed languages was at the university and it was C# and Java.
-First they felt slow and hard to work with but it didn't take long until I started feeling the benefits.
-The static type system helped write code more effectively and more confidently.
+I started programming with dynamic scripting languages. Writing software in such languages involves lots of trial and
+error, edit-run-debug cycles with a lot of uncertainty even after successful program execution.
+My first real exposure to statically typed languages was at the university with C# and Java.
+At first, these felt slow and hard to work with but it didn't take long until I started seeing their benefits.
+Their static type systems helped me write code more effectively and more confidently.
 It forced me to think more thoroughly, it gave me confidence when changing parts of the program.
-I became more and more interested in the possibilities of static checking and type systems.
+I became more and more interested in staticly typed languages, the possibilities of static checking and type systems.
 I started wondering what features can programming languages provide to increase programmer productivity
 and improve software quality. This curiosity led me to choosing type systems as the topic of this work.
 My goal with this thesis is to gain a more fundamental understanding of the semantics of programming languages,
 the structures and algorithms behind them.
 First, I'll survey the history and theoretical background of type systems.
 I'll look at how type systems evolved, and how they can be categorized.
+I'll demonstrate, through example programs the benefits of static type systems.
 I'll compare the type systems of widely used programming languages and will try to
 give an overview of the possibilities of recent advances in type systems and programming language design.
 
 # Hypotheses {-}
-1. Untyped languages have no advantages compared to typed ones. **TODO: Why are types missing from assemblers?**
-2. Static type checking can measurably increase programmer productivity. **TODO: Likely false, there seems to be no evidence**
-3. Using statically typed languages results in more reliable software.
+1. Static type checking can measurably increase programmer productivity. **TODO: Likely false, there seems to be no evidence**
+2. Using statically typed languages results in more reliable software.
+3. Despite their advantages, languages featuring advanced type systems are rarely used in the industry because of cultural reasons.
 
 \pagebreak
 
@@ -45,7 +46,7 @@ A type defines a range of values as well as possible operations on instances of 
 
 The main purpose of type systems is to reduce possibilities for bugs in computer programs.
 The type system associates a type with each value in the program and then by examining the flow of these values
-attempts to prove that no operation violates them.
+attempts to prove that no operation violates its rules.
 
 Such a violation is called a type error. It is an inconsistency in a program according to the type system's rules.
 Exactly what constitutes a type error is defined by the type system of the language.
@@ -59,7 +60,7 @@ Languages where variables can be given (nontrivial) types are called typed langu
 Languages that don't restrict the range of variables are called untyped languages. In these languages, invalid operations
 might be applied to values which could result in a fixed value, a fault, an exception or an unspecified effect.
 
-Typed languages can enforce good behavior by performing static (i.e. compile time) checks to prevent ill typed
+Typed languages can enforce good behavior by performing static (without executing the program) checks to prevent ill typed
 programs from ever running. Untyped languages can enforce good behavior by performing sufficiently detailed
 runtime checks to rule out errors. For example, they may check array bounds or division operations and generate
 recoverable exceptions. This checking process during runtime is called dynamic checking.
@@ -76,6 +77,12 @@ prove that our programs behave correctly. Advanced, sophisticated type systems a
 a finer, more precise structure and thus more properties of our sofware may be proven by automated tools
 and more optimization may be carried out to improve performance.
 
+
+https://lexi-lambda.github.io/blog/2020/01/19/no-dynamic-type-systems-are-not-inherently-more-open/
+https://softwareengineering.stackexchange.com/questions/333643/what-is-a-type-system
+https://thevaluable.dev/type-system-explained/
+
+
 ## Type theory
 Type theory is a branch of mathematical symbolic logic: a system of representing logical expressions
 through the use of symbols. It was concieved in the beginning of the 20th century by Bertrand Russell
@@ -88,7 +95,7 @@ are formal systems which means they define rules for inferring theorems (stateme
 > symbols, that describes the introduction of types and their terms, and computations with these, in a sensible way.
 > [@ncatlab-tt]
 
-Type theory lays down the theoretical foudation for the type systems found in programming languages and
+Type theory lays down the theoretical foundation for the type systems found in programming languages and
 the typechecking algorithms behind them.
 
 ## Formalization of type systems
@@ -101,8 +108,7 @@ the typechecking algorithms behind them.
 
 Most materials on the formalization of type systems are dense and get very abstract quickly.
 Here, I'd like to briefly introduce the basic concepts and standard notation used when
-discussing formal type systems. Hopefully, by the end of this introduction I'll have presented
-just enough theoretical foudation that I can also talk about what this leads to in practice.
+discussing formal type systems.
 
 ### Judgements and rules
 An expression is a syntactically correct fragment of a program that can be evaluated to a value.
@@ -152,7 +158,7 @@ Which we read as "expression $e$ has type $T$ in context $\Gamma$".
 > an inductively defined judgment $J$.
 > [@pfpl-2016, p. 15]
 
-If we can constrcut a derivation for a judgement then we can say that the judgement is valid.
+If we can construct a derivation for a judgement then we can say that the judgement is valid.
 
 Once the inference rules are constructed, a type checking algorithm can take a program and
 through constructing derivations decide if the program is well typed or not. If a program fragment
@@ -526,8 +532,16 @@ match them together. Modifying modules to meet interface requirements of other m
 > [@hackernoon-s-vs-d]
 
 # Related concepts
-In this section I'll introduce a few type systems concepts and their manifestations that have significant
-practical value in common programming languages.
+In this section I'll introduce a few type systems concepts and their manifestations that have practical value in common programming languages.
+
+===
+===
+===
+**IDEA: create small programs for each concept in this section instead of examining languages at Section II separately!**
+===
+===
+===
+
 
 ## Type reconstruction
 Type reconstruction or informally, type inference is the process of automatically (instead of manually, by the programmer) assigning types
@@ -764,16 +778,16 @@ Typed Assembly Language papers (from around 1999) - Morrisett et al.
 	- https://stackoverflow.com/a/25157350/1772429
 	- https://stackoverflow.com/a/39642986/1772429
 
-JavaScript is one of the most popular languages of the 2010s mainly
-because it is the scripting language of web browsers which, thanks to their ubiquitousness, are becoming
+JavaScript is one of the most popular languages of the 2010s mainly because it is the scripting language of web browsers which are becoming
 the platform of choice for user-facing networked applications. JavaScript is a dynamically typed language.
 Types of program variables are not known before run time.
 The language is often referred to as a "weakly typed" one because the runtime makes many
-implicit type conversions between types. The conversion rules are often inconsistent but are strictly 
-specified. Because of these inconsistencies, people often refer to JavaScript as not being "type safe" in a loose meaning
-of the term.
-
-**TODO: more on dynamic type system features**
+implicit type conversions (also called "coercion") between types. The conversion rules are often inconsistent but are strictly 
+specified. The language features a `===` operator which is used for strict equality without type coercion and a `==` one
+that coerces its operands according to some rules before comparing them. This loose attitude towards types offers a lot of flexibility
+but it is also dangerous: run-time values will still have types but since nothing checked their consistent use, every possible error
+will happen during program execution when even the best case would be a program crash and at the worst case, an erroneous computation
+that goes unnoticed.
 
 JavaScript's popularity and ubiquitousness prompted organizations to invest in creating a statically checked variants of the language.
 
@@ -1022,6 +1036,8 @@ ad-hoc: https://stackoverflow.com/a/42417159/1772429
 **Elm's type system: https://elmprogramming.com/type-system.html**
 **TODO: get inspired by Elm custom types: https://guide.elm-lang.org/types/custom_types.html**
 
+**TODO: type and type alias differences**
+
 #### Haskell
 
 > Haskell was designed as a lingua franca for functional programming research and type theory research.
@@ -1048,15 +1064,15 @@ https://elmprogramming.com/type-system.html
 	- it almost feels like pair programming
 - it is the type system that makes it possible for the compiler to produce such helpful messages!
 
-```
 Ezen pedig gondolkodni, kifejteni:
-
+```
 type Result error value
     = Ok value
     | Err error
 
-Itt error és value mintha típus paraméterek lennének, de úgy tudom, állhatna ott konkrét típus (vagy talán még value is?). Mikor mi? Mi a különbség az egyes esetek között? Ha ez a generikusság megfelelője Elm-ben, akkor ki kéne fejteni, hogy pl C#-ban hogy volt ez. Ott lehet mixelni típus paraméterrel konkrét típusokat?
 ```
+Itt error és value mintha típus paraméterek lennének, de úgy tudom, állhatna ott konkrét típus (vagy talán még value is?). Mikor mi? Mi a különbség az egyes esetek között? Ha ez a generikusság megfelelője Elm-ben, akkor ki kéne fejteni, hogy pl C#-ban hogy volt ez. Ott lehet mixelni típus paraméterrel konkrét típusokat?
+C#: https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/generics/constraints-on-type-parameters
 
 https://package.elm-lang.org/packages/elm-lang/core/5.1.1/Json-Decode#map
 > Note: If you run out of map functions, take a look at elm-decode-pipeline which makes it easier
@@ -1141,6 +1157,8 @@ high-performance but unsafe languages like C and C++ by promising both memory sa
 	-ownership: a novel system whereby it can statically determine when a memory object is no longer in use
 - immutability
 - etc
+
+**TODO: writing unsafe programs in rust: (un)safety, subtyping, variance: https://doc.rust-lang.org/nomicon/**
 
 **TODO: read "Ownership" part, see linked paper: https://hacks.mozilla.org/2019/01/fearless-security-memory-safety/**
 **TODO: the linked paper: "affine type system": https://gankra.github.io/blah/linear-rust/**
