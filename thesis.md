@@ -531,13 +531,15 @@ match them together. Modifying modules to meet interface requirements of other m
 > Dynamic languages are more tolerant to change; code refactors tend to be more localized (they have a smaller area of effect)
 > [@hackernoon-s-vs-d]
 
-# Related concepts
-In this section I'll introduce a few type systems concepts and their manifestations that have practical value in common programming languages.
+# Type systems in the real world
+In this section I'll introduce various type systems concepts and their manifestations that have practical value in common programming languages.
 
 ===
 ===
 ===
 **IDEA: create small programs for each concept in this section instead of examining languages at Section II separately!**
+- example of a type systems feature
+- what would happen if such feature were missing from the language?
 ===
 ===
 ===
