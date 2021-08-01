@@ -12,7 +12,7 @@ error, edit-run-debug cycles with a lot of uncertainty even after successful pro
 My first real exposure to statically typed languages was at the university with C# and Java.
 At first, these felt slow and hard to work with but it didn't take long until I started seeing their benefits.
 Their static type systems helped me write code more effectively and more confidently.
-It forced me to think more thoroughly, it gave me confidence when changing parts of the program.
+The typechecker forced me to think more thoroughly, it gave me confidence when changing parts of the program.
 I became more and more interested in staticly typed languages, the possibilities of static checking and type systems.
 I started wondering what features can programming languages provide to increase programmer productivity
 and improve software quality. This curiosity led me to choosing type systems as the topic of this work.
@@ -38,6 +38,8 @@ give an overview of the possibilities of recent advances in type systems and pro
 
 A type system is a set of rules that associate a property called a type to various constructs in a computer program.
 A type defines a range of values as well as possible operations on instances of that type.
+In a hardware or compiler context, a type defines the size and memory layout of values of that type.
+In this thesis however, I will focus on types from the perspective of type checking.
 
 > A type is simply a property with which a program is implicitly or explicitly annotated before runtime.
 > Type declarations are invariants that hold for all executions of a program, and can be expressed
@@ -257,19 +259,16 @@ This comes at the cost of sometimes missing errors that will happen at runtime. 
 > to implement a static checker that given any program in your language (a) always terminates, (b) is sound,
 > and (c) is complete. [@cse-341, p.15]
 
-People often conflate static typing, dynamic typing and type safety. Regardless of whether type checking happens
+Static typing, dynamic typing and type safety are often. Regardless of whether type checking happens
 statically (before running the program) or dynamically (during running the program), a language may or may not be called safe,
 we'll see examples later when discussing the type systems of specific languages.
-"Strongly typed" and "weakly typed" are also in wide use among programmers but their meaning is not clearly defined and are
-often used to mean certain combinations of language attributes. They are often used to refer to how much implicit conversion
-(also known as "coercion") between types is done by the language.
-
-There might be operations that would pass type checking but produce an error during runtime, like division by zero.
+For example, there might be operations that would pass type checking but produce an error during runtime, like division by zero.
 Enhancing a type system so that it could protect against division by zero erros would make it too restrictive
 (too many programs would be ruled out as ill-formed).
 It is not possible to predict statically that an expression would evaluate to zero,
 so if we want our language to be safe, we need to add dynamic (runtime) checks. Even though it is not part
 of the static type system, such a language is still considered safe. [@pfpl-2016]
+
 
 ## Formal soundness: preservation and progress
 Formally, a language can be called "sound" or "type safe" if the following properties hold [@pfpl-2016]:
@@ -341,6 +340,11 @@ Proponents of dynamic languages criticize static ones as being too rigid and cum
 complains that dynamic languages offer little protection against logical errors and let too many of the errors
 happen at runtime. I'll discuss each approach separately in a later section.
 
+Terms like "strongly typed" and "weakly typed" are also in wide use but their meaning is not clearly defined and are
+often used to mean certain combinations of language attributes. They are used to refer to how much implicit type conversion
+(also known as "coercion") is done by the language, or if the it prevents memory-safety bugs (array bounds checking or use-after-free)
+or if type checking is done statically or dynamically. It is best to avoid these ambiguous terms.
+
 ## Type checking algorithms
 There are various approaches to type checking but the general idea behind the algorithms is the following:
 
@@ -349,8 +353,7 @@ There are various approaches to type checking but the general idea behind the al
 3. Generate constraints: enumerate all the known relations between the types of the nodes.
 4. Use constraint solving to see if the constraints can be satisfied.
 
-In the next section I'll give a brief overview of static and dynamic languages highlighting the differences and will later go into much more
-detail when surveying my selected list of programming languages.
+**TODO: more detail on type checking algorithms?**
 
 ## Static type checking
 Programmers make errors. Advanced programming languages should allow the automatic checking of inconsistencies
@@ -532,7 +535,15 @@ match them together. Modifying modules to meet interface requirements of other m
 > [@hackernoon-s-vs-d]
 
 # Type systems in the real world
-In this section I'll introduce various type systems concepts and their manifestations that have practical value in common programming languages.
+In this section I'll introduce various type systems concepts from simpler to more advanced and their manifestations in languages.
+Programming languages usually have a small set of predefined types and then provide ways for the programmer to define more complex types based
+on the primitive ones.
+
+# No types - most assembly languages
+An assembly language is one where there is a strong correspondence between the language's instructions and the instructions
+of the machine's instruction set architecture (ISA). That is, most languge constructs have a 1-to-1 mapping to a CPU instruction.
+There are some so called typed assembly languages (TAL) mostly within academic circles, but most assembly code in
+the industry is written in untyped assembly language. 
 
 ===
 ===
@@ -543,28 +554,6 @@ In this section I'll introduce various type systems concepts and their manifesta
 ===
 ===
 ===
-
-
-## Type reconstruction
-Type reconstruction or informally, type inference is the process of automatically (instead of manually, by the programmer) assigning types
-to expressions in a program by examining the operations that are performed on them.
-
-> The first statically typed languages were explicitly typed by necessity.
-> However, type inference algorithms - techniques for looking at source code with no type declarations at all,
-> and deciding what the types of its variables are - have existed for many years now
-> [@debating-type-systems]
-
-Type inference should not to be confused with dynamic typing.
-Even though types may not be visible in the source code in an inferred language, it might check those type statically (before execution).
-
-The challenge of type inference is not assigning a type to untyped terms in a program, but rather to find the balance between the
-most general and most specific type that could have been declared in the program.
-[@type-inf-ml]
-
-By utilizing type inference, code written in the language can be more concise and more easily understandable.
-Having to spell out complex types can be a burden and can hurt readability and often provide no benefit.
-Type inference seems to be the golden mean: making static type checking possible while not enforcing the programmer
-to be explicit about their types.
 
 ## Polymorphic typing - polymorphism
 A language, where every expression has a single type is called monomorphic. In such a language
@@ -662,6 +651,27 @@ Abstract types manifest themself in a number of different ways in programming la
 - pure virtual functions
 
 Abstract types are related to but should not be confused with the general concept of "abstraction".
+
+## Type reconstruction
+Type reconstruction or informally, type inference is the process of automatically (instead of manually, by the programmer) assigning types
+to expressions in a program by examining the operations that are performed on them.
+
+> The first statically typed languages were explicitly typed by necessity.
+> However, type inference algorithms - techniques for looking at source code with no type declarations at all,
+> and deciding what the types of its variables are - have existed for many years now
+> [@debating-type-systems]
+
+Type inference should not to be confused with dynamic typing.
+Even though types may not be visible in the source code in an inferred language, it might check those type statically (before execution).
+
+The challenge of type inference is not assigning a type to untyped terms in a program, but rather to find the balance between the
+most general and most specific type that could have been declared in the program.
+[@type-inf-ml]
+
+By utilizing type inference, code written in the language can be more concise and more easily understandable.
+Having to spell out complex types can be a burden and can hurt readability and often provide no benefit.
+Type inference seems to be the golden mean: making static type checking possible while not enforcing the programmer
+to be explicit about their types.
 
 ## Abstraction and types
 Abstraction is the principle of reducing something to its essential characteristics, removing everything that is unnecessary
@@ -1148,8 +1158,8 @@ https://www.youtube.com/watch?v=2wZ1pCpJUIM
 	- **Algebraic types allow robust, concise error handling** - what does this mean? why?
 - 
 
-Rust is a fairly young language that is rapidly gaining popularity. It aims to provide an alternative to low level,
-high-performance but unsafe languages like C and C++ by promising both memory safety and highly optimal machine code.
+Rust is a fairly young language that is rapidly gaining popularity. It aims to provide a better alternative to low level,
+high-performance but unsafe languages like C and C++ by promising memory safety.
 
 **TODO about the above quote:**
 - what is memory safety?
