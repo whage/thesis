@@ -7,7 +7,7 @@
 \pagenumbering{arabic} 
 
 # Introduction, personal motivation {-}
-I started programming with dynamic scripting languages. Writing software in such languages involves lots of trial and
+I started programming with dynamic scripting languages. Writing software in such languages involves continuous trial and
 error, edit-run-debug cycles with a lot of uncertainty even after successful program execution.
 My first real exposure to statically typed languages was at the university with C# and Java.
 At first, these felt slow and hard to work with but it didn't take long until I started seeing their benefits.
@@ -23,6 +23,8 @@ I'll look at how type systems evolved, and how they can be categorized.
 I'll demonstrate, through example programs the benefits of static type systems.
 I'll compare the type systems of widely used programming languages and will try to
 give an overview of the possibilities of recent advances in type systems and programming language design.
+
+\pagebreak
 
 # Hypotheses {-}
 1. Static type checking can measurably increase programmer productivity. **TODO: Likely false, there seems to be no evidence**
@@ -313,9 +315,6 @@ in widspread use, mainly for one reason: performance.
 > off between development and maintenance time, and execution time.
 > [@cardelli-96, p. 5.]
 
-The question arises: are there languages that provide both safety and performance at the same time?
-I'll get back to this when discussing "Type systems and program performance".
-
 # Type checking
 Type checking is the process of deciding whether a term is well typed or not.
 A type checker verifies that the constraints posed by the type system are not violated
@@ -535,15 +534,19 @@ match them together. Modifying modules to meet interface requirements of other m
 > [@hackernoon-s-vs-d]
 
 # Type systems in the real world
-In this section I'll introduce various type systems concepts from simpler to more advanced and their manifestations in languages.
-Programming languages usually have a small set of predefined types and then provide ways for the programmer to define more complex types based
-on the primitive ones.
+In this section I'll introduce type systems concepts from simpler to more advanced and their manifestations in languages.
+The whole point of having type systems is to help us put constraints on parts of our code and have some automated tool (the typechecker)
+verify that our constraints hold across our program. To make the most of the typechecker, we try to define as much of our program as we
+can in terms of types. Different languages provide different facilities for defining types and connections between them.
+In the following section, I'll dive into how certain type systems concept appear in programming languages and how we can
+leverage these facilities to increase correctness in our code.
 
-# No types - most assembly languages
+## No types - most assembly languages
 An assembly language is one where there is a strong correspondence between the language's instructions and the instructions
 of the machine's instruction set architecture (ISA). That is, most languge constructs have a 1-to-1 mapping to a CPU instruction.
+Since there are many types of different CPU ISAs, there are also many different assembly languages.
 There are some so called typed assembly languages (TAL) mostly within academic circles, but most assembly code in
-the industry is written in untyped assembly language. 
+the industry is written in the untyped kind. 
 
 ===
 ===
@@ -619,12 +622,14 @@ generic "container" types in statically typed languages where the emphasis is no
 but instead on their consistent use within the container (generic lists, generic tuples). The typechecker can aid
 in enforcing the consistent usage without dictating the exact types of the values.
 
-#### Variance **TODO: only when everything else is done. Might dump this topic.**
+#### Variance **TODO: Remove unless some good content is found!**
 - invariance
 - covariance
 - contravariance
 
-**TODO: read these:**
+
+**TODO: some guidelines:**
+https://medium.com/@yuhuan/covariance-and-contravariance-in-java-6d9bfb7f6b8e
 https://blog.daftcode.pl/csi-python-type-system-episode-1-1c2ee1f8047c
 https://blog.daftcode.pl/csi-python-type-system-episode-2-baf5168038c0
 https://en.wikipedia.org/wiki/Covariance_and_contravariance_(computer_science)
@@ -959,7 +964,7 @@ regards to their type systems.
 
 Lisp type system: https://lispcookbook.github.io/cl-cookbook/type.html
 
-### GO
+### Go
 Developed by progamming language veterans at Google, GO features an interesting combination of stong static typing,
 first class support for concurrency and an object oriented style built around composition instead of inheritance.
 
