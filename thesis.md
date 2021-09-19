@@ -117,7 +117,7 @@ discussing formal type systems.
 ### Judgements and rules
 An expression is a syntactically correct fragment of a program that can be evaluated to a value.
 Type systems associate expressions with types. We call this the _has type_ relationship:
-$e : M$, where expression $e$ has type $M$. This is called a judgement.
+$e : M$, where expression $e$ has type $M$. This is called a typing judgement or just judgement. [@tspl-2000]
 
 Judgements are used to build inference rules of the form
 
@@ -540,6 +540,22 @@ verify that our constraints hold across our program. To make the most of the typ
 can in terms of types. Different languages provide different facilities for defining types and connections between them.
 In the following section, I'll dive into how certain type systems concept appear in programming languages and how we can
 leverage these facilities to increase correctness in our code.
+
+## TODO: list of concepts
+- **TODO: talk about array bounds checks and other run-time checks as type systems concepts?**
+- polymorphism
+- generics
+- type inference
+- type classes
+- ownership https://en.wikipedia.org/wiki/Rust_(programming_language)#Ownership
+- sum types
+- effect systems
+	- downloaded PDF: "Type and effect systems - Nielson"
+	- https://www.stephendiehl.com/posts/exotic03.html
+	- https://en.wikipedia.org/wiki/Effect_system
+- typestate - https://docs.rust-embedded.org/book/static-guarantees/typestate-programming.html
+- region types
+- linear types
 
 ## No types - most assembly languages
 An assembly language is one where there is a strong correspondence between the language's instructions and the instructions
@@ -1033,16 +1049,6 @@ The ML family of languages are the prominent representatives of the functional p
 	some good thoughts: https://lispcast.com/clojure-and-types/#json-and-adts
 
 from [@abrahamson-quora]
-
-- sum types,
-- purity,
-- effect types, effect systems: https://www.stephendiehl.com/posts/exotic03.html
-- quantified/generic types,
-- quantified modules,
-- region types,
-- linear types,
-- anonymous record types,
-- polymorphic variant types
 
 **TODO: Ad-hoc polymorphism and Type classes**
 ad-hoc: https://stackoverflow.com/a/42417159/1772429
