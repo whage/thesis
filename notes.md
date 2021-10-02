@@ -105,3 +105,23 @@ https://stackoverflow.com/a/38768279/1772429
 # Let's write a type checker - youtube video + slides
 https://www.youtube.com/watch?v=oPVTNxiMcSU
 https://speakerdeck.com/igstan/lets-write-a-type-checker
+
+===
+===
+===
+**IDEA: create small programs for each concept in this section instead of examining languages at Section II separately!**
+- example of a type systems feature
+- what would happen if such feature were missing from the language?
+===
+===
+===
+
+# Hypotheses {-}
+
+**hagyjuk, ha nem muszáj!**
+
+1. Static type checking can measurably increase programmer productivity. **TODO: Likely false, there seems to be no evidence**
+2. Using statically typed languages results in more reliable software.
+3. Despite their advantages, languages featuring advanced type systems are rarely used in the industry because of cultural reasons.
+
+\pagebreak

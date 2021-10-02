@@ -7,29 +7,26 @@
 \pagenumbering{arabic} 
 
 # Introduction, personal motivation {-}
-I started programming with dynamic scripting languages. Writing software in such languages involves continuous trial and
-error, edit-run-debug cycles with a lot of uncertainty even after successful program execution.
+I started programming with dynamically typed languages. I enjoyed the quick results and rapid feedback during development.
 My first real exposure to statically typed languages was at the university with C# and Java.
-At first, these felt slow and hard to work with but it didn't take long until I started seeing their benefits.
-Their static type systems helped me write code more effectively and more confidently.
-The typechecker forced me to think more thoroughly, it gave me confidence when changing parts of the program.
-I became more and more interested in staticly typed languages, the possibilities of static checking and type systems.
+At first, those languages felt cumbersome. The code seemed too verbose, programs didn't work until everything was right,
+even a small change triggered a whole chain of errors and the whole thing had to be fixed before I could run my code again.
+But it didn't take long until I started seeing their benefits. After spending some time with statically typed languages,
+each time I went back to the dynamic ones it felt like a step backwards. Continuous trial and error, edit-run-debug cycles,
+uncertainty about the correctness of my code.
+Static languages helped me write code more effectively and more confidently.
+The typechecker made me to think more thoroughly, it gave me confidence when changing parts of the program.
+At this point of my journey in the world of programming, I feel like statically typed languages are superior.
+I became more and more interested in the possibilities of static checking and type systems.
 I started wondering what features can programming languages provide to increase programmer productivity
 and improve software quality. This curiosity led me to choosing type systems as the topic of this work.
-My goal with this thesis is to gain a more fundamental understanding of the semantics of programming languages,
-the structures and algorithms behind them.
+My goal with this thesis is to gain a more fundamental understanding of the semantics of programming languages -
+both static and dynamic.
 First, I'll survey the history and theoretical background of type systems.
-I'll look at how type systems evolved, and how they can be categorized.
-I'll demonstrate, through example programs the benefits of static type systems.
+I'll look at how type systems concepts shaped programming languages.
+I'll demonstrate, through example programs the benefits of certain type systems features.
 I'll compare the type systems of widely used programming languages and will try to
 give an overview of the possibilities of recent advances in type systems and programming language design.
-
-\pagebreak
-
-# Hypotheses {-}
-1. Static type checking can measurably increase programmer productivity. **TODO: Likely false, there seems to be no evidence**
-2. Using statically typed languages results in more reliable software.
-3. Despite their advantages, languages featuring advanced type systems are rarely used in the industry because of cultural reasons.
 
 \pagebreak
 
@@ -90,7 +87,7 @@ https://thevaluable.dev/type-system-explained/
 ## Type theory
 Type theory is a branch of mathematical symbolic logic: a system of representing logical expressions
 through the use of symbols. It was concieved in the beginning of the 20th century by Bertrand Russell
-in order to resolve contradictions present in his set theory. Type theories (there are many,
+in order to resolve contradictions present in set theory. Type theories (there are many,
 like Alonzo Church's Simply Typed Lambda calculus or Per Martin-Löf's Intuitionistic Type Theory)
 are formal systems which means they define rules for inferring theorems (statements) from axioms.
 [@stanford-tt]
@@ -487,6 +484,8 @@ resume program execution after the error was handled. [@wiki-type-systems]
 
 ### Advantages of dynamic languages
 
+**TODO: get some ideas from this: "The Unreasonable Effectiveness of Dynamic Typing for Practical Programs"**
+
 #### Easy to write and read
 Dynamic languages have rapid edit-compile-test cycles (compilation usually happens while the program is already running).
 In the absence of a pre-runtime type checking phase, these languages favor prototyping and
@@ -534,47 +533,84 @@ match them together. Modifying modules to meet interface requirements of other m
 > [@hackernoon-s-vs-d]
 
 # Type systems in the real world
-In this section I'll introduce type systems concepts from simpler to more advanced and their manifestations in languages.
-The whole point of having type systems is to help us put constraints on parts of our code and have some automated tool (the typechecker)
-verify that our constraints hold across our program. To make the most of the typechecker, we try to define as much of our program as we
-can in terms of types. Different languages provide different facilities for defining types and connections between them.
+In this section I'll introduce type systems concepts from simpler to more advanced and how they appear in real, popular programming languages.
+There is a great deal of difference in how static and dynamic languages make use of types. Some concepts might make
+no sense in one context, while others might be used in both so let's clarify a few things first.
+
+For static languages, the whole point of having type systems is to help us put constraints on parts of our code
+and have some automated tool (the typechecker) verify that our constraints hold across our program.
+To make the most of the typechecker, we try to define as much of our program as we
+can in terms of types. Different static languages provide different facilities for defining types and connections between them.
+
+Dynamic languages must rely on run-time type information (RTTI) to do run-time checks in order to avoid illegal or undefined operations.
+In dynamic languages RTTI is usually done by attaching a type label to every run-time value.
+It is not only dynamically typed languages that have RTTI: Java or C++ for example also have them.
+The extra safety measures made possibly by RTTI come at a cost: it requires extra memory to store this information during run-time.
+
 In the following section, I'll dive into how certain type systems concept appear in programming languages and how we can
 leverage these facilities to increase correctness in our code.
-
-## TODO: list of concepts
-- **TODO: talk about array bounds checks and other run-time checks as type systems concepts?**
-- polymorphism
-- generics
-- type inference
-- type classes
-- ownership https://en.wikipedia.org/wiki/Rust_(programming_language)#Ownership
-- sum types
-- effect systems
-	- downloaded PDF: "Type and effect systems - Nielson"
-	- https://www.stephendiehl.com/posts/exotic03.html
-	- https://en.wikipedia.org/wiki/Effect_system
-- typestate - https://docs.rust-embedded.org/book/static-guarantees/typestate-programming.html
-- region types
-- linear types
 
 ## No types - most assembly languages
 An assembly language is one where there is a strong correspondence between the language's instructions and the instructions
 of the machine's instruction set architecture (ISA). That is, most languge constructs have a 1-to-1 mapping to a CPU instruction.
 Since there are many types of different CPU ISAs, there are also many different assembly languages.
-There are some so called typed assembly languages (TAL) mostly within academic circles, but most assembly code in
-the industry is written in the untyped kind. 
+There are some so called typed assembly languages (TAL) mostly within academic circles, but most assembly languages are 
+said to be untyped.
 
-===
-===
-===
-**IDEA: create small programs for each concept in this section instead of examining languages at Section II separately!**
-- example of a type systems feature
-- what would happen if such feature were missing from the language?
-===
-===
-===
+Even though assembly supports certain basic data types, even arrays, structures and functions, it is mostly about defining
+the memory layout of the values. In assembly, we can't associate operations with types.
+In short, there is nothing to type check. This is the main point of assembly: manipulating data at the lowest level, giving
+access to individual bytes to the programmer.
 
-## Polymorphic typing - polymorphism
+Also, there are assembly languages that were designed to be compiler targets rather than used by programmers directly.
+For such languages there is little benefit for complex typing.
+
+**TODO: read more about assembly, come back to this section later**
+**TODO: x86-64 Assembly Language Programming withUbuntu (currently at p. 34)**
+
+Assembly languages are - barring some academic derivatives - untyped. The values that we can manipulate in the language
+are just byte sequences. There is no way of knowing what a register or memory address holds just by looking at the assembly code.
+A given bit pattern may have multiple valid interpretations as different types. A certain system call might expect an 8 byte integer
+value for printing, but an 8byte floating-point value can also be interpreted as an integer.
+Assemblers don't try to check for matching types.
+**TODO: Why is that?**
+
+**TODO: Explain why assembly has no types! Are there any advantages of not having types?**
+
+Typed Assembly Language papers (from around 1999) - Morrisett et al.
+    - http://www.cs.cornell.edu/talc/papers.html
+    - https://www.cs.princeton.edu/~dpw/papers/tal-toplas.pdf
+    - https://www.cis.upenn.edu/~stevez/papers/MCGG99.pdf
+
+## Types and operations
+The next step for a programming langage would be to define certain basic types and operations for the values in the program.
+These help reduce the cognitive load on the programmer and make it possible to check (either statically or dynamicall) whether some
+operation later in the code is considered legal or not.
+We might take this for granted but this indeed is a language feature that wasn't there for the first generations of computer programmers.
+
+**TODO**
+
+## Run-time types:
+> Many programming languages require compiled programs to manipulate some amount
+> of type information at run-time [@leroy-intro-tic98 p. 4]
+
+RTTI is a prerequisite for dynamically typed languages and it is an enhancement for statically typed ones.
+
+- array bounds checks
+- type casts (https://stackoverflow.com/a/2254183/1772429)
+    - static casts
+    - dynamic casts
+- marshaling
+
+> Another operation that relies heavily on run-time type information is marshaling and un-marshaling between
+> arbitrary data structures and streams of bytes – a crucial mechanism for persistence and distributed programming.
+> [@leroy-intro-tic98 p. 5] 
+
+## Gradual typing
+
+**TODO: move most of the python section here, maybe some from the typescript parts too**
+
+## Polymorphic typing - "Polymorphism"
 A language, where every expression has a single type is called monomorphic. In such a language
 there is a distinct identity function of each type: $\lambda \ (x : \tau ) \ x$ even though the
 behavior is exactly the same for each choice if $\tau$. Although they all have the same
@@ -638,13 +674,51 @@ generic "container" types in statically typed languages where the emphasis is no
 but instead on their consistent use within the container (generic lists, generic tuples). The typechecker can aid
 in enforcing the consistent usage without dictating the exact types of the values.
 
-#### Variance **TODO: Remove unless some good content is found!**
+## Generics
+any meaning in a dynamic context?
+
+https://www.quora.com/Do-generics-makes-more-sense-in-statically-typed-or-in-dynamically-typed-languages-Explain-your-answer
+
+## Type inference
+
+**TODO**
+
+## Type classes
+
+**TODO**
+
+## Ownership
+https://en.wikipedia.org/wiki/Rust_(programming_language)#Ownership
+
+## Sum types
+- https://www.dragonwasrobot.com/functional-programming/2016/12/20/sum-types-in-kotlin-elixir-and-elm.html
+- idea: implement a queue with sum types in some ML language
+
+## Effect systems
+- downloaded PDF: "Type and effect systems - Nielson"
+- https://www.stephendiehl.com/posts/exotic03.html
+- https://en.wikipedia.org/wiki/Effect_system
+
+## Typestate - https://docs.rust-embedded.org/book/static-guarantees/typestate-programming.html
+
+**TODO**
+
+## Region types
+
+**TODO**
+
+## Linear types
+
+**TODO**
+
+## Variance
+
+**TODO: Remove unless some good content is found!**
+
 - invariance
 - covariance
 - contravariance
 
-
-**TODO: some guidelines:**
 https://medium.com/@yuhuan/covariance-and-contravariance-in-java-6d9bfb7f6b8e
 https://blog.daftcode.pl/csi-python-type-system-episode-1-1c2ee1f8047c
 https://blog.daftcode.pl/csi-python-type-system-episode-2-baf5168038c0
@@ -710,35 +784,6 @@ to accurately represent it for a particular usage. Abstraction reduces complexit
 
 **TODO: see "Types, abstraction and parametric polymorphism" paper in thesis_papers dir**
 
-## Type systems and software security
-**TODO: google "type systems and security"**
-
-- defensive mechanisms provided by type systems
-    - look at the most common sources of vulnerabilities, see if type systems could help
-        - need data!
-- solving injection with a type system
-    - http://blog.moertel.com/posts/2006-10-18-a-type-based-solution-to-the-strings-problem.html
-
-**TODO: summarize CAR Hoare's presentation on `NullPointerException`s (The Billion Dollar Mistake - 2009)**
-
-- https://www.infoq.com/presentations/Null-References-The-Billion-Dollar-Mistake-Tony-Hoare
-- 31:10 great notes about what to expect from programming languages
-- 31:40 "formal verification"
-- 37:34 "now, the real commercial imperative which requires greater attention paid to formal correctness of the programs is the virus."
-    - "it reaches paths of your program that normal execution never reaches"
-    - "it's no longer adequate to test your program against all the cases that are likely to arise..."
-- 50:00 great thoughts about the `jmp` machine instruction
-
-## Run-time type information
-> Many programming languages require compiled programs to manipulate some amount
-> of type information at run-time [@leroy-intro-tic98 p. 4] 
-
-...
-
-> Another operation that relies heavily on run-time type information is marshaling and un-marshaling between
-> arbitrary data structures and streams of bytes – a crucial mechanism for persistence and distributed programming.
-> [@leroy-intro-tic98 p. 5] 
-
 # Own research - type systems in programming languages
 
 **TODO: ezeket vizsgálni a nyelveknél:**
@@ -748,15 +793,6 @@ to accurately represent it for a particular usage. Abstraction reduces complexit
     - Elm tanulás közben jutott eszembe. Ott a típusok "üresnek tűnnek" (egyszerű "type" definíciókban csak neveket adunk meg, metódusok/függvények nem részei a típusdefiníciónak), és mégis sokrétűen lehet őket használni (generikusság, paraméterek)
 - saját tapasztalatok a nyelvvel, type system előnyei/hiányosságai
 ```
-
-**TODO: short intro, why the chosen languages**
-
-**TODO:find what methods are used for comparing type systems**
-
-In the following, I'm going to examine and compare a list of programming languages based on their type system's features.
-My goal is to introduce a range of type systems concepts found in real, popular languages.
-For each one, I'll try to highlight one or two key type systems features **and examine how those affect
-writing programs in the language**.
 
 The languages:
 
@@ -780,29 +816,6 @@ I'll focus on their type systems based on material I could find as well as my ow
 ...
 
 **TODO: write about MY experience with every language!**
-
-### Assembly
-> [assembly language] is any low-level programming language in which there is a very strong correspondence
-> between the instructions in the language and the architecture's machine code instructions.
-
-**TODO: finish video**: https://vimeo.com/74354480
-	- 12:15
-
-Assembly languages are - barring some academic derivatives - untyped. The values that we can manipulate in the language
-are just byte sequences. There is no way of knowing what a register or memory address holds just by looking at the assembly code.
-A given bit pattern may have multiple valid interpretations as different types. A certain system call might expect an 8 byte integer
-value for printing, but an 8byte floating-point value can also be interpreted as an integer.
-Assemblers don't try to check for matching types. Why has this
-**TODO: Why is that?**
-
-**TODO: Explain why assembly has no types! Are there any advantages of not having types?**
-
-**TODO: look into untyped languages, summarize them here!**
-
-Typed Assembly Language papers (from around 1999) - Morrisett et al.
-	- http://www.cs.cornell.edu/talc/papers.html
-	- https://www.cs.princeton.edu/~dpw/papers/tal-toplas.pdf
-	- https://www.cis.upenn.edu/~stevez/papers/MCGG99.pdf
 
 ...
 
@@ -1216,6 +1229,25 @@ development, this suggests a dissatisfaction with dynamic typing as projects gro
 # Suggestions for further research
 
 **TODO: put all the interesting stuff here that I had no time for**
+
+## Type systems and software security
+**TODO: google "type systems and security"**
+
+- defensive mechanisms provided by type systems
+    - look at the most common sources of vulnerabilities, see if type systems could help
+        - need data!
+- solving injection with a type system
+    - http://blog.moertel.com/posts/2006-10-18-a-type-based-solution-to-the-strings-problem.html
+
+**TODO: summarize CAR Hoare's presentation on `NullPointerException`s (The Billion Dollar Mistake - 2009)**
+
+- https://www.infoq.com/presentations/Null-References-The-Billion-Dollar-Mistake-Tony-Hoare
+- 31:10 great notes about what to expect from programming languages
+- 31:40 "formal verification"
+- 37:34 "now, the real commercial imperative which requires greater attention paid to formal correctness of the programs is the virus."
+    - "it reaches paths of your program that normal execution never reaches"
+    - "it's no longer adequate to test your program against all the cases that are likely to arise..."
+- 50:00 great thoughts about the `jmp` machine instruction
 
 ...
 
