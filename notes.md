@@ -125,3 +125,6 @@ https://speakerdeck.com/igstan/lets-write-a-type-checker
 3. Despite their advantages, languages featuring advanced type systems are rarely used in the industry because of cultural reasons.
 
 \pagebreak
+
+# Dynamic languages
+**TODO: get some ideas from this: "The Unreasonable Effectiveness of Dynamic Typing for Practical Programs"**

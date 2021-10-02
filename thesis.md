@@ -35,10 +35,20 @@ give an overview of the possibilities of recent advances in type systems and pro
 > by far the most popular and best established lightweight formal methods are type systems.
 > [@tapl, p. 1]
 
-A type system is a set of rules that associate a property called a type to various constructs in a computer program.
-A type defines a range of values as well as possible operations on instances of that type.
+What is a "formal method"?
+
+> Formal methods are a particular kind of mathematically rigorous techniques for the specification, development and verification
+> of software and hardware systems. The use of formal methods for software and hardware design is motivated by the expectation that,
+> as in other engineering disciplines, performing appropriate mathematical analysis can contribute to the reliability
+> and robustness of a design.
+> [@formal-methods-wiki]
+
+In contrast, an empirical method - that is based on experimental results - for verifying software systems would be testing.
+
+A type system is a set of rules that associate a property called a type to various constructs
+in a computer program. A type defines a range of values as well as possible operations on instances of that type.
 In a hardware or compiler context, a type defines the size and memory layout of values of that type.
-In this thesis however, I will focus on types from the perspective of type checking.
+Here I will focus on types from the perspective of type checking.
 
 > A type is simply a property with which a program is implicitly or explicitly annotated before runtime.
 > Type declarations are invariants that hold for all executions of a program, and can be expressed
@@ -258,16 +268,14 @@ This comes at the cost of sometimes missing errors that will happen at runtime. 
 > to implement a static checker that given any program in your language (a) always terminates, (b) is sound,
 > and (c) is complete. [@cse-341, p.15]
 
-Static typing, dynamic typing and type safety are often. Regardless of whether type checking happens
-statically (before running the program) or dynamically (during running the program), a language may or may not be called safe,
-we'll see examples later when discussing the type systems of specific languages.
+Regardless of whether type checking happens statically (before running the program) or dynamically (while the program is running),
+a language may or may not be called safe.
 For example, there might be operations that would pass type checking but produce an error during runtime, like division by zero.
 Enhancing a type system so that it could protect against division by zero erros would make it too restrictive
 (too many programs would be ruled out as ill-formed).
 It is not possible to predict statically that an expression would evaluate to zero,
 so if we want our language to be safe, we need to add dynamic (runtime) checks. Even though it is not part
 of the static type system, such a language is still considered safe. [@pfpl-2016]
-
 
 ## Formal soundness: preservation and progress
 Formally, a language can be called "sound" or "type safe" if the following properties hold [@pfpl-2016]:
@@ -484,10 +492,8 @@ resume program execution after the error was handled. [@wiki-type-systems]
 
 ### Advantages of dynamic languages
 
-**TODO: get some ideas from this: "The Unreasonable Effectiveness of Dynamic Typing for Practical Programs"**
-
-#### Easy to write and read
-Dynamic languages have rapid edit-compile-test cycles (compilation usually happens while the program is already running).
+#### Quick and easy to write and read
+Dynamic languages have rapid edit-run cycles (there is no upfront compilation before running the program).
 In the absence of a pre-runtime type checking phase, these languages favor prototyping and
 agile software development where creating proof-of-concept systems quickly are crucial.
 The code is free of type annotations and casting which makes it easier to write and read which can help maintainability.
@@ -573,7 +579,6 @@ are just byte sequences. There is no way of knowing what a register or memory ad
 A given bit pattern may have multiple valid interpretations as different types. A certain system call might expect an 8 byte integer
 value for printing, but an 8byte floating-point value can also be interpreted as an integer.
 Assemblers don't try to check for matching types.
-**TODO: Why is that?**
 
 **TODO: Explain why assembly has no types! Are there any advantages of not having types?**
 
@@ -597,9 +602,8 @@ We might take this for granted but this indeed is a language feature that wasn't
 RTTI is a prerequisite for dynamically typed languages and it is an enhancement for statically typed ones.
 
 - array bounds checks
-- type casts (https://stackoverflow.com/a/2254183/1772429)
-    - static casts
-    - dynamic casts
+- dynamic casts - downcasting https://stackoverflow.com/a/2254183/1772429
+    - maybe a note about static casts - "static downcast" is undefined behavior https://stackoverflow.com/a/47310910/1772429
 - marshaling
 
 > Another operation that relies heavily on run-time type information is marshaling and un-marshaling between
@@ -783,6 +787,48 @@ to accurately represent it for a particular usage. Abstraction reduces complexit
 [leroy-dot]: https://xavierleroy.org/bibrefs/Cardelli-Leroy-dot.html
 
 **TODO: see "Types, abstraction and parametric polymorphism" paper in thesis_papers dir**
+
+## Dependent types
+Dependent types are based on the idea of using scalars or values to more precisely describe the type
+of some other value. [@wiki-type-systems] Dependent types can express the rules of matrix multiplication:
+
+\begin{equation*}
+    \frac{\Gamma \vdash A : matrix(l,m), \ \Gamma \vdash B : matrix(m,n)}{\Gamma \vdash A \times B : matrix(l,n)}
+\end{equation*}
+
+Which we read as "if $A$ is an $l \times m$ matrix and $B$ is a $m \times n$ matrix, then their product is an $l \times n$ matrix".
+
+The scalar values that the types depend on must not be constant values...
+**TODO: read all of these! good material!**
+- https://cs.stackexchange.com/a/40098/30429
+- https://softwareengineering.stackexchange.com/a/401220/90623
+
+**TODO: revise after having tried such a language!**
+
+## Algebraic data types
+Algebraic data types are composite types: they are defined as a combination of other types.
+In most imperative languages conditional expressions (if-else statements) can define any number of branches
+that are not checked for consistency. Execution enters these branches based solely on their predicates,
+boolean valued "functions". This means that by mistake, they can overlap or fail to handle all possible cases.
+In functional languages, with the help of pattern matching, algebraic data types facilitate a type safe
+implementation of conditional expressions. They let us define the branching logic in terms 
+of a composite type and allow the type system to check whether we we covered all the cases. [@parmer-type-systems]
+
+**TODO**:
+
+- Sum types
+    - Maybe / Option
+        - note: "nullable" in dynamic languages where ther is NULL, "option" or "maybe" in static languages
+        - Null pointer exceptions vs. "Maybe" types
+            - https://guide.elm-lang.org/error_handling/maybe.html
+    - Try
+- Product types
+- https://en.wikipedia.org/wiki/Algebraic_data_type
+
+**TODO: https://stackoverflow.com/a/10510934/1772429 - what does this mean?**
+> Algebraic data types allows sums as well as products, whereas OO-style classes only allow products.
+
+**TODO: add other advanced concepts if needed : https://en.wikipedia.org/wiki/Type_system#Specialized_type_systems**
 
 # Own research - type systems in programming languages
 
@@ -1114,29 +1160,6 @@ https://package.elm-lang.org/packages/elm-lang/core/5.1.1/Json-Decode#map
 > Note: If you run out of map functions, take a look at elm-decode-pipeline which makes it easier
 to handle large objects, but produces lower quality type errors.
 
-#### Algebraic data types
-Algebraic data types are composite types: they are defined as a combination of other types.
-In most imperative languages conditional expressions (if-else statements) can define any number of branches
-that are not checked for consistency. Execution enters these branches based solely on their predicates,
-boolean valued "functions". This means that by mistake, they can overlap or fail to handle all possible cases.
-In functional languages, with the help of pattern matching, algebraic data types facilitate a type safe
-implementation of conditional expressions. They let us define the branching logic in terms 
-of a composite type and allow the type system to check whether we we covered all the cases. [@parmer-type-systems]
-
-**TODO**:
-
-- Sum types
-    - Maybe / Option
-        - note: "nullable" in dynamic languages where ther is NULL, "option" or "maybe" in static languages
-        - Null pointer exceptions vs. "Maybe" types
-            - https://guide.elm-lang.org/error_handling/maybe.html
-    - Try
-- Product types
-- https://en.wikipedia.org/wiki/Algebraic_data_type
-
-**TODO: https://stackoverflow.com/a/10510934/1772429 - what does this mean?**
-> Algebraic data types allows sums as well as products, whereas OO-style classes only allow products.
-
 ### Agda / Idris / Coq
 **TODO: take a look at them, decide which one to focus on**
 
@@ -1155,25 +1178,6 @@ It is a "proof assistant" that can also be used for general purpose programming.
 
 type driven development in Idris:
 https://codesync.global/media/idris-2-type-driven-development-idris-edwin-brady/
-
-#### Dependent types
-Dependent types are based on the idea of using scalars or values to more precisely describe the type
-of some other value. [@wiki-type-systems] Dependent types can express the rules of matrix multiplication:
-
-\begin{equation*}
-    \frac{\Gamma \vdash A : matrix(l,m), \ \Gamma \vdash B : matrix(m,n)}{\Gamma \vdash A \times B : matrix(l,n)}
-\end{equation*}
-
-Which we read as "if $A$ is an $l \times m$ matrix and $B$ is a $m \times n$ matrix, then their product is an $l \times n$ matrix".
-
-The scalar values that the types depend on must not be constant values...
-**TODO: read all of these! good material!**
-- https://cs.stackexchange.com/a/40098/30429
-- https://softwareengineering.stackexchange.com/a/401220/90623
-
-**TODO: revise after having tried such a language!**
-
-...
 
 ### Rust
 https://www.youtube.com/watch?v=2wZ1pCpJUIM
