@@ -18,7 +18,7 @@ Static languages helped me write code more effectively and more confidently.
 The typechecker made me to think more thoroughly, it gave me confidence when changing parts of the program.
 At this point of my journey in the world of programming, I feel like statically typed languages are superior.
 I became more and more interested in the possibilities of static checking and type systems.
-I started wondering what features can programming languages provide to increase programmer productivity
+I wondered what features can programming languages provide to increase programmer productivity
 and improve software quality. This curiosity led me to choosing type systems as the topic of this work.
 My goal with this thesis is to gain a more fundamental understanding of the semantics of programming languages -
 both static and dynamic.
@@ -45,7 +45,7 @@ What is a "formal method"?
 
 In contrast, an empirical method - that is based on experimental results - for verifying software systems would be testing.
 
-A type system is a set of rules that associate a property called a type to various constructs
+So one of many formal methods, a type system is a set of rules that associate a property called a type to various constructs
 in a computer program. A type defines a range of values as well as possible operations on instances of that type.
 In a hardware or compiler context, a type defines the size and memory layout of values of that type.
 Here I will focus on types from the perspective of type checking.
@@ -67,9 +67,9 @@ to those rules is a "well typed" program. [@wiki-type-systems]
 > Type systems are used to define the notion of well typing, which is itself a static approximation of good behavior [...]
 > Well typing further facilitates program development by trapping execution errors before run time. [@cardelli-96, p. 6]
 
-Languages where variables can be given (nontrivial) types are called typed languages.
-Languages that don't restrict the range of variables are called untyped languages. In these languages, invalid operations
-might be applied to values which could result in a fixed value, a fault, an exception or an unspecified effect.
+There are languages that don't associate a type with values, these are called untyped languages.
+Most assembly languages fall into this category. In these languages, invalid operations might be applied
+to values which could result in a fixed value, a fault, an exception or an unspecified effect.
 
 Typed languages can enforce good behavior by performing static (without executing the program) checks to prevent ill typed
 programs from ever running. Untyped languages can enforce good behavior by performing sufficiently detailed
@@ -87,12 +87,6 @@ The way I see it, type systems are the glue between mathematical logic and compu
 prove that our programs behave correctly. Advanced, sophisticated type systems allow us to express
 a finer, more precise structure and thus more properties of our sofware may be proven by automated tools
 and more optimization may be carried out to improve performance.
-
-
-https://lexi-lambda.github.io/blog/2020/01/19/no-dynamic-type-systems-are-not-inherently-more-open/
-https://softwareengineering.stackexchange.com/questions/333643/what-is-a-type-system
-https://thevaluable.dev/type-system-explained/
-
 
 ## Type theory
 Type theory is a branch of mathematical symbolic logic: a system of representing logical expressions
@@ -498,36 +492,6 @@ In the absence of a pre-runtime type checking phase, these languages favor proto
 agile software development where creating proof-of-concept systems quickly are crucial.
 The code is free of type annotations and casting which makes it easier to write and read which can help maintainability.
 
-#### Reflection
-> Programs lives in files. To change a system, we must edit these files, recompile them, and restart the system [...]
-> Surprisingly little effort has been invested over the years in developing languages
-> that support run-time change to the persistent program state [@revival-2005, p. 2]
-
-Reflection is an umbrella term for programming language features that allow us to inspect and modify a program while it is running.
-It is an inherently dynamic process and so it conflicts with many of the principles of statically typed languages.
-Most static programming languages do provide reflection facilities, but with limited support because
-it is essentially a way of circumventing the static type system.
-
-> Reflection enables the changing of systems without the need to rebuild or even restart them.
-> This is an important basis for building the dynamic sytems of the future: Mobile, Ubiquitous, Always-On.
-> [@revival-2005, p. 6]
-
-When used cautiously, reflection can give the programmer power over parts of a program that would not otherwise
-be accessible by the runtime like internals of private/protected components or 3rd party libraries.
-However, a totally reflective (dynamic) system with "unscoped" reflection suffers from many disadvantages:
-
-- Security: The clients that use reflection can do anything
-- Stability: The effects of reflection are global. One client using reflection affects the other clients
-- Performance: Full reflection is costly.
-
-To solve the above issues, the reflective capabilities of the language must be scoped:
-
-- define when and where reflection should be available
-- limit the reflective interface to certain clients
-- constrain the effects of reflection
-
-[@revival-2005]
-
 #### Flexibility
 A dynamic type system can help write more modular and decoupled code which may lead to a more flexible design.
 Dynamic typing encourages "generic code", code that is not "tightened down", free of fixed types that helps to think more abstractly.
@@ -548,10 +512,8 @@ and have some automated tool (the typechecker) verify that our constraints hold 
 To make the most of the typechecker, we try to define as much of our program as we
 can in terms of types. Different static languages provide different facilities for defining types and connections between them.
 
-Dynamic languages must rely on run-time type information (RTTI) to do run-time checks in order to avoid illegal or undefined operations.
-In dynamic languages RTTI is usually done by attaching a type label to every run-time value.
-It is not only dynamically typed languages that have RTTI: Java or C++ for example also have them.
-The extra safety measures made possibly by RTTI come at a cost: it requires extra memory to store this information during run-time.
+Dynamic languages must know the types of their values to do run-time checks in order to avoid illegal or undefined operations.
+In dynamic languages this is done by attaching a type label to every run-time value.
 
 In the following section, I'll dive into how certain type systems concept appear in programming languages and how we can
 leverage these facilities to increase correctness in our code.
@@ -595,24 +557,84 @@ We might take this for granted but this indeed is a language feature that wasn't
 
 **TODO**
 
-## Run-time types:
+## Reflection
 > Many programming languages require compiled programs to manipulate some amount
 > of type information at run-time [@leroy-intro-tic98 p. 4]
 
-RTTI is a prerequisite for dynamically typed languages and it is an enhancement for statically typed ones.
+Reflection is an umbrella term for programming language features that allow us to inspect
+and modify a program while it is running.
+It is an inherently dynamic process and so it conflicts with many of the principles of statically typed languages.
+Most static programming languages do provide reflection facilities, but with limited support because
+it is essentially a way of circumventing the static type system.
 
-- array bounds checks
-- dynamic casts - downcasting https://stackoverflow.com/a/2254183/1772429
-    - maybe a note about static casts - "static downcast" is undefined behavior https://stackoverflow.com/a/47310910/1772429
-- marshaling
+> Reflection enables the changing of systems without the need to rebuild or even restart them.
+> This is an important basis for building the dynamic sytems of the future: Mobile, Ubiquitous, Always-On.
+> [@revival-2005, p. 6]
 
-> Another operation that relies heavily on run-time type information is marshaling and un-marshaling between
-> arbitrary data structures and streams of bytes – a crucial mechanism for persistence and distributed programming.
-> [@leroy-intro-tic98 p. 5] 
+When used cautiously, reflection can give the programmer power over parts of a program that would not otherwise
+be accessible by the runtime like internals of private/protected components or 3rd party libraries.
+However, a totally reflective (dynamic) system with "unscoped" reflection suffers from many disadvantages:
+
+- Security: The clients that use reflection can do anything
+- Stability: The effects of reflection are global. One client using reflection affects the other clients
+- Performance: Full reflection is costly.
+
+To solve the above issues, the reflective capabilities of the language must be scoped:
+
+- define when and where reflection should be available
+- limit the reflective interface to certain clients
+- constrain the effects of reflection
+
+[@revival-2005]
+
+Uses for reflection:
+- serialization / marshaling
+- debuggers, class browsers
+- ORM
+- building frameworks based on naming conventions - is it a good idea?
 
 ## Gradual typing
+Gradual typing means the programmer can choose to make use of the type checker or not. Type annotated parts of the
+code will be typecheked, the other parts will not.
+In my experience, this tends to make the programmer more lazy. Omitting type annotations can help finish writing a certain part
+of the program faster. The program might even run without error when tested. The problem is that we likely didn't cover all the
+possible execution paths and by "shutting down" the typechecker we made it harder to find the possible inconsistencies in the code.
+The program seems to behave correctly but had we defined types properly, we could have been warned about type errors
+that will now show themselves later at an unexpected time.
 
-**TODO: move most of the python section here, maybe some from the typescript parts too**
+Typescript for example is a gradually typed superset of the JavaScript language with optional type annotations and provides a typechecker and transpiler
+for JavaScript programs. Thanks to its type inference, every valid JavaScript program is also a valid TypeScript program
+so it is possible to gradually transform a JavaScript codebase into a TypeScript one.
+
+### Gradual typing in TypeScript
+
+**TODO:**
+- https://blog.ambrosebs.com/2018/04/07/unsoundness-in-untyped-types.html
+    - https://users.soe.ucsc.edu/~abadi/Papers/FTS-submitted.pdf (from the above, this is the important one!)
+- https://www.typescriptlang.org/docs/handbook/type-compatibility.html
+    - look for "unsound" keyword!
+
+**TODO: nice notes about its typesystem: https://www.typescriptlang.org/docs/handbook/intro.html#get-started**
+**TODO: read through [@type-or-not-js]**
+
+### Optional type annotations in Python 3
+Even though Python 3 is dynamically typed, the language allows optional "type hints" which are similar to
+type declarations in languages like Java. These annotations may be used together with type checkers like `mypy`,
+`pyre-check` or `pytype` [@py-type]. The programmer is free to annotate only parts of the source code.
+The Python 3 runtime itself doesn't typecheck the type hints. Due to python's dynamic nature,
+the following code will be executed without any errors in Python 3.5.2:
+
+~~~{.python}
+def f(a: int, b: int) -> str:
+    return a + b
+
+print(f("x", "y"))
+print(f(1, 2))
+~~~
+
+The programmer has to use one of the external type checkers to make use of type hints. Running `mypy`
+on the above code indeed reports type errors complaining about an incompatible return type declaration and incompatible
+argument types when calling the the function with integer values.
 
 ## Polymorphic typing - "Polymorphism"
 A language, where every expression has a single type is called monomorphic. In such a language
@@ -669,6 +691,22 @@ In most classical object oriented languages subtyping is tied to inheritance in 
 Class hierarchies together with method overriding (providing different or extended implementations in child classes)
 is the primary vehicle of subtype polymorphism that is made possible by dynamic method dispatch.
 
+#### Difference between subtyping and inheritance
+> In Go the line between inheritance and composition is pretty blurry [...]
+> Syntactically, inheritance looks almost identical to composition.
+> [@oo-inheritance-in-go]
+
+Go is a good example of how subtyping is a different concept from inheritance.
+Structs (a collection of related attributes) with methods resemble classes of classical OOP languages but in Go there is no subtype polymorphism
+(or any kind of polymorphism) for stucts. Struct types can embed other stuct types where the embedder type
+gains access to the methods of the embedded type. This provides a limited form of inheritance. The embedder
+type however doesn't become a subtype of the embedded one. Most programmers are trained to think in a classical
+object oriented way where derived classes not just inherit from, but also become subtypes of their parents.
+I also come from such a backgroud and in my experience, learning the basics of Go and using it in a procedural style
+is simple. Once we had to write more complex type relationships and resort to the language's object oriented features,
+it became much harder and I was stuck for a good while trying to understand how my familiar object hierarchies
+can be expressed with this language.
+
 ### Parametric polymorphism - Generics
 Sometimes called "compile-time polymorphism", parametric polymorphism means that concrete types are abstracted away
 from the implementation and type parameters (or type arguments) are used instead. This way type checking can still be done
@@ -679,13 +717,11 @@ but instead on their consistent use within the container (generic lists, generic
 in enforcing the consistent usage without dictating the exact types of the values.
 
 ## Generics
-any meaning in a dynamic context?
+**TODO: any meaning in a dynamic context?**
+    - https://www.quora.com/Do-generics-makes-more-sense-in-statically-typed-or-in-dynamically-typed-languages-Explain-your-answer
 
-https://www.quora.com/Do-generics-makes-more-sense-in-statically-typed-or-in-dynamically-typed-languages-Explain-your-answer
-
-## Type inference
-
-**TODO**
+http://www.angelikalanger.com/GenericsFAQ/FAQSections/Fundamentals.html
+    - link from the above: http://www.angelikalanger.com/GenericsFAQ/FAQSections/TechnicalDetails.html#Why%20does%20the%20compiler%20add%20casts%20when%20it%20translates%20generics?
 
 ## Type classes
 
@@ -703,7 +739,8 @@ https://en.wikipedia.org/wiki/Rust_(programming_language)#Ownership
 - https://www.stephendiehl.com/posts/exotic03.html
 - https://en.wikipedia.org/wiki/Effect_system
 
-## Typestate - https://docs.rust-embedded.org/book/static-guarantees/typestate-programming.html
+## Typestate
+https://docs.rust-embedded.org/book/static-guarantees/typestate-programming.html
 
 **TODO**
 
@@ -751,7 +788,7 @@ Abstract types manifest themself in a number of different ways in programming la
 
 Abstract types are related to but should not be confused with the general concept of "abstraction".
 
-## Type reconstruction
+## Type inference
 Type reconstruction or informally, type inference is the process of automatically (instead of manually, by the programmer) assigning types
 to expressions in a program by examining the operations that are performed on them.
 
@@ -863,247 +900,11 @@ I'll focus on their type systems based on material I could find as well as my ow
 
 **TODO: write about MY experience with every language!**
 
-...
-
-### JavaScript and static variants
-**TODO: safety?**
-	- https://stackoverflow.com/a/25157350/1772429
-	- https://stackoverflow.com/a/39642986/1772429
-
-JavaScript is one of the most popular languages of the 2010s mainly because it is the scripting language of web browsers which are becoming
-the platform of choice for user-facing networked applications. JavaScript is a dynamically typed language.
-Types of program variables are not known before run time.
-The language is often referred to as a "weakly typed" one because the runtime makes many
-implicit type conversions (also called "coercion") between types. The conversion rules are often inconsistent but are strictly 
-specified. The language features a `===` operator which is used for strict equality without type coercion and a `==` one
-that coerces its operands according to some rules before comparing them. This loose attitude towards types offers a lot of flexibility
-but it is also dangerous: run-time values will still have types but since nothing checked their consistent use, every possible error
-will happen during program execution when even the best case would be a program crash and at the worst case, an erroneous computation
-that goes unnoticed.
-
-JavaScript's popularity and ubiquitousness prompted organizations to invest in creating a statically checked variants of the language.
-
-#### TypeScript (Microsoft)
-Typescript extends the JavaScript language with optional type annotations and provides a typechecker and transpiler
-for JavaScript programs. Thanks to its type inference, every valid JavaScript program is also a valid TypeScript program
-so it is possible to gradually transform a JavaScript codebase into a TypeScript one. Such languages are said to be gradually typed.
-
-Gradual typing means the programmer can choose to make use of the type checker or not. Type annotated parts of the
-code will be typecheked, the other parts will not.
-In my experience, this tends to make the programmer more lazy. Omitting type annotations can help finish writing a certain part
-of the program faster. The program might even run without error when tested. The problem is that we likely didn't cover all the
-possible execution paths and by "shutting down" the typechecker we made it harder to find the possible inconsistencies in the code.
-The program seems to behave correctly but had we defined types properly, we could have been warned about type errors
-that will now show themselves later at an unexpected time.
-
-**TODO:**
-- https://blog.ambrosebs.com/2018/04/07/unsoundness-in-untyped-types.html
-	- https://users.soe.ucsc.edu/~abadi/Papers/FTS-submitted.pdf (from the above, this is the important one!)
-- https://www.typescriptlang.org/docs/handbook/type-compatibility.html
-	- look for "unsound" keyword!
-
-**TODO: nice notes about its typesystem: https://www.typescriptlang.org/docs/handbook/intro.html#get-started**
-
-#### Closure Compiler (Google)
-Google's Closure Compiler is a static code analyzer and transpiler (compiles to a specific form of the same language).
-It includes a type checker that can read specifically formatted comment sections  -JsDoc- [@jsdoc] which
-contain typing information.
-
-#### Flow (Facebook) https://flow.org/en/docs/lang/
-**TODO: why add a static type system?**
-
-**TODO: read through [@type-or-not-js]**
-
-[@type-or-not-js]
-
-### Python
-Python features a dynamic type system. It is usually called a "strongly typed" language because even
-though its type system doesn't enforce strict typing rules at compile type it is strict about what operations
-are allowed on what types during run time and it will rarely do automatic type conversions.
-
-#### Optional type annotations in Python 3
-Even though Python 3 is dynamically typed, the language allows optional "type hints" which are similar to
-type declarations in languages like Java. These annotations may be used together with type checkers like `mypy`,
-`pyre-check` or `pytype` [@py-type]. The programmer is free to annotate only parts of the source code.
-The Python 3 runtime itself doesn't typecheck the type hints. Due to python's dynamic nature,
-the following code will be executed without any errors in Python 3.5.2:
-
-~~~{.python}
-def f(a: int, b: int) -> str:
-    return a + b
-
-print(f("x", "y"))
-print(f(1, 2))
-~~~
-
-The programmer has to use one of the external type checkers to make use of type hints. Running `mypy`
-on the above code indeed reports type errors complaining about an incompatible return type declaration and incompatible
-argument types when calling the the function with integer values.
-
-The language is radically dynamic. Python's variables are just names that are bound to objects. They can be rebound any time during
-execution and they always take on the type of the bound object, thus potentially changing their type.
-This dynamic, loose type system is critical in Python's reputation as a language of quick, agile
-software development and prototyping. 
-
-The central element of its type system is the class. Python classes work the same way as they do in other classical OOP languages but
-they - and their instances - are extremely dynamic.
-Member variables and methods can be added to instances of classes after they have been instantiated. They can also be modified
-or deleted altogether. Objects can change class, classes can change base classes.
-The excessive dynamism of the language makes it hard to do static analysis and early error detection on python code. [@dynamic-python]
-
-### C
-- procedural, not OOP!
-- lots of missing type system features
-- what does C have in place of all the OOP concepts?
-	- interfaces?
-	- inheritance?
-	- polymorphism?
-
-**TODO: talk about how huge, important and popular software projects are still written in C (Linux kernel!) despite the lack of OOP support**
-
-**TODO: unsafe!**
-- "unchecked casting" - **TODO: correct term?**
-- pointers, pointer arithmetic - **TODO: eplain why unsafe!**
-- https://stackoverflow.com/a/25157350/1772429
-- https://stackoverflow.com/a/969095/1772429
-	- see part about conversion being dynamically checked
-		- `instead of treating the bytes of the array object as if they were a FileStream`
-
-Union types
-`untagged unions`: https://golang.org/doc/faq#unions
-
-### C++
-Examining C++ after C is a good way of demonstrating ...
-
-TODO: list major type system features that C++ adds to C
-- classes, (abstract classes as interfaces)
-- polymorphism
-	- inheritance is not really a type system feature, is it?
-- templates (generics)
-- multiple inheritance
-	- does this fit into type systems?
-
-**TODO: talk about what safety features are added by C++ (are references safety features? why? what else?)**
-
-RedHat article about static analysis: adding -fanalyze flag to GCC
-https://developers.redhat.com/blog/2020/03/26/static-analysis-in-gcc-10/
-
-Virtual functions/methods & dynamic dispatch
-- **TODO: also applies to Java on this list**
-> In object-oriented programming, in languages such as C++, and Object Pascal, a virtual function or virtual method is an inheritable and overridable function or method for which dynamic dispatch is facilitated. This concept is an important part of the (runtime) polymorphism portion of object-oriented programming (OOP). In short, a virtual function defines a target function to be executed, but the target might not be known at compile time.
-> https://en.wikipedia.org/wiki/Virtual_function
-
-Really good article on static/dynamic dispatch:
-https://medium.com/ingeniouslysimple/static-and-dynamic-dispatch-324d3dc890a3
-
-Dynamic binding and polymorphism
-https://rcweb.dartmouth.edu/doc/ibmcxx/en_US/doc/language/concepts/cndbpoly.htm
-
-### Java
-Java is a statically typed, "safe" language. **TODO: why safe?**
-	- `not?`: https://www.cis.upenn.edu/~bcpierce/courses/629/papers/Saraswat-javabug.html
-
-It is a "mandatory OOP" language, meaning that the class is the basic unit of code organization, and also the basic
-container of all data and behavior at runtime.
-[@typescript-docs]
-
-It features a static type system enhanced with various dynamic checks provided by its runtime
-environment, the Java Virtual Machine (JVM).
-
-Fundamentals of java generics
-http://www.angelikalanger.com/GenericsFAQ/FAQSections/Fundamentals.html
-	- link from the above: http://www.angelikalanger.com/GenericsFAQ/FAQSections/TechnicalDetails.html#Why%20does%20the%20compiler%20add%20casts%20when%20it%20translates%20generics?
-
-Unified type system (maybe only for C#?): https://en.wikipedia.org/wiki/Comparison_of_C_Sharp_and_Java#Unified_type_system
-
-#### Type erasure
-**TODO: https://en.wikipedia.org/wiki/Generics_in_Java#Problems_with_type_erasure**
-
-...
-
-#### Other JVM-based languages
-There are other languages, some quite popular that also use the JVM runtime but are wildly different from Java with
-regards to their type systems.
-
-- Groovy
-- Scala
-
-### Clojure, Racket (LISP family)
-**TODO: look up some articles/papers on Clojure's type system and dynamic model**
-
-**TODO: clojure vid: https://www.infoq.com/presentations/Clojure-The-Art-of-Abstraction/**
-
-- also JVM based
-- dynamic
-- talk about some interesting TYPE SYSTEM features of LISPs
-
-Lisp type system: https://lispcookbook.github.io/cl-cookbook/type.html
-
-### Go
-Developed by progamming language veterans at Google, GO features an interesting combination of stong static typing,
-first class support for concurrency and an object oriented style built around composition instead of inheritance.
-
-**TODO: https://thenewstack.io/understanding-golang-type-system/**
-
-- there is no inheritance as in classical OOP! instead there is composition
-- inheritance vs composition
-	- https://stackoverflow.com/questions/49002/prefer-composition-over-inheritance
-		- composition: changing behavior is possible at runtime (?)
-	- https://www.javaworld.com/article/3409071/java-challenger-7-debugging-java-inheritance.html
-- difficult at first because most of us is trained to think in a classical OOP way
-- **TODO: benefits of Go's non-classical OOP model ?**
-
-Go is a good example of how subtyping is a different concept from inheritance.
-Structs (a collection of related attributes) with methods resemble classes of classical OOP languages but in Go there is no subtype polymorphism
-(or any kind of polymorphism) for stucts. Struct types can embed other stuct types where the embedder type
-gains access to the methods of the embedded type. This provides a limited form of inheritance. The embedder
-type however doesn't become a subtype of the embedded one. Most programmers are trained to think in a classical
-object oriented way where derived classes not just inherit from, but also become subtypes of their parents.
-I also come from such a backgroud and in my experience, learning the basics of Go and using it in a procedural style
-is simple. Once we had to write more complex type relationships and resort to the language's object oriented features,
-it became much harder and I was stuck for a good while trying to understand how my familiar object hierarchies
-can be expressed with this language.
-
-> In Go the line between inheritance and composition is pretty blurry [...]
-> Syntactically, inheritance looks almost identical to composition.
-> [@oo-inheritance-in-go]
-
-**TODO: continue with own experience, especially after understanding the Go way of OOP**
-
-Go's interfaces provide ad-hoc polymorphism and are a form of sturctural subtyping.
-
-> interfaces—these are fundamental to Go’s approach to **type-safe duck typing**
-> [@summerfield-go, p. 254.]
-
-To make use of polymorphism, we define interfaces. Interfaces are nothing more than a set of function signatures.
-To make use of interfaces, we define _methods_. Methods are functions defined on a specific type.
-An interface is automatically implemented by a type if it has all the methods required by the interface. 
-
-> [...] relationship between concrete types and abstract types (interfaces) is implicit, so a
-> concrete type may satisfy an interface that the type’s designer was unaware of.
-> [@gopl, p. XV]
-
-**TODO: Unsafe package:**
-> Chapter 13 explains the gory details of low-level programming that uses the unsafe
-> package to step around Go’s type system, and when that is appropriate.
-
-#### Channels - **TODO: revise later!**
-Go's type system extends to its concurrency model. The language has first class suppor (meaning syntactic elements)
-for manipulating _channels_. Channels are typed conduits through which we can send and receive values.
-
-#### Type assertions vs type conversions
-https://tour.golang.org/methods/15
-https://stackoverflow.com/a/20494572/1772429
-https://groups.google.com/d/msg/golang-nuts/dwSPKq9YDso/xJMn4qgttGoJ
-
 ### ML family - OCaml, Haskell, F#, Elm
 The ML family of languages are the prominent representatives of the functional paradigm.
 **TODO: 1-2 sentence about "functional"**
-
 **TODO: Hindley-Milner - https://en.wikipedia.org/wiki/Hindley%E2%80%93Milner_type_system**
-
 **TODO: no exceptions seem to be needed in these languages. true? why?**
-
 **TODO: write about why it is hard to work with untyped data (JSON APIs) in Elm**
 	some good thoughts: https://lispcast.com/clojure-and-types/#json-and-adts
 
@@ -1186,7 +987,7 @@ https://www.youtube.com/watch?v=2wZ1pCpJUIM
 	- **Algebraic types allow robust, concise error handling** - what does this mean? why?
 - 
 
-Rust is a fairly young language that is rapidly gaining popularity. It aims to provide a better alternative to low level,
+Rust is a fairly young language that is rapidly gaining popularity. It aims to provide a modern alternative to low level,
 high-performance but unsafe languages like C and C++ by promising memory safety.
 
 **TODO about the above quote:**

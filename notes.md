@@ -25,8 +25,6 @@
 - http://www.cis.upenn.edu/~bcpierce/attapl/
 
 # QUESTIONS
-- wikipedia links? shall I include them?
-- how to properly reference online content (articles, blog posts) ?
 - what errors are NOT type errors?
 
 # META
@@ -56,7 +54,6 @@ google this !!: "Static vs. dynamic type systems: an empirical study about the r
 
 # Agda
 http://learnyouanagda.liamoc.net/pages/introduction.html
-
 
 # Megjegyzés a vizsgálóbizottságnak
 \pagebreak
@@ -128,3 +125,19 @@ https://speakerdeck.com/igstan/lets-write-a-type-checker
 
 # Dynamic languages
 **TODO: get some ideas from this: "The Unreasonable Effectiveness of Dynamic Typing for Practical Programs"**
+
+# basic type systems links
+https://lexi-lambda.github.io/blog/2020/01/19/no-dynamic-type-systems-are-not-inherently-more-open/
+https://softwareengineering.stackexchange.com/questions/333643/what-is-a-type-system
+https://thevaluable.dev/type-system-explained/
+
+## RTTI
+RTTI is used in the context of some statically typed languages like C++.
+It means that some information about an object's type is made available to the programmer during run-time.
+
+- dynamic casts - downcasting https://stackoverflow.com/a/2254183/1772429
+    - maybe a note about static casts - "static downcast" is undefined behavior https://stackoverflow.com/a/47310910/1772429
+
+**TODO: C++: dynamic_cast, typeid | Java: instanceof**
+**TODO: RTTI and Reflection slides: https://www.cs.huji.ac.il/course/2004/ood/docs/lec08.pdf**
+**TODO: connection between RTTI and reflection**
