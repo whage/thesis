@@ -663,6 +663,9 @@ In case of interfaces, the types that implement the interface may not otherwise 
 Method overloading is the provision of different implementations depending on the type of arguments the method (function) is called on
 and this can happen statically or dynamicall. [@tapl]
 
+**TODO: Ad-hoc polymorphism and Type classes**
+ad-hoc: https://stackoverflow.com/a/42417159/1772429
+
 #### Structural vs Nominal typing
 Structural typing is a way of relating types based solely on their members. Structural typing requires
 that a type supports a given set of operations. [@so-svic-typing]
@@ -729,6 +732,14 @@ http://www.angelikalanger.com/GenericsFAQ/FAQSections/Fundamentals.html
 
 ## Ownership
 https://en.wikipedia.org/wiki/Rust_(programming_language)#Ownership
+
+- ownership, borrows - **TODO: this is exciting type systems material!**
+    -ownership: a novel system whereby it can statically determine when a memory object is no longer in use
+
+**TODO: read "Ownership" part, see linked paper: https://hacks.mozilla.org/2019/01/fearless-security-memory-safety/**
+**TODO: the linked paper: "affine type system": https://gankra.github.io/blah/linear-rust/**
+
+**TODO: nice paper: https://sergio.bz/docs/rusty-types-2016.pdf**
 
 ## Sum types
 - https://www.dragonwasrobot.com/functional-programming/2016/12/20/sum-types-in-kotlin-elixir-and-elm.html
@@ -865,156 +876,20 @@ of a composite type and allow the type system to check whether we we covered all
 **TODO: https://stackoverflow.com/a/10510934/1772429 - what does this mean?**
 > Algebraic data types allows sums as well as products, whereas OO-style classes only allow products.
 
-**TODO: add other advanced concepts if needed : https://en.wikipedia.org/wiki/Type_system#Specialized_type_systems**
-
-# Own research - type systems in programming languages
-
-**TODO: ezeket vizsgálni a nyelveknél:**
-```
-- hogyan jelennek meg a típusok a nyelvben? milyen nyelvi elem(ek) által?
-- milyen kapcsolatokat képes a nyelv modellezni a típusok között? mit jelentenek ezek?
-    - Elm tanulás közben jutott eszembe. Ott a típusok "üresnek tűnnek" (egyszerű "type" definíciókban csak neveket adunk meg, metódusok/függvények nem részei a típusdefiníciónak), és mégis sokrétűen lehet őket használni (generikusság, paraméterek)
-- saját tapasztalatok a nyelvvel, type system előnyei/hiányosságai
-```
-
-The languages:
-
-- Assembly
-- JavaScript
-- Python
-- C/C++
-- Java
-- Clojure `*`
-- Go
-- ML languages (Ocaml, Haskell, Elm)
-- Agda / Idris/ Coq `*`
-- Rust `*`
-
-The languages were selected based on my interests and so that each one features a different
-concept or idea with regards to type systems. My original goal with this thesis was to gain a deeper understanding
-of programming language concepts and try out some languages that I've been interested in for a long time.
-Items marked with an asterix (\*) are languages with which I had no prior experience.
-I'll focus on their type systems based on material I could find as well as my own experiences.
-
-...
-
-**TODO: write about MY experience with every language!**
-
-### ML family - OCaml, Haskell, F#, Elm
-The ML family of languages are the prominent representatives of the functional paradigm.
-**TODO: 1-2 sentence about "functional"**
-**TODO: Hindley-Milner - https://en.wikipedia.org/wiki/Hindley%E2%80%93Milner_type_system**
-**TODO: no exceptions seem to be needed in these languages. true? why?**
-**TODO: write about why it is hard to work with untyped data (JSON APIs) in Elm**
-	some good thoughts: https://lispcast.com/clojure-and-types/#json-and-adts
-
-from [@abrahamson-quora]
-
-**TODO: Ad-hoc polymorphism and Type classes**
-ad-hoc: https://stackoverflow.com/a/42417159/1772429
-
-**TODO: why are there no runtime errors? For which ML language is this true? Is it true for Elm? Why?**
-
-#### Elm
-**Elm's type system: https://elmprogramming.com/type-system.html**
-**TODO: get inspired by Elm custom types: https://guide.elm-lang.org/types/custom_types.html**
-
-**TODO: type and type alias differences**
-
-#### Haskell
-
-> Haskell was designed as a lingua franca for functional programming research and type theory research.
-> It famously “avoids success at all costs” by sticking to its principles of purity and typeability.
-> [@clojure-and-types]
-
-#### My Elm experience
-As a beginner Elm user, programming in the language feels very much like a fight, or rather an argument with the typechecker.
-"I want this done here. No you can't do that, unless you do it that way there, there and there."
-Everywhere the types need to match and even the slightest change can trigger an avalanche of type errors.
-This can be a source of much frustration but as tiresome it may seem, the resulting software is remarkably bug free.
-This is because the type system creates a solid underlying structure to the program.
-At first sight the language seems hostile to the programmer, but as our code grows in complexity, the warnings of the type checker
-become more and more valuable. We are not doing more work, we just do more of the work _before_ we ship our software.
-
-...
-
-Types in elm feel extremely lightweight. They are almost just labels on the underlying data. **TODO: revise, expand!**
-https://medium.com/elm-shorts/an-intro-to-constructors-in-elm-57af7a72b11e
-
-https://elmprogramming.com/type-system.html
-
-- the compiler feels like a co-pilot that is constantly helping
-	- it almost feels like pair programming
-- it is the type system that makes it possible for the compiler to produce such helpful messages!
-
-Ezen pedig gondolkodni, kifejteni:
-```
-type Result error value
-    = Ok value
-    | Err error
-
-```
-Itt error és value mintha típus paraméterek lennének, de úgy tudom, állhatna ott konkrét típus (vagy talán még value is?). Mikor mi? Mi a különbség az egyes esetek között? Ha ez a generikusság megfelelője Elm-ben, akkor ki kéne fejteni, hogy pl C#-ban hogy volt ez. Ott lehet mixelni típus paraméterrel konkrét típusokat?
-C#: https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/generics/constraints-on-type-parameters
-
-https://package.elm-lang.org/packages/elm-lang/core/5.1.1/Json-Decode#map
-> Note: If you run out of map functions, take a look at elm-decode-pipeline which makes it easier
-to handle large objects, but produces lower quality type errors.
-
-### Agda / Idris / Coq
-**TODO: take a look at them, decide which one to focus on**
-
-Agda might be an outlier in this list, but I definitely wanted to include it and talk about its facilities.
-It is a "proof assistant" that can also be used for general purpose programming.
-
-> The most advanced type systems available today — those available for languages such as Agda and Coq and Idris —
-> are truly interactive. Programming in one of those languages is like a conversation with the type-checker
-> where you express your intent and your attempt and the checker asks you questions to see whether those two
-> match up the way they ought to. And then you interactively repeat this process to build your program. [@abrahamson-quora]
-
-**TODO: http://learnyouanagda.liamoc.net/pages/introduction.html**
-
-- inductive types
-- total functions
-
-type driven development in Idris:
-https://codesync.global/media/idris-2-type-driven-development-idris-edwin-brady/
-
-### Rust
 https://www.youtube.com/watch?v=2wZ1pCpJUIM
 - rust part begins at `25:05`
 - algebraic data types `29:40`
-	- **Algebraic types allow robust, concise error handling** - what does this mean? why?
-- 
+    - **Algebraic types allow robust, concise error handling** - what does this mean? why?
 
-Rust is a fairly young language that is rapidly gaining popularity. It aims to provide a modern alternative to low level,
-high-performance but unsafe languages like C and C++ by promising memory safety.
+**TODO: add other advanced concepts if needed : https://en.wikipedia.org/wiki/Type_system#Specialized_type_systems**
 
-**TODO about the above quote:**
-- what is memory safety?
-- how does one language generate more optimal machine code than the other?
+# Type-level programming
 
-- ownership, borrows - **TODO: this is exciting type systems material!**
-	-ownership: a novel system whereby it can statically determine when a memory object is no longer in use
-- immutability
-- etc
+**TODO: do this only if good material is available**
 
-**TODO: writing unsafe programs in rust: (un)safety, subtyping, variance: https://doc.rust-lang.org/nomicon/**
+https://docs.rust-embedded.org/book/static-guarantees/typestate-programming.html
 
-**TODO: read "Ownership" part, see linked paper: https://hacks.mozilla.org/2019/01/fearless-security-memory-safety/**
-**TODO: the linked paper: "affine type system": https://gankra.github.io/blah/linear-rust/**
-
-**TODO: nice paper: https://sergio.bz/docs/rusty-types-2016.pdf**
-
-https://github.com/doctorn/micro-mitten
-> "Like Rust, micro-mitten offers a static approach to memory management"
-
-**TODO: Option, Result types, "variants", "borrows", "lifetimes": https://fasterthanli.me/articles/a-half-hour-to-learn-rust**
-**TODO: how do the above fit into the type system?**
-
-...
-
-## Summary
+# Summary
 In my own experience, a statically typed language is a better tool for writing good, working software.
 I am surprised by the lack of evidence that can back this claim. In fact, all the studies I could find conclude that there is no objective, measurable
 difference between the quality of software produced with dynamicall or statically typed languages.

@@ -138,3 +138,128 @@ for manipulating _channels_. Channels are typed conduits through which we can se
 https://tour.golang.org/methods/15
 https://stackoverflow.com/a/20494572/1772429
 https://groups.google.com/d/msg/golang-nuts/dwSPKq9YDso/xJMn4qgttGoJ
+
+# Own research - type systems in programming languages
+
+The languages:
+
+- Assembly
+- JavaScript
+- Python
+- C/C++
+- Java
+- Clojure `*`
+- Go
+- ML languages (Ocaml, Haskell, Elm)
+- Agda / Idris/ Coq `*`
+- Rust `*`
+
+The languages were selected based on my interests and so that each one features a different
+concept or idea with regards to type systems. My original goal with this thesis was to gain a deeper understanding
+of programming language concepts and try out some languages that I've been interested in for a long time.
+Items marked with an asterix (\*) are languages with which I had no prior experience.
+I'll focus on their type systems based on material I could find as well as my own experiences.
+
+...
+
+**TODO: write about MY experience with every language!**
+
+### ML family - OCaml, Haskell, F#, Elm
+The ML family of languages are the prominent representatives of the functional paradigm.
+**TODO: 1-2 sentence about "functional"**
+**TODO: Hindley-Milner - https://en.wikipedia.org/wiki/Hindley%E2%80%93Milner_type_system**
+**TODO: no exceptions seem to be needed in these languages. true? why?**
+
+from [@abrahamson-quora]
+
+**TODO: why are there no runtime errors? For which ML language is this true? Is it true for Elm? Why?**
+
+#### Elm
+**Elm's type system: https://elmprogramming.com/type-system.html**
+**TODO: get inspired by Elm custom types: https://guide.elm-lang.org/types/custom_types.html**
+
+**TODO: type and type alias differences**
+
+- Elm tanulás közben jutott eszembe. Ott a típusok "üresnek tűnnek" (egyszerű "type" definíciókban csak neveket adunk meg, metódusok/függvények nem részei a típusdefiníciónak), és mégis sokrétűen lehet őket használni (generikusság, paraméterek)
+
+**TODO: write about why it is hard to work with untyped data (JSON APIs) in Elm**
+    some good thoughts: https://lispcast.com/clojure-and-types/#json-and-adts
+
+#### Haskell
+
+> Haskell was designed as a lingua franca for functional programming research and type theory research.
+> It famously “avoids success at all costs” by sticking to its principles of purity and typeability.
+> [@clojure-and-types]
+
+#### My Elm experience
+As a beginner Elm user, programming in the language feels very much like a fight, or rather an argument with the typechecker.
+"I want this done here. No you can't do that, unless you do it that way there, there and there."
+Everywhere the types need to match and even the slightest change can trigger an avalanche of type errors.
+This can be a source of much frustration but as tiresome it may seem, the resulting software is remarkably bug free.
+This is because the type system creates a solid underlying structure to the program.
+At first sight the language seems hostile to the programmer, but as our code grows in complexity, the warnings of the type checker
+become more and more valuable. We are not doing more work, we just do more of the work _before_ we ship our software.
+
+...
+
+Types in elm feel extremely lightweight. They are almost just labels on the underlying data. **TODO: revise, expand!**
+https://medium.com/elm-shorts/an-intro-to-constructors-in-elm-57af7a72b11e
+
+https://elmprogramming.com/type-system.html
+
+- the compiler feels like a co-pilot that is constantly helping
+	- it almost feels like pair programming
+- it is the type system that makes it possible for the compiler to produce such helpful messages!
+
+Ezen pedig gondolkodni, kifejteni:
+```
+type Result error value
+    = Ok value
+    | Err error
+
+```
+Itt error és value mintha típus paraméterek lennének, de úgy tudom, állhatna ott konkrét típus (vagy talán még value is?). Mikor mi? Mi a különbség az egyes esetek között? Ha ez a generikusság megfelelője Elm-ben, akkor ki kéne fejteni, hogy pl C#-ban hogy volt ez. Ott lehet mixelni típus paraméterrel konkrét típusokat?
+C#: https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/generics/constraints-on-type-parameters
+
+https://package.elm-lang.org/packages/elm-lang/core/5.1.1/Json-Decode#map
+> Note: If you run out of map functions, take a look at elm-decode-pipeline which makes it easier
+to handle large objects, but produces lower quality type errors.
+
+### Agda / Idris / Coq
+**TODO: take a look at them, decide which one to focus on**
+
+Agda might be an outlier in this list, but I definitely wanted to include it and talk about its facilities.
+It is a "proof assistant" that can also be used for general purpose programming.
+
+> The most advanced type systems available today — those available for languages such as Agda and Coq and Idris —
+> are truly interactive. Programming in one of those languages is like a conversation with the type-checker
+> where you express your intent and your attempt and the checker asks you questions to see whether those two
+> match up the way they ought to. And then you interactively repeat this process to build your program. [@abrahamson-quora]
+
+**TODO: http://learnyouanagda.liamoc.net/pages/introduction.html**
+
+- inductive types
+- total functions
+
+type driven development in Idris:
+https://codesync.global/media/idris-2-type-driven-development-idris-edwin-brady/
+
+### Rust
+Rust is a fairly young language that is rapidly gaining popularity. It aims to provide a modern alternative to low level,
+high-performance but unsafe languages like C and C++ by promising memory safety.
+
+**TODO about the above quote:**
+- what is memory safety?
+- how does one language generate more optimal machine code than the other?
+- immutability
+- etc
+
+**TODO: writing unsafe programs in rust: (un)safety, subtyping, variance: https://doc.rust-lang.org/nomicon/**
+
+https://github.com/doctorn/micro-mitten
+> "Like Rust, micro-mitten offers a static approach to memory management"
+
+**TODO: Option, Result types, "variants", "borrows", "lifetimes": https://fasterthanli.me/articles/a-half-hour-to-learn-rust**
+**TODO: how do the above fit into the type system?**
+
+...
