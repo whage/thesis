@@ -534,7 +534,7 @@ Also, there are assembly languages that were designed to be compiler targets rat
 For such languages there is little benefit for complex typing.
 
 **TODO: read more about assembly, come back to this section later**
-**TODO: x86-64 Assembly Language Programming withUbuntu (currently at p. 34)**
+**TODO: x86-64 Assembly Language Programming with Ubuntu (currently at p. 34)**
 
 Assembly languages are - barring some academic derivatives - untyped. The values that we can manipulate in the language
 are just byte sequences. There is no way of knowing what a register or memory address holds just by looking at the assembly code.
@@ -550,12 +550,71 @@ Typed Assembly Language papers (from around 1999) - Morrisett et al.
     - https://www.cis.upenn.edu/~stevez/papers/MCGG99.pdf
 
 ## Types and operations
-The next step for a programming langage would be to define certain basic types and operations for the values in the program.
-These help reduce the cognitive load on the programmer and make it possible to check (either statically or dynamicall) whether some
-operation later in the code is considered legal or not.
-We might take this for granted but this indeed is a language feature that wasn't there for the first generations of computer programmers.
+The next step for a programming langage with regards to type systems would be to define certain basic types and operations
+for the values in the program. These help reduce the cognitive load on the programmer and make it possible to check
+(either statically or dynamicall) whether some operation later in the code is considered legal or not.
+Today we take for granted such a type system but this indeed is a language feature that wasn't there for the
+first generations of computer programmers.
 
 **TODO**
+
+## Gradual typing
+Gradual typing orignates in Siek & Taha's [@siek-taha-gradual] 2006 paper. The idea is that a language should provide
+static and dynamic typing at the same time with the programmer controlling the degree of static checking by annotating function parameters
+with types [@siek-taha-gradual]. Gradually typed languages usually (but not always) have an interesting property:
+an unsound type system, as is the case with TypeScript:
+
+> The designers of TypeScript made a conscious decision not to insist on static soundness. [...]
+> it is possible for a program, even one with abundant type annotations, to pass the TypeScript typechecker but to fail
+> at run-time with a dynamic type error [...]
+> This decision stems from the widespread usage of TypeScript to ascribe types to existing JavaScript libraries and codebases,
+> not just code written from scratch in TypeScript. It is crucial to the usability of the language that it allows for common
+> patterns in popular APIs, even if that means embracing unsoundness in specific places
+> [@understanding-ts]
+
+As Bierman et al. [@understanding-ts] put it, it is a valid choice to go with a deliberately unsound type system in the case
+of gradually typed languages. This makes it possible to use it on existing large codebases that might contain possibilities
+for type errors at runtime (maybe only in unrealistic scenarios) but that still benefit from the added static type checking.
+[@uiut]
+
+### Gradual typing in TypeScript
+TypeScript is a gradually typed superset of the JavaScript language with optional type annotations and provides a typechecker and transpiler
+for JavaScript programs. Thanks to its type inference, every valid JavaScript program is also a valid TypeScript program
+so it is possible to gradually transform a JavaScript codebase into a TypeScript one. TypeScript's static type system is unsound by design
+to allow for "backwards compatibility" and an incremental transition from dynamically typed JavaScript codebases.
+
+**TODO: example from:**
+- https://www.typescriptlang.org/docs/handbook/type-compatibility.html
+    - look for "unsound" keyword!
+
+### Optional type annotations in Python 3
+Even though Python 3 is dynamically typed, the language allows optional "type hints" which are similar to
+type declarations in languages like Java. These annotations may be used together with type checkers like `mypy`,
+`pyre-check` or `pytype` [@py-type]. The programmer is free to annotate only parts of the source code.
+The Python 3 runtime itself doesn't typecheck the type hints. Due to python's dynamic nature,
+the following code will be executed without any type errors in Python 3.5.2:
+
+~~~{.python}
+def f(a: int, b: int) -> str:
+    return a + b
+
+print(f("x", "y"))
+print(f(1, 2))
+~~~
+
+The programmer has to use one of the external type checkers to make use of type hints. Running `mypy`
+on the above code indeed reports type errors complaining about an incompatible return type declaration and incompatible
+argument types when calling the the function with integer values.
+
+In my own experience, on one hand, gradual typing tends to make the programmer lazy. Omitting type annotations can help finish writing certain parts
+of the program faster. The program might even run without error when tested. The problem is that we likely didn't cover all the
+possible execution paths and by "shutting down" the typechecker we made it harder to find the possible inconsistencies in the code.
+The program seems to behave correctly but had we defined types properly, we could have been warned about type errors
+that will now show themselves later at an unexpected time.
+
+On the other hand, having the possibility of retrofitting a codebase with static type checking is always good.
+Adding some type safety a step at a time to an existing large code base by providing a smooth transition and thus
+not blocking development can provide great value.
 
 ## Reflection
 > Many programming languages require compiled programs to manipulate some amount
@@ -593,48 +652,7 @@ Uses for reflection:
 - ORM
 - building frameworks based on naming conventions - is it a good idea?
 
-## Gradual typing
-Gradual typing means the programmer can choose to make use of the type checker or not. Type annotated parts of the
-code will be typecheked, the other parts will not.
-In my experience, this tends to make the programmer more lazy. Omitting type annotations can help finish writing a certain part
-of the program faster. The program might even run without error when tested. The problem is that we likely didn't cover all the
-possible execution paths and by "shutting down" the typechecker we made it harder to find the possible inconsistencies in the code.
-The program seems to behave correctly but had we defined types properly, we could have been warned about type errors
-that will now show themselves later at an unexpected time.
-
-Typescript for example is a gradually typed superset of the JavaScript language with optional type annotations and provides a typechecker and transpiler
-for JavaScript programs. Thanks to its type inference, every valid JavaScript program is also a valid TypeScript program
-so it is possible to gradually transform a JavaScript codebase into a TypeScript one.
-
-### Gradual typing in TypeScript
-
-**TODO:**
-- https://blog.ambrosebs.com/2018/04/07/unsoundness-in-untyped-types.html
-    - https://users.soe.ucsc.edu/~abadi/Papers/FTS-submitted.pdf (from the above, this is the important one!)
-- https://www.typescriptlang.org/docs/handbook/type-compatibility.html
-    - look for "unsound" keyword!
-
-**TODO: nice notes about its typesystem: https://www.typescriptlang.org/docs/handbook/intro.html#get-started**
-**TODO: read through [@type-or-not-js]**
-
-### Optional type annotations in Python 3
-Even though Python 3 is dynamically typed, the language allows optional "type hints" which are similar to
-type declarations in languages like Java. These annotations may be used together with type checkers like `mypy`,
-`pyre-check` or `pytype` [@py-type]. The programmer is free to annotate only parts of the source code.
-The Python 3 runtime itself doesn't typecheck the type hints. Due to python's dynamic nature,
-the following code will be executed without any errors in Python 3.5.2:
-
-~~~{.python}
-def f(a: int, b: int) -> str:
-    return a + b
-
-print(f("x", "y"))
-print(f(1, 2))
-~~~
-
-The programmer has to use one of the external type checkers to make use of type hints. Running `mypy`
-on the above code indeed reports type errors complaining about an incompatible return type declaration and incompatible
-argument types when calling the the function with integer values.
+**TODO: add code snippet**
 
 ## Polymorphic typing - "Polymorphism"
 A language, where every expression has a single type is called monomorphic. In such a language
@@ -731,14 +749,26 @@ http://www.angelikalanger.com/GenericsFAQ/FAQSections/Fundamentals.html
 **TODO**
 
 ## Ownership
+The ownership system is one of the main innovations of the Rust programming language, whereby it can statically determine
+when a memory object is no longer in use. Through ownership, Rust provides memory safety guarantees at compilation time.
+
+> All programs have to manage the way they use a computer’s memory while running.
+> Some languages have garbage collection that constantly looks for no longer used memory as the program runs;
+> in other languages, the programmer must explicitly allocate and free the memory.
+> Rust uses a third approach: memory is managed through a system of ownership with
+> a set of rules that the compiler checks at compile time.
+> [@rust-book]
+
+Memory safety means that the software never accesses invalid memory. Such invalid memory accesses could be use-after-free,
+null pointer dereferencing, using uninitialized memory, double free or buffer overflows [@mozilla-fearless], all of which
+are common causes of severe bugs and vulnerabilities. Providing memory safety is considered as one of the next big challanges
+of programming language design.
+
 https://en.wikipedia.org/wiki/Rust_(programming_language)#Ownership
 
-- ownership, borrows - **TODO: this is exciting type systems material!**
-    -ownership: a novel system whereby it can statically determine when a memory object is no longer in use
-
 **TODO: read "Ownership" part, see linked paper: https://hacks.mozilla.org/2019/01/fearless-security-memory-safety/**
+**TODO: stanford lecture notes on Memory Safety: https://stanford-cs242.github.io/f19/lectures/06-2-memory-safety.html**
 **TODO: the linked paper: "affine type system": https://gankra.github.io/blah/linear-rust/**
-
 **TODO: nice paper: https://sergio.bz/docs/rusty-types-2016.pdf**
 
 ## Sum types
@@ -883,7 +913,7 @@ https://www.youtube.com/watch?v=2wZ1pCpJUIM
 
 **TODO: add other advanced concepts if needed : https://en.wikipedia.org/wiki/Type_system#Specialized_type_systems**
 
-# Type-level programming
+## Type-level programming
 
 **TODO: do this only if good material is available**
 
@@ -906,18 +936,25 @@ development, this suggests a dissatisfaction with dynamic typing as projects gro
 
 **TODO: continue!**
 
-# Suggestions for further research
+# Suggestions for further research: Type systems and software security
 
 **TODO: put all the interesting stuff here that I had no time for**
-
-## Type systems and software security
-**TODO: google "type systems and security"**
 
 - defensive mechanisms provided by type systems
     - look at the most common sources of vulnerabilities, see if type systems could help
         - need data!
 - solving injection with a type system
     - http://blog.moertel.com/posts/2006-10-18-a-type-based-solution-to-the-strings-problem.html
+
+## Type-directed memory management
+
+> the work of Martin Hofmann and the team on the Mobile Resource Guarantees project, who made type-directed memory (de/re)allocation a major theme
+> https://stackoverflow.com/a/7039396/1772429
+
+## Region inference
+
+> Region inference is a technique for determining when objects become dead (even if they are reachable) by a static analysis of the program.
+> https://www.memorymanagement.org/glossary/r.html#term-region-inference
 
 **TODO: summarize CAR Hoare's presentation on `NullPointerException`s (The Billion Dollar Mistake - 2009)**
 
@@ -930,5 +967,7 @@ development, this suggests a dissatisfaction with dynamic typing as projects gro
 - 50:00 great thoughts about the `jmp` machine instruction
 
 ...
+
+\pagebreak
 
 # References
