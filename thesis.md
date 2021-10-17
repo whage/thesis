@@ -747,6 +747,7 @@ http://www.angelikalanger.com/GenericsFAQ/FAQSections/Fundamentals.html
 ## Type classes
 
 **TODO**
+https://jrsinclair.com/articles/2019/type-classes-what-i-wish-someone-had-explained-about-functional-programming/
 
 ## Ownership
 The ownership system is one of the main innovations of the Rust programming language, whereby it can statically determine
@@ -764,16 +765,9 @@ null pointer dereferencing, using uninitialized memory, double free or buffer ov
 are common causes of severe bugs and vulnerabilities. Providing memory safety is considered as one of the next big challanges
 of programming language design.
 
-https://en.wikipedia.org/wiki/Rust_(programming_language)#Ownership
-
-**TODO: read "Ownership" part, see linked paper: https://hacks.mozilla.org/2019/01/fearless-security-memory-safety/**
 **TODO: stanford lecture notes on Memory Safety: https://stanford-cs242.github.io/f19/lectures/06-2-memory-safety.html**
 **TODO: the linked paper: "affine type system": https://gankra.github.io/blah/linear-rust/**
 **TODO: nice paper: https://sergio.bz/docs/rusty-types-2016.pdf**
-
-## Sum types
-- https://www.dragonwasrobot.com/functional-programming/2016/12/20/sum-types-in-kotlin-elixir-and-elm.html
-- idea: implement a queue with sum types in some ML language
 
 ## Effect systems
 - downloaded PDF: "Type and effect systems - Nielson"
@@ -885,6 +879,60 @@ The scalar values that the types depend on must not be constant values...
 
 ## Algebraic data types
 Algebraic data types are composite types: they are defined as a combination of other types.
+There are two main classes of algebraic data types: product types and sum types. Product types are structures
+that can hold more than one value in a single structure at the same time. This is just a fancy name for common and simple
+programming language constructs like tuples or records (maps or structs). Product type are not particularly interesting
+from a type systems standpoint but it is just the opposite with sum types.
+[@wiki-algebraic]
+[@sinclair-algebraic]
+
+### Sum types
+To understand sum types (also called tagged unions or variant types), first lets define union types.
+Union types are usually denoted as `A | B` where `A` and `B` are some types.
+A union type between two types `A` and `B` is simply the union of the two sets of values,
+so it may hold any value from either `A` or `B`. For example, the union type `null | int` can hold
+`null` or any integer value. [@waleed-union-vs-sum]
+
+Sum types are very similar to union types as in they hold a value that must be one of a fixed set of options.
+
+> Only one of the types can be in use at any one time, and a tag field explicitly indicates which one is in use.
+> It can be thought of as a type that has several “cases,” each of which should be handled correctly when that type is manipulated.
+> [@wiki-tagged-union]
+
+Before I get into more details, for reference, here is an example of a sum type definiton in Elm (an ML type language):
+
+```
+type Message
+  = InitApp
+  | AddNewRow
+  | DeleteRow Int
+  | InputChanged Int Attribute String
+```
+
+I especially like the ML syntax because it is intuitive: this must be about some message type that can take
+on certain forms where each form contains different data about the message.
+
+Every type in the sum type is accompanied by a label (or tag), hence the name "tagged union".
+This label is a unique identifier for this element of the sum type.
+A sum type can also be thought of as an enum, with a payload where that payload is the actual value that it holds.
+[@waleed-union-vs-sum]
+[@waghorn-sum-types]
+
+> [A tagged union is] a union, but each element remembers what set it came from
+> [@waleed-union-vs-sum]
+
+**TODO: talk about how sum types facilitate null-tracking and error handling and whatnot**
+https://blog.waleedkhan.name/union-vs-sum-types/
+
+- https://www.dragonwasrobot.com/functional-programming/2016/12/20/sum-types-in-kotlin-elixir-and-elm.html
+- idea: implement a queue with sum types in some ML language
+
+- Maybe / Option
+    - note: "nullable" in dynamic languages where ther is NULL, "option" or "maybe" in static languages
+    - Null pointer exceptions vs. "Maybe" types
+        - https://guide.elm-lang.org/error_handling/maybe.html
+
+### Applications
 In most imperative languages conditional expressions (if-else statements) can define any number of branches
 that are not checked for consistency. Execution enters these branches based solely on their predicates,
 boolean valued "functions". This means that by mistake, they can overlap or fail to handle all possible cases.
@@ -892,26 +940,12 @@ In functional languages, with the help of pattern matching, algebraic data types
 implementation of conditional expressions. They let us define the branching logic in terms 
 of a composite type and allow the type system to check whether we we covered all the cases. [@parmer-type-systems]
 
-**TODO**:
-
-- Sum types
-    - Maybe / Option
-        - note: "nullable" in dynamic languages where ther is NULL, "option" or "maybe" in static languages
-        - Null pointer exceptions vs. "Maybe" types
-            - https://guide.elm-lang.org/error_handling/maybe.html
-    - Try
-- Product types
-- https://en.wikipedia.org/wiki/Algebraic_data_type
-
-**TODO: https://stackoverflow.com/a/10510934/1772429 - what does this mean?**
-> Algebraic data types allows sums as well as products, whereas OO-style classes only allow products.
+**TODO: talk about null-tracking as described here: https://blog.waleedkhan.name/union-vs-sum-types/**
 
 https://www.youtube.com/watch?v=2wZ1pCpJUIM
 - rust part begins at `25:05`
 - algebraic data types `29:40`
     - **Algebraic types allow robust, concise error handling** - what does this mean? why?
-
-**TODO: add other advanced concepts if needed : https://en.wikipedia.org/wiki/Type_system#Specialized_type_systems**
 
 ## Type-level programming
 
