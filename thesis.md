@@ -344,7 +344,7 @@ often used to mean certain combinations of language attributes. They are used to
 or if type checking is done statically or dynamically. It is best to avoid these ambiguous terms.
 
 ## Type checking algorithms
-There are various approaches to type checking but the general idea behind the algorithms is the following:
+The general idea behind type checking algorithms is the following:
 
 1. Parse the source code into an "Abstract Syntax Tree" (AST)
 2. Annotate each node in the AST with a "type annotation"
@@ -616,6 +616,109 @@ On the other hand, having the possibility of retrofitting a codebase with static
 Adding some type safety a step at a time to an existing large code base by providing a smooth transition and thus
 not blocking development can provide great value.
 
+### Structural vs Nominal typing
+Structural typing is a way of relating types based solely on their members. Structural typing requires
+that a type supports a given set of operations. [@so-svic-typing]
+
+Duck typing is a loose form of structural typing: the implementation must be provided at run-time, not necessarily at compile time.
+There are no explicitly defined interfaces in the language which makes for terse and concise code as well as minimal coupling
+between different modules. Unfortunately, it also hides the dependencies between classes. [@nascimento-duck]
+The phrase comes from the American poet, James Whitcomb Riley's duck test:
+"if it walks like a duck, and quacks like a duck, then it probably is a duck".
+
+> In duck typing a statement calling a method on an object does not rely on the declared type of the object; only that the object,
+> of whatever type, must supply an implementation of the method called, when called, at run-time.
+> [@wiki-type-systems]
+
+Structural typing is in contrast with nominal typing. In the case of a nominally-typed language,
+a subtype must explicitly declare itself to be related to the supertype. Nominal is more strict than structural.
+[@typescript-docs]
+
+## Polymorphic typing - "Polymorphism"
+A language, where every expression has a single type is called monomorphic. In such a language
+there is a distinct identity function of each type: $\lambda \ (x : \tau ) \ x$ even though the
+behavior is exactly the same for each choice if $\tau$. Although they all have the same
+behavior when executed, each choice requires a different program. [@pfpl-2016]
+
+> [...] motivated by a simple practical problem (how to avoid writing redundant code),
+> the concept of polymorphism is central to an impressive variety of seemingly disparate concepts [...]
+> [@pfpl-2016 p. 141.]
+
+Polymorphism (poly = many, morph = form) is the concept of having internally different objects that provide the same interface.
+Even though they implement different behaviour and have different structure, in some aspect they "look the same" from the outside
+and so they can be used interchangeably. It is the programmer's task to declare such similarities
+between different types. Of course it is not only about declaring similarity; the programmer has to
+create some structure like implementing a common method or placing the types in the same hierarchy
+or wrapping them with the same structure. The way we do this is by using some sort of polymorphism that
+the language at hand provides. The point of the whole thing is to decaler similarity and iterchangeability
+on the type level so that we can utilize the type checker. 
+
+To facilitate code-reuse, most programming languages feature a polymorphic type system.
+A polymorphic languages are those of which the type systems allows different data types to be handled
+in a uniform interface. [@ots-2008] Stated more simply: in a polymorphic language, a program fragment
+may have multiple types. There are different kinds of polymorphisms, I will look at each of them in
+more detail below.
+
+### Ad-hoc polymorphism - overloading
+Ad-hoc polymorphism means polymorphic functions, that is, functions that can be applied to different types of arguments and
+the implementation depends on the types of the arguments.
+Ad-hoc here means that this is not a feature of the type system but instead a mechanism that is about using
+the same name for different (but related) operations. [@wiki-polymorphism]
+The typical example are method or operator overloading in most OOP languages. Method overloading is the provision of different
+implementations depending on the type of arguments the method (function) is called on and this can happen statically or dynamicall. [@tapl]
+
+### Subtype polymorphism - Subtyping
+Subtype polymorphism or runtime polymorphism is the process of taking a type (the base type)
+and defining a more specialised type (the subtype) based on it by extending it with functionality or
+overriding some parts to facilitate code reuse.
+The subtype is related to the supertype by the notion of substitutability which means that in a program the subtype
+should be able to be used wherever the supertype is expected. [@wiki-subtyping]
+In most classical object oriented languages subtyping is tied to inheritance in the form of class hierarchies.
+Class hierarchies together with method overriding (providing different or extended implementations in child classes)
+is the primary vehicle of subtype polymorphism that is made possible by dynamic method dispatch.
+
+Interfaces in OOP languages also implement something like subtype polymorphism: they provide a common type for
+types that may not otherwise be related.
+
+#### Difference between subtyping and inheritance
+Go is a good example of how subtyping is a different concept from inheritance.
+In Go, structs (a collection of related attributes) with methods resemble classes of classical OOP languages but in Go there is
+no subtype polymorphism (or any kind of polymorphism) for stucts. Struct types can embed other stuct types where the embedder type
+gains access to the methods of the embedded type. This provides a limited form of inheritance. The embedder
+type however is not polymorphic with the embedded one (it doesn't become a subtype of the embedded one).
+
+In Go, we use interfaces to declare subtype relationships. An interface is a set of function signatures and any type
+that implmenets all the functions ("methods") that an interface declares is said to implicitly implement
+that interface - also a case of structural (instead of nominal, as in most OOP languages) subtyping.
+
+Most programmers are trained to think in a classical
+object oriented way where derived classes not just inherit from, but also become subtypes of their parents.
+I also come from such a backgroud and in my experience, learning the basics of Go and using it in a procedural style
+is simple. Once we had to write more complex type relationships and resort to the language's object oriented features,
+it became much harder and I was stuck for a good while trying to understand how my well-understood OOP object hierarchies
+can be expressed with this language.
+
+**TODO: go snippet with interface-based polymorphism**
+
+### Parametric polymorphism
+Sometimes called "compile-time polymorphism", parametric polymorphism means that concrete types are abstracted away
+from the implementation and type parameters (or type arguments) are used instead. This way type checking can still be done
+based on type variables while providing flexibility since they can take on any type as long as that type is used
+consistently within the scope of the type parameters. The simplest use case for parametric polymorphism is implementing
+generic "container" types in statically typed languages where the emphasis is not on the type of the values in the container
+but instead on their consistent use within the container (generic lists, generic tuples). The typechecker can aid
+in enforcing the consistent usage without dictating the exact types of the values.
+
+#### Generics
+**TODO: any meaning in a dynamic context?**
+    - https://www.quora.com/Do-generics-makes-more-sense-in-statically-typed-or-in-dynamically-typed-languages-Explain-your-answer
+
+http://www.angelikalanger.com/GenericsFAQ/FAQSections/Fundamentals.html
+    - link from the above: http://www.angelikalanger.com/GenericsFAQ/FAQSections/TechnicalDetails.html#Why%20does%20the%20compiler%20add%20casts%20when%20it%20translates%20generics?
+
+**TODO: after a few words on "Generics (Java, C#), write an example of parametric polymorphism in Java and one in Elm, compare them!**
+**some guidelines: https://stackoverflow.com/a/42417159/1772429**
+
 ## Reflection
 > Many programming languages require compiled programs to manipulate some amount
 > of type information at run-time [@leroy-intro-tic98 p. 4]
@@ -646,103 +749,15 @@ To solve the above issues, the reflective capabilities of the language must be s
 
 [@revival-2005]
 
-Uses for reflection:
-- serialization / marshaling
-- debuggers, class browsers
-- ORM
-- building frameworks based on naming conventions - is it a good idea?
+Reflection can help with serialization (or "marshalling") of objects when the objects themselves were originally not designed
+to support it and it would be too tedious to prepare a hierarchy of classes for serialization.
+Debuggers or class browsers can be created using reflection. Object-relational mappers (ORM) that
+create object oriented abstractions of database entities are popular in business software and are another
+use case for reflection. Testing frameworks that are based on naming conventions also depend on reflection
+to dynamically discover methods which follow a certain naming pattern.
 
 **TODO: add code snippet**
-
-## Polymorphic typing - "Polymorphism"
-A language, where every expression has a single type is called monomorphic. In such a language
-there is a distinct identity function of each type: $\lambda \ (x : \tau ) \ x$ even though the
-behavior is exactly the same for each choice if $\tau$. Although they all have the same
-behavior when executed, each choice requires a different program. [@pfpl-2016]
-
-> [...] motivated by a simple practical problem (how to avoid writing redundant code),
-> the concept of polymorphism is central to an impressive variety of seemingly disparate concepts [...]
-> [@pfpl-2016 p. 141.]
-
-Polymorphism is the concept of having internally different objects that provide the same interface.
-Even though they implement different behaviour, they look the same from the outside and so they can be used
-interchangeably.
-
-To facilitate code-reuse, most programming languages feature a polymorphic type system.
-A polymorphic languages are those of which the type systems allows different data types to be handled
-in a uniform interface. [@ots-2008] Stated more simply: in a polymorphic language, a program fragment
-may have multiple types. There are different kinds of polymorphisms, I will look at each of them in
-more detail below.
-
-### Ad-hoc polymorphism - Interfaces, overloading
-Ad-hoc polymorphism is when we can define a common interface for an arbitrary set of individually specified types.
-The typical example are interfaces and method overloading in most OOP languages.
-In case of interfaces, the types that implement the interface may not otherwise be related, hence the word, "ad-hoc". [@wiki-polymorphism]
-Method overloading is the provision of different implementations depending on the type of arguments the method (function) is called on
-and this can happen statically or dynamicall. [@tapl]
-
-**TODO: Ad-hoc polymorphism and Type classes**
-ad-hoc: https://stackoverflow.com/a/42417159/1772429
-
-#### Structural vs Nominal typing
-Structural typing is a way of relating types based solely on their members. Structural typing requires
-that a type supports a given set of operations. [@so-svic-typing]
-
-Duck typing is a loose form of structural typing: the implementation must be provided at run-time, not necessarily at compile time.
-There are no explicitly defined interfaces in the language which makes for terse and concise code as well as minimal coupling
-between different modules. Unfortunately, it also hides the dependencies between classes. [@nascimento-duck]
-The phrase comes from the American poet, James Whitcomb Riley's duck test:
-"if it walks like a duck, and quacks like a duck, then it probably is a duck".
-
-> In duck typing a statement calling a method on an object does not rely on the declared type of the object; only that the object,
-> of whatever type, must supply an implementation of the method called, when called, at run-time.
-> [@wiki-type-systems]
-
-Structural typing is in contrast with nominal typing. In the case of a nominally-typed language,
-a subtype must explicitly declare itself to be related to the supertype. Nominal is more strict than structural.
-[@typescript-docs]
-
-### Subtype polymorphism - Subtyping
-Subtype polymorphism or runtime polymorphism is the process of taking a type (the base type)
-and defining a more specialised type (the subtype) based on it by extending it with functionality or
-overriding some parts to facilitate code reuse.
-The subtype is related to the supertype by the notion of substitutability which means that in a program the subtype
-should be able to be used wherever the supertype is expected. [@wiki-subtyping]
-In most classical object oriented languages subtyping is tied to inheritance in the form of class hierarchies.
-Class hierarchies together with method overriding (providing different or extended implementations in child classes)
-is the primary vehicle of subtype polymorphism that is made possible by dynamic method dispatch.
-
-#### Difference between subtyping and inheritance
-> In Go the line between inheritance and composition is pretty blurry [...]
-> Syntactically, inheritance looks almost identical to composition.
-> [@oo-inheritance-in-go]
-
-Go is a good example of how subtyping is a different concept from inheritance.
-Structs (a collection of related attributes) with methods resemble classes of classical OOP languages but in Go there is no subtype polymorphism
-(or any kind of polymorphism) for stucts. Struct types can embed other stuct types where the embedder type
-gains access to the methods of the embedded type. This provides a limited form of inheritance. The embedder
-type however doesn't become a subtype of the embedded one. Most programmers are trained to think in a classical
-object oriented way where derived classes not just inherit from, but also become subtypes of their parents.
-I also come from such a backgroud and in my experience, learning the basics of Go and using it in a procedural style
-is simple. Once we had to write more complex type relationships and resort to the language's object oriented features,
-it became much harder and I was stuck for a good while trying to understand how my familiar object hierarchies
-can be expressed with this language.
-
-### Parametric polymorphism - Generics
-Sometimes called "compile-time polymorphism", parametric polymorphism means that concrete types are abstracted away
-from the implementation and type parameters (or type arguments) are used instead. This way type checking can still be done
-based on type variables while providing flexibility since they can take on any type as long as that type is used
-consistently within the scope of the type parameters. The simplest use case for parametric polymorphism is implementing
-generic "container" types in statically typed languages where the emphasis is not on the type of the values in the container
-but instead on their consistent use within the container (generic lists, generic tuples). The typechecker can aid
-in enforcing the consistent usage without dictating the exact types of the values.
-
-## Generics
-**TODO: any meaning in a dynamic context?**
-    - https://www.quora.com/Do-generics-makes-more-sense-in-statically-typed-or-in-dynamically-typed-languages-Explain-your-answer
-
-http://www.angelikalanger.com/GenericsFAQ/FAQSections/Fundamentals.html
-    - link from the above: http://www.angelikalanger.com/GenericsFAQ/FAQSections/TechnicalDetails.html#Why%20does%20the%20compiler%20add%20casts%20when%20it%20translates%20generics?
+**this maybe: https://missingquitbutton.wordpress.com/2019/07/20/using-reflection-with-serialization-and-deserialization-part-1/**
 
 ## Type classes
 
@@ -844,22 +859,6 @@ Having to spell out complex types can be a burden and can hurt readability and o
 Type inference seems to be the golden mean: making static type checking possible while not enforcing the programmer
 to be explicit about their types.
 
-## Abstraction and types
-Abstraction is the principle of reducing something to its essential characteristics, removing everything that is unnecessary
-to accurately represent it for a particular usage. Abstraction reduces complexity and increases efficiency. [@whatis-abstraction]
-
-- [Fleury: abstractions](fleury-abs)
-- [destroyallsoftware: types](destroyall)
-- [types in go](ardanlabs)
-- [Abstract types and the dot notation](leroy-dot)
-
-[fleury-abs]: http://ryanfleury.net/blog#a_theoretical_examination_of_the_abstraction
-[destroyall]: https://www.destroyallsoftware.com/compendium/types?share_key=baf6b67369843fa2
-[ardanlabs]: https://www.ardanlabs.com/blog/2013/07/understanding-type-in-go.html
-[leroy-dot]: https://xavierleroy.org/bibrefs/Cardelli-Leroy-dot.html
-
-**TODO: see "Types, abstraction and parametric polymorphism" paper in thesis_papers dir**
-
 ## Dependent types
 Dependent types are based on the idea of using scalars or values to more precisely describe the type
 of some other value. [@wiki-type-systems] Dependent types can express the rules of matrix multiplication:
@@ -882,7 +881,7 @@ Algebraic data types are composite types: they are defined as a combination of o
 There are two main classes of algebraic data types: product types and sum types. Product types are structures
 that can hold more than one value in a single structure at the same time. This is just a fancy name for common and simple
 programming language constructs like tuples or records (maps or structs). Product type are not particularly interesting
-from a type systems standpoint but it is just the opposite with sum types.
+from a type systems standpoint but sum types very much are.
 [@wiki-algebraic]
 [@sinclair-algebraic]
 

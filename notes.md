@@ -141,3 +141,19 @@ It means that some information about an object's type is made available to the p
 **TODO: C++: dynamic_cast, typeid | Java: instanceof**
 **TODO: RTTI and Reflection slides: https://www.cs.huji.ac.il/course/2004/ood/docs/lec08.pdf**
 **TODO: connection between RTTI and reflection**
+
+## Abstraction and types
+Abstraction is the principle of reducing something to its essential characteristics, removing everything that is unnecessary
+to accurately represent it for a particular usage. Abstraction reduces complexity and increases efficiency. [@whatis-abstraction]
+
+- [Fleury: abstractions](fleury-abs)
+- [destroyallsoftware: types](destroyall)
+- [types in go](ardanlabs)
+- [Abstract types and the dot notation](leroy-dot)
+
+[fleury-abs]: http://ryanfleury.net/blog#a_theoretical_examination_of_the_abstraction
+[destroyall]: https://www.destroyallsoftware.com/compendium/types?share_key=baf6b67369843fa2
+[ardanlabs]: https://www.ardanlabs.com/blog/2013/07/understanding-type-in-go.html
+[leroy-dot]: https://xavierleroy.org/bibrefs/Cardelli-Leroy-dot.html
+
+**TODO: see "Types, abstraction and parametric polymorphism" paper in thesis_papers dir**
