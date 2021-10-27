@@ -702,19 +702,43 @@ can be expressed with this language.
 
 ### Parametric polymorphism
 Sometimes called "compile-time polymorphism", parametric polymorphism means that concrete types are abstracted away
-from the implementation and type parameters (or type arguments) are used instead. This way type checking can still be done
+from the implementation and type parameters (or type arguments) are used instead. This way static type checking can still be done
 based on type variables while providing flexibility since they can take on any type as long as that type is used
 consistently within the scope of the type parameters. The simplest use case for parametric polymorphism is implementing
-generic "container" types in statically typed languages where the emphasis is not on the type of the values in the container
-but instead on their consistent use within the container (generic lists, generic tuples). The typechecker can aid
-in enforcing the consistent usage without dictating the exact types of the values.
+generic "container" types where the emphasis is not on the type of the values in the container
+but instead on their consistent use within the container (generic lists or tuples). The typechecker can aid
+in enforcing the consistent usage without dictating the exact types of the values. Type parameters help us encode the notion
+of composition on the type level.
 
-#### Generics
-**TODO: any meaning in a dynamic context?**
-    - https://www.quora.com/Do-generics-makes-more-sense-in-statically-typed-or-in-dynamically-typed-languages-Explain-your-answer
+#### Java vs ML
+The Java language (along with C#, Visual Basic and Delphi) calls their implementation of parametric polymorphism "Generics"
+and it looks something like this:
 
-http://www.angelikalanger.com/GenericsFAQ/FAQSections/Fundamentals.html
-    - link from the above: http://www.angelikalanger.com/GenericsFAQ/FAQSections/TechnicalDetails.html#Why%20does%20the%20compiler%20add%20casts%20when%20it%20translates%20generics?
+```
+LinkedList<String> list = new LinkedList<String>();
+list.add("abc");       // fine
+list.add(new Date());  // error
+```
+
+Here, the `LinkedList<T>` class is a "generic class" because its definition includes a type parameter.
+Each time the class is used, a concrete type has to be used in place of the type parameter. From that point on,
+that instance of the class is bound to that type and there is no need to cast the objects in the list even
+though their type was not part of the class definition.
+
+Without a generic class:
+
+```
+LinkedList list = new LinkedList();
+list.add("abc");       // fine
+list.add(new Date());  // fine as well
+```
+
+This `LinkedList class` is not generic. In Java, all classes inherit from the `Object` class so this non-generic linked list
+treats every one of its items as if it was an `Object` instance which means, statically it doesn't know anything about
+their specific types, so only methods and properties of the `Object` class are accessible on them unless we explicitly
+cast the item to a specific type.
+
+[@langer-generics]
 
 **TODO: after a few words on "Generics (Java, C#), write an example of parametric polymorphism in Java and one in Elm, compare them!**
 **some guidelines: https://stackoverflow.com/a/42417159/1772429**
@@ -892,13 +916,13 @@ A union type between two types `A` and `B` is simply the union of the two sets o
 so it may hold any value from either `A` or `B`. For example, the union type `null | int` can hold
 `null` or any integer value. [@waleed-union-vs-sum]
 
-Sum types are very similar to union types as in they hold a value that must be one of a fixed set of options.
+Sum types are very similar to union types in that they hold a value that must be one of a fixed set of options.
 
 > Only one of the types can be in use at any one time, and a tag field explicitly indicates which one is in use.
 > It can be thought of as a type that has several “cases,” each of which should be handled correctly when that type is manipulated.
 > [@wiki-tagged-union]
 
-Before I get into more details, for reference, here is an example of a sum type definiton in Elm (an ML type language):
+For reference, here is an example of a sum type definiton in Elm (an ML type language):
 
 ```
 type Message
@@ -908,7 +932,7 @@ type Message
   | InputChanged Int Attribute String
 ```
 
-I especially like the ML syntax because it is intuitive: this must be about some message type that can take
+I especially like the ML syntax because it is intuitive: this `Message` must be about some message type that can take
 on certain forms where each form contains different data about the message.
 
 Every type in the sum type is accompanied by a label (or tag), hence the name "tagged union".
