@@ -448,12 +448,16 @@ can't give any warning about updating them: they "drift" from the code, often st
 > headers and module interfaces constitute a form of documentation, giving useful hints
 > about behavior. [@tapl, p. 5]
 
-Explicit type declarations are "living documentation". Type annotations provide information about the
+Type annotations - explicit indications of types - are "living documentation". They provide information about the
 code and since they are verified by the typechecker they cannot drift, they always stay up to date.
 
 > Static type systems build ideas that help explain a system and what it does. [...]
 > They capture information about the inputs and outputs of various functions and modules. [...]
 > It's documentation that doesn't need to be maintained or even written. [@debating-type-systems]
+
+Note that static typing does not imply type annotations. Type-inferred languages (see "Type inference" later) do not need
+explicit indications of types in source code but they still handle types statically and so the documentation
+aspect of these languages is still valid because static type information can be used to generate enhanced documentation.
 
 ## Dynamic type checking
 > Even statically checked languages usually need to perform tests at run time to achieve safety. [...]
@@ -954,6 +958,8 @@ https://blog.waleedkhan.name/union-vs-sum-types/
     - note: "nullable" in dynamic languages where ther is NULL, "option" or "maybe" in static languages
     - Null pointer exceptions vs. "Maybe" types
         - https://guide.elm-lang.org/error_handling/maybe.html
+
+**TODO: talk about when and how type variables can be used in elm: https://guide.elm-lang.org/types/reading_types.html#type-variables**
 
 ### Applications
 In most imperative languages conditional expressions (if-else statements) can define any number of branches
