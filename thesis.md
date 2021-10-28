@@ -598,13 +598,13 @@ type declarations in languages like Java. These annotations may be used together
 The Python 3 runtime itself doesn't typecheck the type hints. Due to python's dynamic nature,
 the following code will be executed without any type errors in Python 3.5.2:
 
-~~~{.python}
+```python
 def f(a: int, b: int) -> str:
     return a + b
 
 print(f("x", "y"))
 print(f(1, 2))
-~~~
+```
 
 The programmer has to use one of the external type checkers to make use of type hints. Running `mypy`
 on the above code indeed reports type errors complaining about an incompatible return type declaration and incompatible
@@ -920,24 +920,13 @@ A union type between two types `A` and `B` is simply the union of the two sets o
 so it may hold any value from either `A` or `B`. For example, the union type `null | int` can hold
 `null` or any integer value. [@waleed-union-vs-sum]
 
+**TODO: read and distill: https://chadaustin.me/2015/07/sum-types/**
+
 Sum types are very similar to union types in that they hold a value that must be one of a fixed set of options.
 
 > Only one of the types can be in use at any one time, and a tag field explicitly indicates which one is in use.
 > It can be thought of as a type that has several “cases,” each of which should be handled correctly when that type is manipulated.
 > [@wiki-tagged-union]
-
-For reference, here is an example of a sum type definiton in Elm (an ML type language):
-
-```
-type Message
-  = InitApp
-  | AddNewRow
-  | DeleteRow Int
-  | InputChanged Int Attribute String
-```
-
-I especially like the ML syntax because it is intuitive: this `Message` must be about some message type that can take
-on certain forms where each form contains different data about the message.
 
 Every type in the sum type is accompanied by a label (or tag), hence the name "tagged union".
 This label is a unique identifier for this element of the sum type.
@@ -948,11 +937,88 @@ A sum type can also be thought of as an enum, with a payload where that payload 
 > [A tagged union is] a union, but each element remembers what set it came from
 > [@waleed-union-vs-sum]
 
+As Chad Austin puts it: a sum type is a combination of a tag (like an enum) and a payload per possibility (like a union).
+Sum types are a safe generalization of the two [@chad-sum-types]:
+
+```c
+enum EventType {
+  CLICK,
+  PAINT
+};
+
+struct ClickEvent {
+  int x, y;
+};
+struct PaintEvent {
+  Color color;
+};
+
+struct Event {
+  enum EventType type;
+  union {
+    struct ClickEvent click;
+    struct PaintEvent paint;
+  };
+};
+```
+
+The above is a sum-type implementation in C. The `EventType` enum serves as the tags of the sum type and
+the union of the `ClickEvent` and `PaintEvent` serve as the payload. A very important weakness of this C code
+is that nothing prevents the programmer from accessing the `.paint` field on a `CLICK` event or conversely
+the `.click` field on a `PAINT` event. We can say that this is an unsafe implementation of sum types [@chad-sum-types].
+
+Here is the definiton of the same sum type in Elm (an language of the ML family):
+
+```elm
+type Event
+  = ClickEvent Int Int
+  | PaintEvent Color
+```
+
+I especially like the ML syntax because it is intuitive: this must be some event that can take
+on certain forms where each form contains different data about the event.
+
+What if the language forced the programmer (with convenient syntax and the use of its type system) to write code
+for each possible variant of the sum type and only allow access to its payload where it makes sense?
+This is what languages in the ML family do with their `case` expressions, a form of so called "pattern matching":
+
+```elm
+case event of
+  ClickEvent x y ->
+    handleClickEvent x y
+  PaintEvent color
+    handlePaintEvent color
+```
+
+The above Elm snippet is a `case` expression. The language enforces that these expressions go through all variants
+of the used type so the programmer can not forget to check some condition. It also makes sure that the `x` and `y`
+coordinates of a `ClickEvent` are only accessible (only within the scope of the `ClickEvent` case) if the event is
+indeed a `ClickEvent`. This makes it a robust base for an error handling model.
+
+The following Elm code shows how the programmer is forced to handle all the possible types of HTTP errors:
+
+```elm
+httpErrorToString : Http.Error -> String -> String
+httpErrorToString err errorMessagePrefix =
+  case err of
+    Http.BadUrl message ->
+      message
+    Http.Timeout ->
+      "Network timeout"
+    Http.NetworkError ->
+      "Network error"
+    Http.BadStatus statusCode ->
+      String.fromInt statusCode
+    Http.BadBody response ->
+      response
+```
+
+The best use case for sum types is yet to come: "null tracking".
+...
+
 **TODO: talk about how sum types facilitate null-tracking and error handling and whatnot**
 https://blog.waleedkhan.name/union-vs-sum-types/
-
-- https://www.dragonwasrobot.com/functional-programming/2016/12/20/sum-types-in-kotlin-elixir-and-elm.html
-- idea: implement a queue with sum types in some ML language
+**TODO: read the part about Option<T>: https://tonyarcieri.com/a-quick-tour-of-rusts-type-system-part-1-sum-types-a-k-a-tagged-unions**
 
 - Maybe / Option
     - note: "nullable" in dynamic languages where ther is NULL, "option" or "maybe" in static languages
