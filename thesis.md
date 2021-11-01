@@ -1089,11 +1089,7 @@ Since the `Err(E)` variant of a `Result` may not be ignored, it is especially us
 encounter errors but don’t otherwise return a useful value. Such is the `write_all` method defined for I/O types in Rust:
 
 ```
-use std::io;
-
-trait Write {
-    fn write_all(&mut self, bytes: &[u8]) -> Result<(), io::Error>;
-}
+fn write_all(&mut self, bytes: &[u8]) -> Result<(), io::Error>;
 ```
 
 Notice how the first type parameter is the "unit type" `()`  which doesn't hold any value and so no value will be
