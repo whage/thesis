@@ -920,8 +920,6 @@ A union type between two types `A` and `B` is simply the union of the two sets o
 so it may hold any value from either `A` or `B`. For example, the union type `null | int` can hold
 `null` or any integer value. [@waleed-union-vs-sum]
 
-**TODO: read and distill: https://chadaustin.me/2015/07/sum-types/**
-
 Sum types are very similar to union types in that they hold a value that must be one of a fixed set of options.
 
 > Only one of the types can be in use at any one time, and a tag field explicitly indicates which one is in use.
@@ -1013,17 +1011,100 @@ httpErrorToString err errorMessagePrefix =
       response
 ```
 
-The best use case for sum types is yet to come: "null tracking".
+Another great use case for sum types is "null-tracking":
+
+> The compiler statically ensures that null values are handled explicitly,
+> instead of allowing failure at runtime with the equivalent of a null-pointer exception
+> [@waleed-union-vs-sum]
+
+The need for null-tracking stems from the ever-present `NullPointerException` errors which
+in turn are the result of Tony Hoare's famous "billon dollar mistake" of allowing types to have a "null" value.
+
+There is nothing wrong with the concept of "nothing" or "no value", that is a very useful thing in programming.
+The problem of `null` in most imperative languages is that values may be `null` without it being obvious
+from the code and so programmers can easily forget to check those `if (x == null) { ... }` cases which lead to run-time errors.
+
+Sum types are the basis of what some languages call the "Option type" or "Maybe type":
+
+```elm
+type Maybe a
+  = Just a
+  | Nothing
+```
+
+The above is the built-in `Maybe` type of Elm. Notice that it combines parametric polymorphism with sum types,
+the lowercase `a` there represents a type parameter which may be any concrete type.
+It is a type that says "I either have some value of type `a` or I have `Nothing`".
+The key to this type (and the language) is that the programmer can not directly access the underlying value.
+Pattern matching must be performed and that forces to programmer to also handle the case where
+it holds a `Nothing` (the equivalent of a null value in other languages).
+Unline `null` in most imperative languages, `Nothing` is not compatible with other types so it can not be
+returned from functions. Functions where the result may be a "no value" must use a `Maybe` type as their
+return type and so the callers of these functions are forced to explicitly handle the "no value" cases.
+
+In theory, a language that supports `Maybe` or `Option` types (parametric sum types) and
+enforces explicit handling of the `Nothing` case is a language where a `NullPointerException` is no longer
+possible.
+
+The utility of sum types doesn't end here. These wonderful constructs are a great tool for implementing error handling
+which is concerned with the problem of how to signal to the caller of your function that something went wrong.
+[@go-gets-exceptions-right]
+
+Various error handling schemes exist in programming languages, the most basic probably being "sentinel values".
+In the case of "sentinel values", some values in the range of the function (as defined by its return type)
+are interpreted as having a special meaning. This has the advantage of being very simple to implement (from the
+language's point of view). It is also very easy to forget to handle these values - the errors can go unnoticed.
+
+> Values that are considered impossible as a calculation result are repurposed as error indicators.
+> [...] Due to a lack of type safety or by faulty or no type checking,
+> we can accidentally use return values indicating errors as if they were computation results.
+>
+> [@heumen-error-handling]
+
+Then there are exceptions, which are a mechanism based on automatically propagating some event up the call chain
+until it is handled explicitly or until it reaches the top at which point the runtime handles it by issuing some kind of 
+runtime error.
+
+The exception mechanism has its weeknesses too. It makes error handling more implicit (execution may continue at
+unexpected places), it can be overused to implement branching logic and handling them is usually not enforced
+(checked and unchecked exceptions in Java).
+
+Some languages like Go, allow multiple values to be returned from functions where one value indicates
+the error (if any) and the other value holds the result of the computation (if all went fine). However, without
+sum types and explicit pattern matching enforced by the type checker, these error values are easy to ignore.
+
+A more elegant and bulletproof way would be to use sum types as return values (sometimes called "Monadic error handling"):
+
+```
+enum Result<T, E> {
+   Ok(T),
+   Err(E),
+}
+```
+
+The above is the definition of Rust's `Result` type which is also a parametric sum type like `Maybe` in Elm but
+here two type parameters are used. The `OK(T)` variant is for the case where the given computation succeeds
+and the result is valid. The `Err(E)` variant is for the case where an error needs to be reported. [@arcieri-rust]
+Since the `Err(E)` variant of a `Result` may not be ignored, it is especially useful with functions that may
+encounter errors but don’t otherwise return a useful value. Such is the `write_all` method defined for I/O types in Rust:
+
+```
+use std::io;
+
+trait Write {
+    fn write_all(&mut self, bytes: &[u8]) -> Result<(), io::Error>;
+}
+```
+
+Notice how the first type parameter is the "unit type" `()`  which doesn't hold any value and so no value will be
+extracted when pattern-matched but the second type parameter is an io::Error so that the cause of the error can still
+be extracted. [@rust-std-result]
+
 ...
 
 **TODO: talk about how sum types facilitate null-tracking and error handling and whatnot**
 https://blog.waleedkhan.name/union-vs-sum-types/
 **TODO: read the part about Option<T>: https://tonyarcieri.com/a-quick-tour-of-rusts-type-system-part-1-sum-types-a-k-a-tagged-unions**
-
-- Maybe / Option
-    - note: "nullable" in dynamic languages where ther is NULL, "option" or "maybe" in static languages
-    - Null pointer exceptions vs. "Maybe" types
-        - https://guide.elm-lang.org/error_handling/maybe.html
 
 **TODO: talk about when and how type variables can be used in elm: https://guide.elm-lang.org/types/reading_types.html#type-variables**
 
@@ -1031,11 +1112,9 @@ https://blog.waleedkhan.name/union-vs-sum-types/
 In most imperative languages conditional expressions (if-else statements) can define any number of branches
 that are not checked for consistency. Execution enters these branches based solely on their predicates,
 boolean valued "functions". This means that by mistake, they can overlap or fail to handle all possible cases.
-In functional languages, with the help of pattern matching, algebraic data types facilitate a type safe
+In functional languages, with the help of pattern matching, sum types facilitate a type safe
 implementation of conditional expressions. They let us define the branching logic in terms 
 of a composite type and allow the type system to check whether we we covered all the cases. [@parmer-type-systems]
-
-**TODO: talk about null-tracking as described here: https://blog.waleedkhan.name/union-vs-sum-types/**
 
 https://www.youtube.com/watch?v=2wZ1pCpJUIM
 - rust part begins at `25:05`
