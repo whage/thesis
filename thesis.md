@@ -744,7 +744,7 @@ cast the item to a specific type.
 
 [@langer-generics]
 
-**TODO: after a few words on "Generics (Java, C#), write an example of parametric polymorphism in Java and one in Elm, compare them!**
+**TODO: write an example of parametric polymorphism in Java and one in Elm, compare them!**
 **some guidelines: https://stackoverflow.com/a/42417159/1772429**
 
 ## Reflection
@@ -1018,7 +1018,7 @@ Another great use case for sum types is "null-tracking":
 > [@waleed-union-vs-sum]
 
 The need for null-tracking stems from the ever-present `NullPointerException` errors which
-in turn are the result of Tony Hoare's famous "billon dollar mistake" of allowing types to have a "null" value.
+in turn are the result of Tony Hoare's famous "billion dollar mistake" [@hoare-billion] of allowing types to have a "null" value.
 
 There is nothing wrong with the concept of "nothing" or "no value", that is a very useful thing in programming.
 The problem of `null` in most imperative languages is that values may be `null` without it being obvious
@@ -1100,26 +1100,12 @@ Notice how the first type parameter is the "unit type" `()`  which doesn't hold 
 extracted when pattern-matched but the second type parameter is an io::Error so that the cause of the error can still
 be extracted. [@rust-std-result]
 
-...
-
-**TODO: talk about how sum types facilitate null-tracking and error handling and whatnot**
-https://blog.waleedkhan.name/union-vs-sum-types/
-**TODO: read the part about Option<T>: https://tonyarcieri.com/a-quick-tour-of-rusts-type-system-part-1-sum-types-a-k-a-tagged-unions**
-
-**TODO: talk about when and how type variables can be used in elm: https://guide.elm-lang.org/types/reading_types.html#type-variables**
-
-### Applications
 In most imperative languages conditional expressions (if-else statements) can define any number of branches
 that are not checked for consistency. Execution enters these branches based solely on their predicates,
 boolean valued "functions". This means that by mistake, they can overlap or fail to handle all possible cases.
 In functional languages, with the help of pattern matching, sum types facilitate a type safe
 implementation of conditional expressions. They let us define the branching logic in terms 
 of a composite type and allow the type system to check whether we we covered all the cases. [@parmer-type-systems]
-
-https://www.youtube.com/watch?v=2wZ1pCpJUIM
-- rust part begins at `25:05`
-- algebraic data types `29:40`
-    - **Algebraic types allow robust, concise error handling** - what does this mean? why?
 
 ## Type-level programming
 
@@ -1164,17 +1150,6 @@ development, this suggests a dissatisfaction with dynamic typing as projects gro
 > Region inference is a technique for determining when objects become dead (even if they are reachable) by a static analysis of the program.
 > https://www.memorymanagement.org/glossary/r.html#term-region-inference
 
-**TODO: summarize CAR Hoare's presentation on `NullPointerException`s (The Billion Dollar Mistake - 2009)**
-
-- https://www.infoq.com/presentations/Null-References-The-Billion-Dollar-Mistake-Tony-Hoare
-- 31:10 great notes about what to expect from programming languages
-- 31:40 "formal verification"
-- 37:34 "now, the real commercial imperative which requires greater attention paid to formal correctness of the programs is the virus."
-    - "it reaches paths of your program that normal execution never reaches"
-    - "it's no longer adequate to test your program against all the cases that are likely to arise..."
-- 50:00 great thoughts about the `jmp` machine instruction
-
-...
 
 \pagebreak
 

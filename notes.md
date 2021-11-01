@@ -157,3 +157,13 @@ to accurately represent it for a particular usage. Abstraction reduces complexit
 [leroy-dot]: https://xavierleroy.org/bibrefs/Cardelli-Leroy-dot.html
 
 **TODO: see "Types, abstraction and parametric polymorphism" paper in thesis_papers dir**
+
+**TODO: summarize CAR Hoare's presentation on `NullPointerException`s (The Billion Dollar Mistake - 2009)**
+
+- https://www.infoq.com/presentations/Null-References-The-Billion-Dollar-Mistake-Tony-Hoare
+- 31:10 great notes about what to expect from programming languages
+- 31:40 "formal verification"
+- 37:34 "now, the real commercial imperative which requires greater attention paid to formal correctness of the programs is the virus."
+    - "it reaches paths of your program that normal execution never reaches"
+    - "it's no longer adequate to test your program against all the cases that are likely to arise..."
+- 50:00 great thoughts about the `jmp` machine instruction
