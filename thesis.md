@@ -562,6 +562,46 @@ first generations of computer programmers.
 
 **TODO**
 
+## Concrete vs abstract types
+Most programming languages differentiate between concrete and abstract types.
+A concrete type corresponds to the concept of a "data structure", a collection of data values and the relationships between them.
+A concrete type in a programming language precisely defines the memory layout of the data that objects of that type hold.
+
+Abstract types correspond to the concept of an "abstract data type" (ADTs) which is a mathematical model of a type.
+An ADT defines a type by its behavior from the point of view of its user. [@wiki-abstract], [@tt-oop]
+
+> An ADT's user need not know how the object it represents is implemented [...]
+> In addition to the intellectual leverage for programmers who can take bigger strides in their thoughts,
+> it provides flexibility in modifying the ADT implementation [@tt-oop, p. 34]
+
+An abstract type defines behavior. It defines an "interface", a set of "calls" to which the
+objects of that type respond to. It describes how to interact with that object.
+Abstract types manifest themself in a number of different ways in programming languages:
+
+- interfaces
+- abstract classes
+- pure virtual functions
+
+Abstract types are related to but should not be confused with the general concept of "abstraction".
+
+## Structural vs Nominal typing
+Structural typing is a way of relating types based solely on their members. Structural typing requires
+that a type supports a given set of operations. [@so-svic-typing]
+
+Duck typing is a loose form of structural typing: the implementation must be provided at run-time, not necessarily at compile time.
+There are no explicitly defined interfaces in the language which makes for terse and concise code as well as minimal coupling
+between different modules. Unfortunately, it also hides the dependencies between classes. [@nascimento-duck]
+The phrase comes from the American poet, James Whitcomb Riley's duck test:
+"if it walks like a duck, and quacks like a duck, then it probably is a duck".
+
+> In duck typing a statement calling a method on an object does not rely on the declared type of the object; only that the object,
+> of whatever type, must supply an implementation of the method called, when called, at run-time.
+> [@wiki-type-systems]
+
+Structural typing is in contrast with nominal typing. In the case of a nominally-typed language,
+a subtype must explicitly declare itself to be related to the supertype. Nominal is more strict than structural.
+[@typescript-docs]
+
 ## Gradual typing
 Gradual typing orignates in Siek & Taha's [@siek-taha-gradual] 2006 paper. The idea is that a language should provide
 static and dynamic typing at the same time with the programmer controlling the degree of static checking by annotating function parameters
@@ -620,23 +660,26 @@ On the other hand, having the possibility of retrofitting a codebase with static
 Adding some type safety a step at a time to an existing large code base by providing a smooth transition and thus
 not blocking development can provide great value.
 
-### Structural vs Nominal typing
-Structural typing is a way of relating types based solely on their members. Structural typing requires
-that a type supports a given set of operations. [@so-svic-typing]
+## Type inference
+Type reconstruction or informally, type inference is the process of automatically (instead of manually, by the programmer) assigning types
+to expressions in a program by examining the operations that are performed on them.
 
-Duck typing is a loose form of structural typing: the implementation must be provided at run-time, not necessarily at compile time.
-There are no explicitly defined interfaces in the language which makes for terse and concise code as well as minimal coupling
-between different modules. Unfortunately, it also hides the dependencies between classes. [@nascimento-duck]
-The phrase comes from the American poet, James Whitcomb Riley's duck test:
-"if it walks like a duck, and quacks like a duck, then it probably is a duck".
+> The first statically typed languages were explicitly typed by necessity.
+> However, type inference algorithms - techniques for looking at source code with no type declarations at all,
+> and deciding what the types of its variables are - have existed for many years now
+> [@debating-type-systems]
 
-> In duck typing a statement calling a method on an object does not rely on the declared type of the object; only that the object,
-> of whatever type, must supply an implementation of the method called, when called, at run-time.
-> [@wiki-type-systems]
+Type inference should not to be confused with dynamic typing.
+Even though types may not be visible in the source code in an inferred language, it might check those type statically (before execution).
 
-Structural typing is in contrast with nominal typing. In the case of a nominally-typed language,
-a subtype must explicitly declare itself to be related to the supertype. Nominal is more strict than structural.
-[@typescript-docs]
+The challenge of type inference is not assigning a type to untyped terms in a program, but rather to find the balance between the
+most general and most specific type that could have been declared in the program.
+[@type-inf-ml]
+
+By utilizing type inference, code written in the language can be more concise and more easily understandable.
+Having to spell out complex types can be a burden and can hurt readability and often provide no benefit.
+Type inference seems to be the golden mean: making static type checking possible while not enforcing the programmer
+to be explicit about their types.
 
 ## Polymorphic typing - "Polymorphism"
 A language, where every expression has a single type is called monomorphic. In such a language
@@ -686,23 +729,79 @@ types that may not otherwise be related.
 
 #### Difference between subtyping and inheritance
 Go is a good example of how subtyping is a different concept from inheritance.
-In Go, structs (a collection of related attributes) with methods resemble classes of classical OOP languages but in Go there is
-no subtype polymorphism (or any kind of polymorphism) for stucts. Struct types can embed other stuct types where the embedder type
-gains access to the methods of the embedded type. This provides a limited form of inheritance. The embedder
+In Go, structs (a collection of related attributes) with methods resemble classes of classical OOP languages but in Go there isn't
+any kind of polymorphism for stucts. Struct types can embed other stuct types where the embedder type
+gains access to the methods of the embedded type. This provides a limited form of inheritance through composition. The embedder
 type however is not polymorphic with the embedded one (it doesn't become a subtype of the embedded one).
 
-In Go, we use interfaces to declare subtype relationships. An interface is a set of function signatures and any type
+In Go, we use interfaces to create subtype relationships. An interface is a set of function signatures and any type
 that implmenets all the functions ("methods") that an interface declares is said to implicitly implement
 that interface - also a case of structural (instead of nominal, as in most OOP languages) subtyping.
+A type that implements an interface is considered a subtype of that interface (similarly to most OOP languages).
 
-Most programmers are trained to think in a classical
-object oriented way where derived classes not just inherit from, but also become subtypes of their parents.
-I also come from such a backgroud and in my experience, learning the basics of Go and using it in a procedural style
-is simple. Once we had to write more complex type relationships and resort to the language's object oriented features,
-it became much harder and I was stuck for a good while trying to understand how my well-understood OOP object hierarchies
-can be expressed with this language.
+```go
+type Position struct {
+    X, Y int
+}
 
-**TODO: go snippet with interface-based polymorphism**
+type Animal struct {
+    Position
+    isAlive bool
+}
+
+type Bunny struct {
+    Animal
+}
+
+type Entity interface {
+    Pos() Position
+    Move()
+    Die()
+}
+
+func (a *Animal) Pos() Position {
+    return a.Position
+}
+
+func (a *Animal) Move() {
+    // ...
+}
+
+func (a *Animal) Die() {
+    a.isAlive = false
+}
+
+func needAnimal (a Animal) {}
+
+func needEntity (e Entity) {}
+```
+
+The above is a short Go code snippet to demonstrate interface-based polymorphism in the language. It defines 3 struct types: `Position` ,
+`Animal` and `Bunny` and an interface type `Entity`. `Bunny` embeds an `Animal` and thus gains access to its methods
+and fields so code reuse is achieved (similar to inheritance). `Bunny` doesn't become a subtype of `Animal` however which means
+a `Bunny` may not be given where an `Animal` is expected. `Animal` on the other hand does become a subtype of `Entity` by implementing
+all its methods and so it can be used wherever an `Entity` is expected. `Bunny` also becomes a subtype of `Entity` because it
+embeds an `Animal` which itself is an `Entity`. Also notice type inference in action, as I didn't say what's the type of `someAnimal`
+or `bob` and yet the type checker correctly infers them:
+
+```go
+func main() {
+    someAnimal := Animal{Position{1,2}, true}
+    bob        := Bunny{someAnimal}
+    
+    // bob is not an Animal -> type error
+    //needAnimal(bob)
+    
+    // however, bob can move
+    bob.Move()
+    
+    // someAnimal is an Entity
+    needEntity(&someAnimal)
+    
+    // bob embeds an Animal which implements Entity so bob is an Entity
+    needEntity(&bob)
+}
+```
 
 ### Parametric polymorphism
 Sometimes called "compile-time polymorphism", parametric polymorphism means that concrete types are abstracted away
@@ -843,66 +942,6 @@ https://blog.daftcode.pl/csi-python-type-system-episode-1-1c2ee1f8047c
 https://blog.daftcode.pl/csi-python-type-system-episode-2-baf5168038c0
 https://en.wikipedia.org/wiki/Covariance_and_contravariance_(computer_science)
 https://en.wikipedia.org/wiki/Covariant_return_type
-
-## Concrete vs abstract types
-Most programming languages differentiate between concrete and abstract types.
-A concrete type corresponds to the concept of a "data structure", a collection of data values and the relationships between them.
-A concrete type in a programming language precisely defines the memory layout of the data that objects of that type hold.
-
-Abstract types correspond to the concept of an "abstract data type" (ADTs) which is a mathematical model of a type.
-An ADT defines a type by its behavior from the point of view of its user. [@wiki-abstract], [@tt-oop]
-
-> An ADT's user need not know how the object it represents is implemented [...]
-> In addition to the intellectual leverage for programmers who can take bigger strides in their thoughts,
-> it provides flexibility in modifying the ADT implementation [@tt-oop, p. 34]
-
-An abstract type defines behavior. It defines an "interface", a set of "calls" to which the
-objects of that type respond to. It describes how to interact with that object.
-Abstract types manifest themself in a number of different ways in programming languages:
-
-- interfaces
-- abstract classes
-- pure virtual functions
-
-Abstract types are related to but should not be confused with the general concept of "abstraction".
-
-## Type inference
-Type reconstruction or informally, type inference is the process of automatically (instead of manually, by the programmer) assigning types
-to expressions in a program by examining the operations that are performed on them.
-
-> The first statically typed languages were explicitly typed by necessity.
-> However, type inference algorithms - techniques for looking at source code with no type declarations at all,
-> and deciding what the types of its variables are - have existed for many years now
-> [@debating-type-systems]
-
-Type inference should not to be confused with dynamic typing.
-Even though types may not be visible in the source code in an inferred language, it might check those type statically (before execution).
-
-The challenge of type inference is not assigning a type to untyped terms in a program, but rather to find the balance between the
-most general and most specific type that could have been declared in the program.
-[@type-inf-ml]
-
-By utilizing type inference, code written in the language can be more concise and more easily understandable.
-Having to spell out complex types can be a burden and can hurt readability and often provide no benefit.
-Type inference seems to be the golden mean: making static type checking possible while not enforcing the programmer
-to be explicit about their types.
-
-## Dependent types
-Dependent types are based on the idea of using scalars or values to more precisely describe the type
-of some other value. [@wiki-type-systems] Dependent types can express the rules of matrix multiplication:
-
-\begin{equation*}
-    \frac{\Gamma \vdash A : matrix(l,m), \ \Gamma \vdash B : matrix(m,n)}{\Gamma \vdash A \times B : matrix(l,n)}
-\end{equation*}
-
-Which we read as "if $A$ is an $l \times m$ matrix and $B$ is a $m \times n$ matrix, then their product is an $l \times n$ matrix".
-
-The scalar values that the types depend on must not be constant values...
-**TODO: read all of these! good material!**
-- https://cs.stackexchange.com/a/40098/30429
-- https://softwareengineering.stackexchange.com/a/401220/90623
-
-**TODO: revise after having tried such a language!**
 
 ## Algebraic data types
 Algebraic data types are composite types: they are defined as a combination of other types.
@@ -1108,6 +1147,23 @@ of a composite type and allow the type system to check whether we we covered all
 **TODO: do this only if good material is available**
 
 https://docs.rust-embedded.org/book/static-guarantees/typestate-programming.html
+
+## Dependent types
+Dependent types are based on the idea of using scalars or values to more precisely describe the type
+of some other value. [@wiki-type-systems] Dependent types can express the rules of matrix multiplication:
+
+\begin{equation*}
+    \frac{\Gamma \vdash A : matrix(l,m), \ \Gamma \vdash B : matrix(m,n)}{\Gamma \vdash A \times B : matrix(l,n)}
+\end{equation*}
+
+Which we read as "if $A$ is an $l \times m$ matrix and $B$ is a $m \times n$ matrix, then their product is an $l \times n$ matrix".
+
+The scalar values that the types depend on must not be constant values...
+**TODO: read all of these! good material!**
+- https://cs.stackexchange.com/a/40098/30429
+- https://softwareengineering.stackexchange.com/a/401220/90623
+
+**TODO: revise after having tried such a language!**
 
 # Summary
 In my own experience, a statically typed language is a better tool for writing good, working software.
