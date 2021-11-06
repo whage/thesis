@@ -167,3 +167,10 @@ to accurately represent it for a particular usage. Abstraction reduces complexit
     - "it reaches paths of your program that normal execution never reaches"
     - "it's no longer adequate to test your program against all the cases that are likely to arise..."
 - 50:00 great thoughts about the `jmp` machine instruction
+
+# Typescript unsoundness
+https://medium.com/@yuhuan/covariance-and-contravariance-in-java-6d9bfb7f6b8e
+https://blog.daftcode.pl/csi-python-type-system-episode-1-1c2ee1f8047c
+https://blog.daftcode.pl/csi-python-type-system-episode-2-baf5168038c0
+https://en.wikipedia.org/wiki/Covariance_and_contravariance_(computer_science)
+https://en.wikipedia.org/wiki/Covariant_return_type

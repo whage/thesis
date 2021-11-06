@@ -621,16 +621,6 @@ of gradually typed languages. This makes it possible to use it on existing large
 for type errors at runtime (maybe only in unrealistic scenarios) but that still benefit from the added static type checking.
 [@uiut]
 
-### Gradual typing in TypeScript
-TypeScript is a gradually typed superset of the JavaScript language with optional type annotations and provides a typechecker and transpiler
-for JavaScript programs. Thanks to its type inference, every valid JavaScript program is also a valid TypeScript program
-so it is possible to gradually transform a JavaScript codebase into a TypeScript one. TypeScript's static type system is unsound by design
-to allow for "backwards compatibility" and an incremental transition from dynamically typed JavaScript codebases.
-
-**TODO: example from:**
-- https://www.typescriptlang.org/docs/handbook/type-compatibility.html
-    - look for "unsound" keyword!
-
 ### Optional type annotations in Python 3
 Even though Python 3 is dynamically typed, the language allows optional "type hints" which are similar to
 type declarations in languages like Java. These annotations may be used together with type checkers like `mypy`,
@@ -886,6 +876,58 @@ to dynamically discover methods which follow a certain naming pattern.
 **TODO: add code snippet**
 **this maybe: https://missingquitbutton.wordpress.com/2019/07/20/using-reflection-with-serialization-and-deserialization-part-1/**
 
+## Variance
+The rules that govern how subtyping between complex types relate to subtyping between their component types are called variance.
+Within the type system of a programming language, a typing rule can be
+
+- covariant if it preserves the ordering of types `($\leq$)`, which orders types from more specific to more generic: if `A $\leq$ B`, then `I<A> $\leq$ I<B>`;
+- contravariant if it reverses this ordering: if `A $\leq$ B`, then `I<B> $\leq$ I<A>`;
+- bivariant if both of these apply
+
+[@wiki-variance]
+
+### Function parameter bivariance in TypeScript
+TypeScript is a gradually typed superset of the JavaScript language with optional type annotations and provides a typechecker and transpiler
+for JavaScript programs. Thanks to its type inference, every valid JavaScript program is also a valid TypeScript program
+so it is possible to gradually transform a JavaScript codebase into a TypeScript one. TypeScript's static type system is unsound by design
+to allow for "backwards compatibility" and an incremental transition from dynamically typed JavaScript codebases.
+
+One example of unsoundness in TypeScript is "function parameter bivariance":
+
+> When comparing the types of function parameters, assignment succeeds if either the source parameter is assignable
+> to the target parameter, or vice versa. This is unsound because a caller might end up being given a function that takes
+> a more specialized type, but invokes the function with a less specialized type.
+> [@typescript-docs]
+
+```
+enum EventType {
+  Mouse,
+  Keyboard,
+}
+interface Event {
+  timestamp: number;
+}
+interface MyMouseEvent extends Event {
+  x: number;
+  y: number;
+}
+interface MyKeyEvent extends Event {
+  keyCode: number;
+}
+function listenEvent(eventType: EventType, handler: (n: Event) => void) {
+  /* ... */
+}
+// Unsound, but useful and common
+listenEvent(EventType.Mouse, (e: MyMouseEvent) => console.log(e.x + "," + e.y));
+```
+
+The above snippet is from TypeScript's official documentation ([@typescript-docs]) and it demonstrates how an unsound type system
+might even be desirable in their case to be able to work with existing JavaScript code.
+Here, the `MyMouseEvent` interface is a subtype of the `Event` interface. The `listenEvent` function declares
+its second argument to be a function that takes an `Event` and returns nothing.
+Yet, when called, it accepts a function that takes a `MyMouseEvent`, a more specialized type (the compiler flag
+`strictFunctionTypes` must be turned off for this to work).
+
 ## Type classes
 
 **TODO**
@@ -928,20 +970,6 @@ https://docs.rust-embedded.org/book/static-guarantees/typestate-programming.html
 ## Linear types
 
 **TODO**
-
-## Variance
-
-**TODO: Remove unless some good content is found!**
-
-- invariance
-- covariance
-- contravariance
-
-https://medium.com/@yuhuan/covariance-and-contravariance-in-java-6d9bfb7f6b8e
-https://blog.daftcode.pl/csi-python-type-system-episode-1-1c2ee1f8047c
-https://blog.daftcode.pl/csi-python-type-system-episode-2-baf5168038c0
-https://en.wikipedia.org/wiki/Covariance_and_contravariance_(computer_science)
-https://en.wikipedia.org/wiki/Covariant_return_type
 
 ## Algebraic data types
 Algebraic data types are composite types: they are defined as a combination of other types.
@@ -1182,7 +1210,7 @@ development, this suggests a dissatisfaction with dynamic typing as projects gro
 
 **TODO: continue!**
 
-# Suggestions for further research: Type systems and software security
+# Suggestions for further research: type systems and software security
 
 **TODO: put all the interesting stuff here that I had no time for**
 
