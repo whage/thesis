@@ -174,3 +174,12 @@ https://blog.daftcode.pl/csi-python-type-system-episode-1-1c2ee1f8047c
 https://blog.daftcode.pl/csi-python-type-system-episode-2-baf5168038c0
 https://en.wikipedia.org/wiki/Covariance_and_contravariance_(computer_science)
 https://en.wikipedia.org/wiki/Covariant_return_type
+
+## Types and operations (removing this part, no real content here)
+The next step for a programming langage with regards to type systems would be to define certain basic types and operations
+for the values in the program. These help reduce the cognitive load on the programmer and make it possible to check
+(either statically or dynamicall) whether some operation later in the code is considered legal or not.
+Today we take for granted such a type system but this indeed is a language feature that wasn't there for the
+first generations of computer programmers.
+
+**TODO**

@@ -553,15 +553,6 @@ Typed Assembly Language papers (from around 1999) - Morrisett et al.
     - https://www.cs.princeton.edu/~dpw/papers/tal-toplas.pdf
     - https://www.cis.upenn.edu/~stevez/papers/MCGG99.pdf
 
-## Types and operations
-The next step for a programming langage with regards to type systems would be to define certain basic types and operations
-for the values in the program. These help reduce the cognitive load on the programmer and make it possible to check
-(either statically or dynamicall) whether some operation later in the code is considered legal or not.
-Today we take for granted such a type system but this indeed is a language feature that wasn't there for the
-first generations of computer programmers.
-
-**TODO**
-
 ## Concrete vs abstract types
 Most programming languages differentiate between concrete and abstract types.
 A concrete type corresponds to the concept of a "data structure", a collection of data values and the relationships between them.
