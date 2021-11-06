@@ -871,8 +871,8 @@ to dynamically discover methods which follow a certain naming pattern.
 The rules that govern how subtyping between complex types relate to subtyping between their component types are called variance.
 Within the type system of a programming language, a typing rule can be
 
-- covariant if it preserves the ordering of types `($\leq$)`, which orders types from more specific to more generic: if `A $\leq$ B`, then `I<A> $\leq$ I<B>`;
-- contravariant if it reverses this ordering: if `A $\leq$ B`, then `I<B> $\leq$ I<A>`;
+- covariant if it preserves the ordering of types ($\leq$), which orders types from more specific to more generic: if `A` $\leq$ `B`, then `I<A>` $\leq$ `I<B>`;
+- contravariant if it reverses this ordering: if `A` $\leq$ `B`, then `I<B>` $\leq$ `I<A>`;
 - bivariant if both of these apply
 
 [@wiki-variance]
