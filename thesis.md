@@ -537,21 +537,11 @@ access to individual bytes to the programmer.
 Also, there are assembly languages that were designed to be compiler targets rather than used by programmers directly.
 For such languages there is little benefit for complex typing.
 
-**TODO: read more about assembly, come back to this section later**
-**TODO: x86-64 Assembly Language Programming with Ubuntu (currently at p. 34)**
-
 Assembly languages are - barring some academic derivatives - untyped. The values that we can manipulate in the language
 are just byte sequences. There is no way of knowing what a register or memory address holds just by looking at the assembly code.
 A given bit pattern may have multiple valid interpretations as different types. A certain system call might expect an 8 byte integer
 value for printing, but an 8byte floating-point value can also be interpreted as an integer.
 Assemblers don't try to check for matching types.
-
-**TODO: Explain why assembly has no types! Are there any advantages of not having types?**
-
-Typed Assembly Language papers (from around 1999) - Morrisett et al.
-    - http://www.cs.cornell.edu/talc/papers.html
-    - https://www.cs.princeton.edu/~dpw/papers/tal-toplas.pdf
-    - https://www.cis.upenn.edu/~stevez/papers/MCGG99.pdf
 
 ## Concrete vs abstract types
 Most programming languages differentiate between concrete and abstract types.
@@ -794,7 +784,6 @@ but instead on their consistent use within the container (generic lists or tuple
 in enforcing the consistent usage without dictating the exact types of the values. Type parameters help us encode the notion
 of composition on the type level.
 
-#### Java vs ML
 The Java language (along with C#, Visual Basic and Delphi) calls their implementation of parametric polymorphism "Generics"
 and it looks something like this:
 
@@ -821,11 +810,28 @@ This `LinkedList class` is not generic. In Java, all classes inherit from the `O
 treats every one of its items as if it was an `Object` instance which means, statically it doesn't know anything about
 their specific types, so only methods and properties of the `Object` class are accessible on them unless we explicitly
 cast the item to a specific type.
-
 [@langer-generics]
 
-**TODO: write an example of parametric polymorphism in Java and one in Elm, compare them!**
-**some guidelines: https://stackoverflow.com/a/42417159/1772429**
+In Elm, the same concepts apply but since there are no classes, parametric polymorphism can be found on the function
+level where function arguments have type parameters. The following is the type signature of the `List.map` function
+that implements the usual "map" operation (applying the same transformation for each element in a list) on lists in a generic way:
+
+```
+map : (a -> b) -> List a -> List b
+```
+
+The lowercase names (only single letters in this case) are type parameters. This signature says that the `map`
+function takes 2 parameters: the transformation function that takes an `a` and returns a `b` and a `List` of `a`s on
+which to apply the transformation. The return type is a `List` of `b`s. I find this syntax very elegant.
+Thanks to the type parameters, the type checker can verify that the transformer function's input matches the input list's type
+and its output matches the output list's type without dictating any concrete types.
+
+We could map a list of strings to their lengths using the generic `List.map` function above:
+
+```
+words = ["type", "systems", "are", "fun"]
+wordLengts = List.map String.length words
+```
 
 ## Reflection
 > Many programming languages require compiled programs to manipulate some amount
@@ -863,9 +869,6 @@ Debuggers or class browsers can be created using reflection. Object-relational m
 create object oriented abstractions of database entities are popular in business software and are another
 use case for reflection. Testing frameworks that are based on naming conventions also depend on reflection
 to dynamically discover methods which follow a certain naming pattern.
-
-**TODO: add code snippet**
-**this maybe: https://missingquitbutton.wordpress.com/2019/07/20/using-reflection-with-serialization-and-deserialization-part-1/**
 
 ## Variance
 The rules that govern how subtyping between complex types relate to subtyping between their component types are called variance.
@@ -943,24 +946,6 @@ of programming language design.
 **TODO: stanford lecture notes on Memory Safety: https://stanford-cs242.github.io/f19/lectures/06-2-memory-safety.html**
 **TODO: the linked paper: "affine type system": https://gankra.github.io/blah/linear-rust/**
 **TODO: nice paper: https://sergio.bz/docs/rusty-types-2016.pdf**
-
-## Effect systems
-- downloaded PDF: "Type and effect systems - Nielson"
-- https://www.stephendiehl.com/posts/exotic03.html
-- https://en.wikipedia.org/wiki/Effect_system
-
-## Typestate
-https://docs.rust-embedded.org/book/static-guarantees/typestate-programming.html
-
-**TODO**
-
-## Region types
-
-**TODO**
-
-## Linear types
-
-**TODO**
 
 ## Algebraic data types
 Algebraic data types are composite types: they are defined as a combination of other types.
@@ -1161,15 +1146,10 @@ In functional languages, with the help of pattern matching, sum types facilitate
 implementation of conditional expressions. They let us define the branching logic in terms 
 of a composite type and allow the type system to check whether we we covered all the cases. [@parmer-type-systems]
 
-## Type-level programming
-
-**TODO: do this only if good material is available**
-
-https://docs.rust-embedded.org/book/static-guarantees/typestate-programming.html
-
 ## Dependent types
 Dependent types are based on the idea of using scalars or values to more precisely describe the type
-of some other value. [@wiki-type-systems] Dependent types can express the rules of matrix multiplication:
+of some other value. [@wiki-type-systems] Dependent types can express for example that an `append` function
+that takes two list of length `m` and `n` should return a list of length `m+n`. Similarly, the rules of matrix multiplication can be expressed:
 
 \begin{equation*}
     \frac{\Gamma \vdash A : matrix(l,m), \ \Gamma \vdash B : matrix(m,n)}{\Gamma \vdash A \times B : matrix(l,n)}
@@ -1177,12 +1157,19 @@ of some other value. [@wiki-type-systems] Dependent types can express the rules 
 
 Which we read as "if $A$ is an $l \times m$ matrix and $B$ is a $m \times n$ matrix, then their product is an $l \times n$ matrix".
 
-The scalar values that the types depend on must not be constant values...
+With dependent types, a large set of logic errors can be ruled out statically. A logic error is a bug that cause the program to compute incorrect results even though it is a syntactiaclly valid program. Logic errors
+are mistakes in the implementation.
+
 **TODO: read all of these! good material!**
 - https://cs.stackexchange.com/a/40098/30429
+    - http://www.cse.chalmers.se/~peterd/papers/DependentTypesAtWork.pdf
 - https://softwareengineering.stackexchange.com/a/401220/90623
 
 **TODO: revise after having tried such a language!**
+
+## Type-level programming
+
+**TODO: do this only if good material is available**
 
 # Summary
 In my own experience, a statically typed language is a better tool for writing good, working software.
@@ -1217,6 +1204,16 @@ development, this suggests a dissatisfaction with dynamic typing as projects gro
 > https://stackoverflow.com/a/7039396/1772429
 
 ## Region inference
+
+- Effect systems
+    - downloaded PDF: "Type and effect systems - Nielson"
+    - https://www.stephendiehl.com/posts/exotic03.html
+    - https://en.wikipedia.org/wiki/Effect_system
+
+- Region types
+- Linear types
+
+downloaded PDF: On region and linear types <- seems good for a summary
 
 > Region inference is a technique for determining when objects become dead (even if they are reachable) by a static analysis of the program.
 > https://www.memorymanagement.org/glossary/r.html#term-region-inference
