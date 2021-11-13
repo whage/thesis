@@ -924,26 +924,6 @@ its second argument to be a function that takes an `Event` and returns nothing.
 Yet, when called, it accepts a function that takes a `MyMouseEvent`, a more specialized type (the compiler flag
 `strictFunctionTypes` must be turned off for this to work).
 
-## Ownership
-The ownership system is one of the main innovations of the Rust programming language, whereby it can statically determine
-when a memory object is no longer in use. Through ownership, Rust provides memory safety guarantees at compilation time.
-
-> All programs have to manage the way they use a computer’s memory while running.
-> Some languages have garbage collection that constantly looks for no longer used memory as the program runs;
-> in other languages, the programmer must explicitly allocate and free the memory.
-> Rust uses a third approach: memory is managed through a system of ownership with
-> a set of rules that the compiler checks at compile time.
-> [@rust-book]
-
-Memory safety means that the software never accesses invalid memory. Such invalid memory accesses could be use-after-free,
-null pointer dereferencing, using uninitialized memory, double free or buffer overflows [@mozilla-fearless], all of which
-are common causes of severe bugs and vulnerabilities. Providing memory safety is considered as one of the next big challanges
-of programming language design.
-
-**TODO: stanford lecture notes on Memory Safety: https://stanford-cs242.github.io/f19/lectures/06-2-memory-safety.html**
-**TODO: the linked paper: "affine type system": https://gankra.github.io/blah/linear-rust/**
-**TODO: nice paper: https://sergio.bz/docs/rusty-types-2016.pdf**
-
 ## Algebraic data types
 Algebraic data types are composite types: they are defined as a combination of other types.
 There are two main classes of algebraic data types: product types and sum types. Product types are structures
@@ -1143,6 +1123,47 @@ In functional languages, with the help of pattern matching, sum types facilitate
 implementation of conditional expressions. They let us define the branching logic in terms 
 of a composite type and allow the type system to check whether we we covered all the cases. [@parmer-type-systems]
 
+## Ownership
+The ownership system is one of the main innovations of the Rust programming language, whereby it can statically determine
+when a memory object is no longer in use. Through ownership, Rust provides memory safety guarantees at compilation time.
+
+> All programs have to manage the way they use a computer’s memory while running.
+> Some languages have garbage collection that constantly looks for no longer used memory as the program runs;
+> in other languages, the programmer must explicitly allocate and free the memory.
+> Rust uses a third approach: memory is managed through a system of ownership with
+> a set of rules that the compiler checks at compile time.
+> [@rust-book]
+
+Memory safety means that the software never accesses invalid memory. Such invalid memory accesses could be use-after-free,
+null pointer dereferencing, using uninitialized memory, double free or buffer overflows [@mozilla-fearless], all of which
+are common causes of severe bugs and vulnerabilities. Providing memory safety is considered as one of the next big challanges
+of programming language design.
+
+**TODO: stanford lecture notes on Memory Safety: https://stanford-cs242.github.io/f19/lectures/06-2-memory-safety.html**
+**TODO: the linked paper: "affine type system": https://gankra.github.io/blah/linear-rust/**
+**TODO: nice paper: https://sergio.bz/docs/rusty-types-2016.pdf**
+
+# Summary
+In my own experience, a statically typed language is a better tool for writing good, working software.
+I am surprised by the lack of evidence that can back this claim. In fact, all the studies I could find conclude that there is no objective, measurable
+difference between the quality of software produced with dynamicall or statically typed languages [@large-scale].
+This suggests that it is a matter of personal taste that someone might feel more productive or confident with one or the other.
+
+In my view (which might change in the future) dynamic languages do have their place which is small-scale sofware development, typically small services
+or scripts that are not expected to grow much. The small size usually means a smaller "input space", less things to go wrong
+and less things in which a static type system might really help and on the other hand, being free from type constraints
+increases the speed of development.
+Dynamic languages offer a low barrier to entry and agility that provides quick results with short development times.
+
+Many originally dynamic languages (javascript, python, ruby, php) seem to be adding support for some form of optional typing later in their
+development, this suggests a dissatisfaction with dynamic typing as projects grow larger.
+
+**TODO: continue!**
+
+# Suggestions for further research
+
+The following topics are closely related to the theme of this work and could be an interesting continuation.
+
 ## Dependent types
 Dependent types are based on the idea of using scalars or values to more precisely describe the type
 of some other value. [@wiki-type-systems] Dependent types can express for example that an `append` function
@@ -1168,38 +1189,6 @@ Agda: https://plfa.github.io/
 
 **TODO: revise after having tried such a language!**
 
-# Summary
-In my own experience, a statically typed language is a better tool for writing good, working software.
-I am surprised by the lack of evidence that can back this claim. In fact, all the studies I could find conclude that there is no objective, measurable
-difference between the quality of software produced with dynamicall or statically typed languages [@large-scale].
-This suggests that it is a matter of personal taste that someone might feel more productive or confident with one or the other.
-
-In my view (which might change in the future) dynamic languages do have their place which is small-scale sofware development, typically small services
-or scripts that are not expected to grow much. The small size usually means a smaller "input space", less things to go wrong
-and less things in which a static type system might really help and on the other hand, being free from type constraints
-increases the speed of development.
-Dynamic languages offer a low barrier to entry and agility that provides quick results with short development times.
-
-Many originally dynamic languages (javascript, python, ruby, php) seem to be adding support for some form of optional typing later in their
-development, this suggests a dissatisfaction with dynamic typing as projects grow larger.
-
-**TODO: continue!**
-
-# Suggestions for further research
-
-The following topics are closely related to the theme of this work and could be an interesting continuation.
-
-## Type systems and software security
-- solving injection with a type system
-    - http://blog.moertel.com/posts/2006-10-18-a-type-based-solution-to-the-strings-problem.html
-- security and modern type systems
-    - https://blog.moertel.com/posts/2007-08-15-a-bright-future-security-and-modern-type-systems.html
-
-## Type-directed memory management
-
-> the work of Martin Hofmann and the team on the Mobile Resource Guarantees project, who made type-directed memory (de/re)allocation a major theme
-> https://stackoverflow.com/a/7039396/1772429
-
 ## Region inference
 Programming languages with manual memory management allow the programmer to allocate and deallocate memory for cases
 where a stack based automatic process is insufficient. The problem with manual memory management is that it puts
@@ -1214,23 +1203,37 @@ features a so called "region inference algorith" which is a static analysis tech
 dynamically allocated values in a prgram that makes it possible to replace garbage collection with stack-based
 memory management. [@region-inference]
 
-In region inference's runtime model the store consists of a stack of regions.
-At runtime, all values (e.g., records, lists, references, and function closures) are put into regions.
-All decisions about where to allocate and deallocate regions are made statically, by region inference;
-furthermore, for every value-producing expression, region inference decides into which region the
+In region inference's runtime model the store (memory) consists of a stack of regions.
+At runtime, all values are put into regions. All decisions about where to allocate and deallocate regions are made statically,
+by region inference. For every value-producing expression, region inference decides into which region the
 value is to be put. [@region-based]  [@region-inference]
 
 > In some cases, the compiler can prove the absence of memory leaks or warn about the possibility of memory leaks
 > [@region-inference, p. 725.]
 
 ## Linear types
-    - https://www.tweag.io/blog/2017-03-13-linear-types/
-    - downloaded PDF: On region and linear types <- seems good for a summary
+Linear types are the manifestation of Jean-Yves Girard's "linear logic" in programming languages.
+It is about modeling resource usage and inferring statically how many times resources are used; "linearity" in this
+case means "used exactly once" which is a useful concept when talking about memory allocation and deallocation.
+Walker and Watkins' paper [@on-regions-and-linear] explores the connection between regions, effects and linear types.
+There is ongoing work to extend Haskell with linear types. [@tweag-linear]
 
 ## Effect systems
-- downloaded PDF: "Type and effect systems - Nielson"
-- https://www.stephendiehl.com/posts/exotic03.html
-- https://en.wikipedia.org/wiki/Effect_system
+Effect systems aim to model the side effects of computation at the programming language syntax level.
+Resorting to the definitions of functional programming languages, a "pure function" is a unit of code whose output 
+depends only on its inputs and doesn't cause any observable effect besides returning a value. In contrast, an "effectful" 
+or "impure" function is one that can cause some observable effect besides its return value: perform I/O or - and this
+might sound odd - fail. Failure here means that some runtime mechanism is triggered to handle some unexpected condition,
+this is usually implemented as exceptions. A function that doesn't terminate (infinite loop or recursion) is also
+considered effectful. Determining such properties of functions and checking their consistent use could help produce
+more bug-free software and this is the goal of effect systems. Such features are not yet found in mainstream languages
+but Microsoft Research's Koka language is an example of a research project in this direction. [@exotic-effects]  [@microsoft-koka]
+
+## Type systems and software security
+- solving injection with a type system
+    - http://blog.moertel.com/posts/2006-10-18-a-type-based-solution-to-the-strings-problem.html
+- security and modern type systems
+    - https://blog.moertel.com/posts/2007-08-15-a-bright-future-security-and-modern-type-systems.html
 
 \pagebreak
 
