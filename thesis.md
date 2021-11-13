@@ -351,8 +351,6 @@ The general idea behind type checking algorithms is the following:
 3. Generate constraints: enumerate all the known relations between the types of the nodes.
 4. Use constraint solving to see if the constraints can be satisfied.
 
-**TODO: more detail on type checking algorithms?**
-
 ## Static type checking
 Programmers make errors. Advanced programming languages should allow the automatic checking of inconsistencies
 in programs. The most popular of these consistency checks is called static type checking (or static typing).
@@ -382,11 +380,9 @@ static analysis cannot deftermine that this is the case. [@tapl]
 For this reason, they are often criticized as too rigid: static type systems might reject programs that 
 never produce type errors in practice.
 
-> ... [static typing] ... consists in detecting a
-> large family of errors: the application of operations to objects over which they are not defined [...]
-> This is achieved by grouping the
-> objects handled by the program into classes: the types, and by abstractly simulating the execution
-> at the level of types, following a set of rules called the type system.
+> [static typing] consists in detecting a large family of errors: the application of operations to objects
+> over which they are not defined [...] This is achieved by grouping the objects handled by the program into classes:
+> the types, and by abstractly simulating the execution at the level of types, following a set of rules called the type system.
 > [@leroy-phd, p. 3]
 
 Static languages usually don't allow rebinding a variable to an object of a different type during run-time.
@@ -394,14 +390,29 @@ This is what makes static type checking possible (and effective). [@py-s-vs-d]
 
 ### Advantages of static languages
 
-#### Early feedback and correctness
-> Good types lead to better code maintainability, faster failure on bad code [...]
-> [@abrahamson-quora]
+#### Peace of mind
+Static typechecking provides a basic set of guarantees about our code. We know that if it compiles, we used
+the types correctly. This is not a proof of correctness in general as well-typed programs can easily contain logic
+errors, bugs that cause the program to compute incorrect results even though it is a syntactiaclly valid program.
+Logic errors are mistakes in the implementation that static typing cannot fix for us but they can provide us
+a safety net against a whole class of errors.
 
-...
+A static typechecker checks the whole of the program in contrast with a dynamic typechecker that only checks
+the parts that actually get executed when the program is running. Especially when changing
+parts of large programs, static checking makes sure we don't break something elsewhere in the code without
+having to rely on meticulous testing.
 
+#### A more thoughtful design process
 > Compiler-imposed constraints on data types encouraged rigorous coding and precise thinking.
 > [@oracle-generics]
+
+When we encounter a static type error we stop and think about the inconsistency we were about to introduce.
+That record type is missing a field? Should I pass just an index instead of the whole list?
+This function is working with arrays but I was building a linked list in that other one?
+Typechecker warnings provide useful guidance during development and greatly reduce debugging time.
+
+> Good types lead to better code maintainability and faster failure on bad code
+> [@abrahamson-quora]
 
 #### Performance
 > Static typing guarantees certain properties and invariants on the data manipulated by the program;
@@ -427,15 +438,6 @@ Type information is also useful in the optimization of method dispatch in object
 > the object’s method suite, followed by a costly indirect jump to that code. In a class-based language, if the actual
 > class to which the object belongs is known at compile-time, a more efficient direct invocation of the method code can be
 > generated instead. [@leroy-intro-tic98 p. 1]
-
-The ML Kit compiler features a so called "region inference algorith" which is a static analysis technique
-to examine the lifetime of dynamically allocated values in a prgram that makes it possible to replace garbage collection with
-stack-based memory management. [@region-inference]
-
-> Region inference restores the coupling of allocation and deallocation; after region inference,
-> lifetimes are explicit as block structure in the program, making it easier to reason about memory usage [...]
-> in some cases, the compiler can prove the absence of memory leaks or warn about the possibility of memory leaks
-> [@region-inference, p. 725.]
 
 #### Documentation
 > "The comment is lying!" - senior programmer
@@ -922,11 +924,6 @@ its second argument to be a function that takes an `Event` and returns nothing.
 Yet, when called, it accepts a function that takes a `MyMouseEvent`, a more specialized type (the compiler flag
 `strictFunctionTypes` must be turned off for this to work).
 
-## Type classes
-
-**TODO**
-https://jrsinclair.com/articles/2019/type-classes-what-i-wish-someone-had-explained-about-functional-programming/
-
 ## Ownership
 The ownership system is one of the main innovations of the Rust programming language, whereby it can statically determine
 when a memory object is no longer in use. Through ownership, Rust provides memory safety guarantees at compilation time.
@@ -1149,7 +1146,8 @@ of a composite type and allow the type system to check whether we we covered all
 ## Dependent types
 Dependent types are based on the idea of using scalars or values to more precisely describe the type
 of some other value. [@wiki-type-systems] Dependent types can express for example that an `append` function
-that takes two list of length `m` and `n` should return a list of length `m+n`. Similarly, the rules of matrix multiplication can be expressed:
+that takes two list of length `m` and `n` should return a list of length `m+n`. Similarly, the rules of matrix
+multiplication can be expressed:
 
 \begin{equation*}
     \frac{\Gamma \vdash A : matrix(l,m), \ \Gamma \vdash B : matrix(m,n)}{\Gamma \vdash A \times B : matrix(l,n)}
@@ -1157,24 +1155,23 @@ that takes two list of length `m` and `n` should return a list of length `m+n`. 
 
 Which we read as "if $A$ is an $l \times m$ matrix and $B$ is a $m \times n$ matrix, then their product is an $l \times n$ matrix".
 
-With dependent types, a large set of logic errors can be ruled out statically. A logic error is a bug that cause the program to compute incorrect results even though it is a syntactiaclly valid program. Logic errors
-are mistakes in the implementation.
+With dependent types, a large set of logic errors can be ruled out statically.
+Dependently typed languages are rare and are mostly academic in nature. The most well known languages that feature
+dependent typing are Coq, Agda and Idris.
 
 **TODO: read all of these! good material!**
 - https://cs.stackexchange.com/a/40098/30429
     - http://www.cse.chalmers.se/~peterd/papers/DependentTypesAtWork.pdf
 - https://softwareengineering.stackexchange.com/a/401220/90623
 
+Agda: https://plfa.github.io/
+
 **TODO: revise after having tried such a language!**
-
-## Type-level programming
-
-**TODO: do this only if good material is available**
 
 # Summary
 In my own experience, a statically typed language is a better tool for writing good, working software.
 I am surprised by the lack of evidence that can back this claim. In fact, all the studies I could find conclude that there is no objective, measurable
-difference between the quality of software produced with dynamicall or statically typed languages.
+difference between the quality of software produced with dynamicall or statically typed languages [@large-scale].
 This suggests that it is a matter of personal taste that someone might feel more productive or confident with one or the other.
 
 In my view (which might change in the future) dynamic languages do have their place which is small-scale sofware development, typically small services
@@ -1188,15 +1185,15 @@ development, this suggests a dissatisfaction with dynamic typing as projects gro
 
 **TODO: continue!**
 
-# Suggestions for further research: type systems and software security
+# Suggestions for further research
 
-**TODO: put all the interesting stuff here that I had no time for**
+The following topics are closely related to the theme of this work and could be an interesting continuation.
 
-- defensive mechanisms provided by type systems
-    - look at the most common sources of vulnerabilities, see if type systems could help
-        - need data!
+## Type systems and software security
 - solving injection with a type system
     - http://blog.moertel.com/posts/2006-10-18-a-type-based-solution-to-the-strings-problem.html
+- security and modern type systems
+    - https://blog.moertel.com/posts/2007-08-15-a-bright-future-security-and-modern-type-systems.html
 
 ## Type-directed memory management
 
@@ -1204,20 +1201,36 @@ development, this suggests a dissatisfaction with dynamic typing as projects gro
 > https://stackoverflow.com/a/7039396/1772429
 
 ## Region inference
+Programming languages with manual memory management allow the programmer to allocate and deallocate memory for cases
+where a stack based automatic process is insufficient. The problem with manual memory management is that it puts
+the burden on the programmer and deallocating memory at the right time is a difficult problem. Too conservative
+memory management might result in use-after-free types of errors while being too generous with memory is the source
+of memory leaks. Garbage collection solves the problem of safety but it makes the program unpredictable which
+might not be affordable in scenarios like real-time systems. [@region-inference]
 
-- Effect systems
-    - downloaded PDF: "Type and effect systems - Nielson"
-    - https://www.stephendiehl.com/posts/exotic03.html
-    - https://en.wikipedia.org/wiki/Effect_system
+Region inference is a memory management discipline. It is a technique for determining when objects become dead
+by a static analysis of the program [@mem-mgmt-org]. The ML Kit compiler (a compiler from Standard ML to assembly)
+features a so called "region inference algorith" which is a static analysis technique to examine the lifetime of
+dynamically allocated values in a prgram that makes it possible to replace garbage collection with stack-based
+memory management. [@region-inference]
 
-- Region types
-- Linear types
+In region inference's runtime model the store consists of a stack of regions.
+At runtime, all values (e.g., records, lists, references, and function closures) are put into regions.
+All decisions about where to allocate and deallocate regions are made statically, by region inference;
+furthermore, for every value-producing expression, region inference decides into which region the
+value is to be put. [@region-based]  [@region-inference]
 
-downloaded PDF: On region and linear types <- seems good for a summary
+> In some cases, the compiler can prove the absence of memory leaks or warn about the possibility of memory leaks
+> [@region-inference, p. 725.]
 
-> Region inference is a technique for determining when objects become dead (even if they are reachable) by a static analysis of the program.
-> https://www.memorymanagement.org/glossary/r.html#term-region-inference
+## Linear types
+    - https://www.tweag.io/blog/2017-03-13-linear-types/
+    - downloaded PDF: On region and linear types <- seems good for a summary
 
+## Effect systems
+- downloaded PDF: "Type and effect systems - Nielson"
+- https://www.stephendiehl.com/posts/exotic03.html
+- https://en.wikipedia.org/wiki/Effect_system
 
 \pagebreak
 
