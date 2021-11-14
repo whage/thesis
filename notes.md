@@ -190,3 +190,12 @@ Typed Assembly Language papers (from around 1999) - Morrisett et al.
     - http://www.cs.cornell.edu/talc/papers.html
     - https://www.cs.princeton.edu/~dpw/papers/tal-toplas.pdf
     - https://www.cis.upenn.edu/~stevez/papers/MCGG99.pdf
+
+**TODO: read all of these! good material!**
+- https://cs.stackexchange.com/a/40098/30429
+    - http://www.cse.chalmers.se/~peterd/papers/DependentTypesAtWork.pdf
+- https://softwareengineering.stackexchange.com/a/401220/90623
+
+Agda: https://plfa.github.io/
+
+**TODO: revise after having tried such a language!**

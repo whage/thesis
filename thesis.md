@@ -1162,7 +1162,7 @@ development, this suggests a dissatisfaction with dynamic typing as projects gro
 
 # Suggestions for further research
 
-The following topics are closely related to the theme of this work and could be an interesting continuation.
+The following topics are closely related to the theme of this work and could be interesting continuations.
 
 ## Dependent types
 Dependent types are based on the idea of using scalars or values to more precisely describe the type
@@ -1179,15 +1179,6 @@ Which we read as "if $A$ is an $l \times m$ matrix and $B$ is a $m \times n$ mat
 With dependent types, a large set of logic errors can be ruled out statically.
 Dependently typed languages are rare and are mostly academic in nature. The most well known languages that feature
 dependent typing are Coq, Agda and Idris.
-
-**TODO: read all of these! good material!**
-- https://cs.stackexchange.com/a/40098/30429
-    - http://www.cse.chalmers.se/~peterd/papers/DependentTypesAtWork.pdf
-- https://softwareengineering.stackexchange.com/a/401220/90623
-
-Agda: https://plfa.github.io/
-
-**TODO: revise after having tried such a language!**
 
 ## Region inference
 Programming languages with manual memory management allow the programmer to allocate and deallocate memory for cases
@@ -1219,7 +1210,7 @@ Walker and Watkins' paper [@on-regions-and-linear] explores the connection betwe
 There is ongoing work to extend Haskell with linear types. [@tweag-linear]
 
 ## Effect systems
-Effect systems aim to model the side effects of computation at the programming language syntax level.
+Effect systems aim to model the side effects of computation.
 Resorting to the definitions of functional programming languages, a "pure function" is a unit of code whose output 
 depends only on its inputs and doesn't cause any observable effect besides returning a value. In contrast, an "effectful" 
 or "impure" function is one that can cause some observable effect besides its return value: perform I/O or - and this
