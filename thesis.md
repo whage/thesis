@@ -1220,12 +1220,6 @@ considered effectful. Determining such properties of functions and checking thei
 more bug-free software and this is the goal of effect systems. Such features are not yet found in mainstream languages
 but Microsoft Research's Koka language is an example of a research project in this direction. [@exotic-effects]  [@microsoft-koka]
 
-## Type systems and software security
-- solving injection with a type system
-    - http://blog.moertel.com/posts/2006-10-18-a-type-based-solution-to-the-strings-problem.html
-- security and modern type systems
-    - https://blog.moertel.com/posts/2007-08-15-a-bright-future-security-and-modern-type-systems.html
-
 \pagebreak
 
 # References

@@ -199,3 +199,9 @@ Typed Assembly Language papers (from around 1999) - Morrisett et al.
 Agda: https://plfa.github.io/
 
 **TODO: revise after having tried such a language!**
+
+## Type systems and software security
+- solving injection with a type system
+    - http://blog.moertel.com/posts/2006-10-18-a-type-based-solution-to-the-strings-problem.html
+- security and modern type systems
+    - https://blog.moertel.com/posts/2007-08-15-a-bright-future-security-and-modern-type-systems.html
