@@ -771,7 +771,8 @@ func main() {
     // someAnimal is an Entity
     needEntity(&someAnimal)
     
-    // bob embeds an Animal which implements Entity so bob is an Entity
+    // bob embeds an Animal which implements Entity
+    // so bob is an Entity
     needEntity(&bob)
 }
 ```
@@ -910,11 +911,17 @@ interface MyMouseEvent extends Event {
 interface MyKeyEvent extends Event {
   keyCode: number;
 }
-function listenEvent(eventType: EventType, handler: (n: Event) => void) {
+function listenEvent(
+    eventType: EventType,
+    handler: (n: Event) => void
+) {
   /* ... */
 }
 // Unsound, but useful and common
-listenEvent(EventType.Mouse, (e: MyMouseEvent) => console.log(e.x + "," + e.y));
+listenEvent(
+    EventType.Mouse,
+    (e: MyMouseEvent) => console.log(e.x + "," + e.y)
+);
 ```
 
 The above snippet is from TypeScript's official documentation ([@typescript-docs]) and it demonstrates how an unsound type system
@@ -1150,15 +1157,28 @@ difference between the quality of software produced with dynamicall or staticall
 This suggests that it is a matter of personal taste that someone might feel more productive or confident with one or the other.
 
 In my view (which might change in the future) dynamic languages do have their place which is small-scale sofware development, typically small services
-or scripts that are not expected to grow much. The small size usually means a smaller "input space", less things to go wrong
+or scripts that are not expected to grow much (if only we could know...). The small size usually means a smaller "input space", less things to go wrong
 and less things in which a static type system might really help and on the other hand, being free from type constraints
 increases the speed of development.
 Dynamic languages offer a low barrier to entry and agility that provides quick results with short development times.
 
 Many originally dynamic languages (javascript, python, ruby, php) seem to be adding support for some form of optional typing later in their
 development, this suggests a dissatisfaction with dynamic typing as projects grow larger.
+This is exactly my feeling too. As software grows in complexity and its components spread out to more parts
+the safety net of static type checking - knowing after every change that we didn't break something trivial - becomes invaluable.
 
-**TODO: continue!**
+I spent much more time on this thesis than I expected but I'm very happy about all the things that I learned
+while writing it. From the various type systems features I discussed above, the ones that I find the most important are:
+
+- gradual typing
+- parametric polymorphism
+- sum types (no null values)
+- Rust's ownership system
+
+Gradual typing for its potential to help existing large codebases slowly transition to static type checking, parametric
+polymorphism for its general usefulness when trying to design type-safe abstractions, sum types for their ability
+to elegantly express and handle uncertainty and Rust's ownership system for its potential to bring
+static memory safety closer to the mainstream.
 
 # Suggestions for further research
 
