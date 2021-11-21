@@ -790,7 +790,7 @@ of composition on the type level.
 The Java language (along with C#, Visual Basic and Delphi) calls their implementation of parametric polymorphism "Generics"
 and it looks something like this:
 
-```
+```java
 LinkedList<String> list = new LinkedList<String>();
 list.add("abc");       // fine
 list.add(new Date());  // error
@@ -803,7 +803,7 @@ though their type was not part of the class definition.
 
 Without a generic class:
 
-```
+```java
 LinkedList list = new LinkedList();
 list.add("abc");       // fine
 list.add(new Date());  // fine as well
@@ -819,7 +819,7 @@ In Elm, the same concepts apply but since there are no classes, parametric polym
 level where function arguments have type parameters. The following is the type signature of the `List.map` function
 that implements the usual "map" operation (applying the same transformation for each element in a list) on lists in a generic way:
 
-```
+```haskell
 map : (a -> b) -> List a -> List b
 ```
 
@@ -831,7 +831,7 @@ and its output matches the output list's type without dictating any concrete typ
 
 We could map a list of strings to their lengths using the generic `List.map` function above:
 
-```
+```haskell
 words = ["type", "systems", "are", "fun"]
 wordLengts = List.map String.length words
 ```
@@ -896,7 +896,7 @@ One example of unsoundness in TypeScript is "function parameter bivariance":
 > a more specialized type, but invokes the function with a less specialized type.
 > [@typescript-docs]
 
-```
+```typescript
 enum EventType {
   Mouse,
   Keyboard,
@@ -962,8 +962,8 @@ A sum type can also be thought of as an enum, with a payload where that payload 
 > [A tagged union is] a union, but each element remembers what set it came from
 > [@waleed-union-vs-sum]
 
-As Chad Austin puts it: a sum type is a combination of a tag (like an enum) and a payload per possibility (like a union).
-Sum types are a safe generalization of the two [@chad-sum-types]:
+As Chad Austin [@chad-sum-types] puts it: a sum type is a combination of a tag (like an enum) and a payload per possibility (like a union).
+Sum types are a safe generalization of the two:
 
 ```c
 enum EventType {
@@ -994,7 +994,7 @@ the `.click` field on a `PAINT` event. We can say that this is an unsafe impleme
 
 Here is the definiton of the same sum type in Elm (an language of the ML family):
 
-```elm
+```haskell
 type Event
   = ClickEvent Int Int
   | PaintEvent Color
@@ -1007,7 +1007,7 @@ What if the language forced the programmer (with convenient syntax and the use o
 for each possible variant of the sum type and only allow access to its payload where it makes sense?
 This is what languages in the ML family do with their `case` expressions, a form of so called "pattern matching":
 
-```elm
+```haskell
 case event of
   ClickEvent x y ->
     handleClickEvent x y
@@ -1022,7 +1022,7 @@ indeed a `ClickEvent`. This makes it a robust base for an error handling model.
 
 The following Elm code shows how the programmer is forced to handle all the possible types of HTTP errors:
 
-```elm
+```haskell
 httpErrorToString : Http.Error -> String -> String
 httpErrorToString err errorMessagePrefix =
   case err of
@@ -1053,7 +1053,7 @@ from the code and so programmers can easily forget to check those `if (x == null
 
 Sum types are the basis of what some languages call the "Option type" or "Maybe type":
 
-```elm
+```haskell
 type Maybe a
   = Just a
   | Nothing
@@ -1102,7 +1102,7 @@ sum types and explicit pattern matching enforced by the type checker, these erro
 
 A more elegant and bulletproof way would be to use sum types as return values (sometimes called "Monadic error handling"):
 
-```
+```rust
 enum Result<T, E> {
    Ok(T),
    Err(E),
@@ -1115,7 +1115,7 @@ and the result is valid. The `Err(E)` variant is for the case where an error nee
 Since the `Err(E)` variant of a `Result` may not be ignored, it is especially useful with functions that may
 encounter errors but don’t otherwise return a useful value. Such is the `write_all` method defined for I/O types in Rust:
 
-```
+```rust
 fn write_all(&mut self, bytes: &[u8]) -> Result<(), io::Error>;
 ```
 
@@ -1177,8 +1177,8 @@ while writing it. From the various type systems features I discussed above, the 
 
 Gradual typing for its potential to help existing large codebases slowly transition to static type checking, parametric
 polymorphism for its general usefulness when trying to design type-safe abstractions, sum types for their ability
-to elegantly express and handle uncertainty and Rust's ownership system for its potential to bring
-static memory safety closer to the mainstream.
+to elegantly express and handle uncertainty and their role in eliminating runtime errors and finally Rust's ownership system
+for its potential to bring static memory safety closer to the mainstream.
 
 # Suggestions for further research
 
