@@ -45,7 +45,7 @@ What is a "formal method"?
 
 In contrast, an empirical method - that is based on experimental results - for verifying software systems would be testing.
 
-So one of many formal methods, a type system is a set of rules that associate a property called a type to various constructs
+One of many formal methods, a type system is a set of rules that associate a property called a type to various constructs
 in a computer program. A type defines a range of values as well as possible operations on instances of that type.
 In a hardware or compiler context, a type defines the size and memory layout of values of that type.
 Here I will focus on types from the perspective of type checking.
@@ -930,6 +930,10 @@ Here, the `MyMouseEvent` interface is a subtype of the `Event` interface. The `l
 its second argument to be a function that takes an `Event` and returns nothing.
 Yet, when called, it accepts a function that takes a `MyMouseEvent`, a more specialized type (the compiler flag
 `strictFunctionTypes` must be turned off for this to work).
+The `listenEvent` function can call its `handler` function with an object of the base type `Event`, because that is how it
+was defined. An `Event` object will not have an `x` and `y` field so the supplied callback in the example will result
+in a runtime error in those cases. TypeScript allows code to be written that can not be proven to work correctly under
+all circumstances. Such circumstances might be rare in practice and it allows common Javascript patterns like the above example.
 
 ## Algebraic data types
 Algebraic data types are composite types: they are defined as a combination of other types.
@@ -987,10 +991,11 @@ struct Event {
 };
 ```
 
-The above is a sum-type implementation in C. The `EventType` enum serves as the tags of the sum type and
-the union of the `ClickEvent` and `PaintEvent` serve as the payload. A very important weakness of this C code
+The above is an example of a a sum type implementation in C by Chad Austin[@chad-sum-types]. The `EventType` enum serves as the tags
+of the sum type and the union of the `ClickEvent` and `PaintEvent` serve as the payload. A very important weakness of this C code
 is that nothing prevents the programmer from accessing the `.paint` field on a `CLICK` event or conversely
-the `.click` field on a `PAINT` event. We can say that this is an unsafe implementation of sum types [@chad-sum-types].
+the `.click` field on a `PAINT` event and both would lead to subtle bugs that the compiler couldn't warn us about.
+This is an unsafe implementation of sum types.
 
 Here is the definiton of the same sum type in Elm (an language of the ML family):
 
@@ -1071,7 +1076,15 @@ return type and so the callers of these functions are forced to explicitly handl
 
 In theory, a language that supports `Maybe` or `Option` types (parametric sum types) and
 enforces explicit handling of the `Nothing` case is a language where a `NullPointerException` is no longer
-possible.
+possible. Tony Hoare called the null value the "billion dollar mistake" because he believes that the amount
+of man-hourse wasted examining and fixing software bugs related to invalid pointers could already be translated to losses of that
+magnitude for the software industry. If we believe Prof. Hoare's estimate to be correct, it would
+make a lot of sense to start using languages and libraries that are built around the notion of sum types.
+
+> When nullable references are replaced by explicit Maybe or Option, you no longer have to worry about NullPointerExceptions,
+> NullReferenceExceptions, and the like. The type system enforces that required values exist and that optional values are
+> safely pattern-matched before they can be dereferenced.
+> [@chad-sum-types]
 
 The utility of sum types doesn't end here. These wonderful constructs are a great tool for implementing error handling
 which is concerned with the problem of how to signal to the caller of your function that something went wrong.
@@ -1098,9 +1111,13 @@ unexpected places), it can be overused to implement branching logic and handling
 
 Some languages like Go, allow multiple values to be returned from functions where one value indicates
 the error (if any) and the other value holds the result of the computation (if all went fine). However, without
-sum types and explicit pattern matching enforced by the type checker, these error values are easy to ignore.
+sum types and explicit pattern matching enforced by the type checker, these error values are easy to ignore
+and forget about handling the potential errors. Also, when a Go function returns for example a (string, error) pair
+to signal that it may fail, nothing stops the programmer from setting both values which is a logic error
+but can not be discovered by the compiler.
 
-A more elegant and bulletproof way would be to use sum types as return values (sometimes called "Monadic error handling"):
+A more elegant and bulletproof way of error handling is to use sum types as return values
+(sometimes called "Monadic error handling"):
 
 ```rust
 enum Result<T, E> {
@@ -1110,7 +1127,7 @@ enum Result<T, E> {
 ```
 
 The above is the definition of Rust's `Result` type which is also a parametric sum type like `Maybe` in Elm but
-here two type parameters are used. The `OK(T)` variant is for the case where the given computation succeeds
+here two type parameters are used instead of one. The `OK(T)` variant is for the case where the given computation succeeds
 and the result is valid. The `Err(E)` variant is for the case where an error needs to be reported. [@arcieri-rust]
 Since the `Err(E)` variant of a `Result` may not be ignored, it is especially useful with functions that may
 encounter errors but don’t otherwise return a useful value. Such is the `write_all` method defined for I/O types in Rust:
@@ -1143,12 +1160,19 @@ when a memory object is no longer in use. Through ownership, Rust provides memor
 
 Memory safety means that the software never accesses invalid memory. Such invalid memory accesses could be use-after-free,
 null pointer dereferencing, using uninitialized memory, double free or buffer overflows [@mozilla-fearless], all of which
-are common causes of severe bugs and vulnerabilities. Providing memory safety is considered as one of the next big challanges
-of programming language design.
+are common causes of severe bugs and vulnerabilities. Automatic memory management is available for most high level languages
+in the form of garbage collection (GC), but it might not be a feasible solution under every circumstance: programs written for
+embedded systems with very constrained resources can't afford to keep allocating memory and wait for a garbage collector to kick in.
+Similarly, systems with real-time requirements can't be stopped while the garbage collector does its work. In these scenarios
+the programmer is often left with the only choice of doing manualy memory management and hope for the best. Providing memory safety without
+sacrificing performance is considered to be one of the next big challanges of programming language design and rust might have an answer
+to this problem with its ownership system.
 
 **TODO: stanford lecture notes on Memory Safety: https://stanford-cs242.github.io/f19/lectures/06-2-memory-safety.html**
 **TODO: the linked paper: "affine type system": https://gankra.github.io/blah/linear-rust/**
 **TODO: nice paper: https://sergio.bz/docs/rusty-types-2016.pdf**
+
+The ownership system has tremendous practical value
 
 # Summary
 In my own experience, a statically typed language is a better tool for writing good, working software.

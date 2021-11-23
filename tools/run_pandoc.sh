@@ -1,7 +1,7 @@
 pandoc -s -S \
     --latex-engine=xelatex \
     --bibliography=bibliography.bib \
-    -o generated/thesis.pdf \
+    -o generated/thesis.docx \
     --csl computing-surveys.csl \
     thesis.md \
     metadata.yaml \
