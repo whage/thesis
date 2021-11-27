@@ -1168,11 +1168,94 @@ the programmer is often left with the only choice of doing manualy memory manage
 sacrificing performance is considered to be one of the next big challanges of programming language design and rust might have an answer
 to this problem with its ownership system.
 
-**TODO: stanford lecture notes on Memory Safety: https://stanford-cs242.github.io/f19/lectures/06-2-memory-safety.html**
-**TODO: the linked paper: "affine type system": https://gankra.github.io/blah/linear-rust/**
-**TODO: nice paper: https://sergio.bz/docs/rusty-types-2016.pdf**
+Aliasing is the situation when a location in memory can be accessed through different symbolic names in a program. Modifying the data
+through one name implicitly modifies the values associated with all aliased names which may not be expected by the programmer.
+Such implicit changes during the execution of a program make it very difficult to understand and reason about. [@ownership-types]  [@wiki-aliasing]
+Controlling and statically checking aliasing is the main theme of the ownership system and the so called "borrow checker" in Rust.
+The borrow checker is the component in the Rust compiler that is responsible for enforcing the rules of the ownership system.
+The ownership system is based on the following 3 rules [@rust-book-ownership]:
 
-The ownership system has tremendous practical value
+- each value in Rust has a variable that’s called its owner
+- there can only be one owner at a time
+- when the owner goes out of scope, the value will be dropped
+
+In contrast to C for example, there are no explicit `free()`-s and `malloc()`-s in Rust code. Memory is automatically returned
+once its owner goes out of scope. The language handles variable assignments in different ways depending on the types of the values
+being assigned. If the size of the value is known statically at compile time, then it is stored on the stack of the process's virtual
+memory but if it is not known at compile time, it is stored on the heap.
+To demonstrate the rules of ownership, let's take a look at two simple, very similar examples.
+Values of `String` type in Rust are mutable and have dynamic lengths (in contrast with string literals) so they are stored on the
+heap. They are a simple example of structures that have an unknown size at compile time. Such values are relatively expensive to copy
+because of heap management operations so when a String value is assigned to a variable, it is said to be "moved" instead of copied:
+
+```rust
+let s1 = String::from("hello");
+let s2 = s1;
+
+println!("{}, world!", s1);
+```
+
+Rust calls it a move because the variable that was previously the owner of this `String` value is invalidated as soon as the assignment
+`let s2 = s1;` happens and from that point on accessing `s1` is a compile time error:
+
+```rust
+let s1 = String::from("hello");
+    -- move occurs because `s1` has type `String`,
+    which does not implement the `Copy` trait
+let s2 = s1;
+         -- value moved here
+
+println!("{}, world!", s1);
+                       ^^ value borrowed here after move
+```
+
+> When a variable that includes data on the heap goes out of scope, the value will be cleaned up by `drop` unless
+> the data has been moved to be owned by another variable
+> [@doc-rust-lang]
+
+On the other hand, values stored on the stack are relatively cheap to copy so Rust creates copies of such
+values when they are assigned to a new variable:
+
+```rust
+let x = 5;
+let y = x;
+
+println!("x = {}, y = {}", x, y);
+```
+
+The above code is valid, because `x` and `y` are two distinct owners with two distinct values.
+The same rules apply for passing a value to a function. It will either move or copy the value just as assigmnent does.
+In case of a move, the ownership of the value is transferred to the function's local variable tha was declared as its input
+parameter. This means that if we don't also return it from the function (even if it doesn't modify it) then we lose
+the value in the outer scope where we called the function. This is where references and the concept of "borrowing" come in.
+
+Borrowing is he action of creating a reference. References allow us to refer to a value without taking ownership of it:
+
+```rust
+fn calculate_length(s: &String) -> usize {
+    s.len()
+}
+```
+
+Here, the argument is of type `&String` which is a reference to a String. `s` inside the function doesn't have ownership of
+what it refers to so even though it goes out of scope when the function returns, the data it references is not dropped.
+References are immutable by default meaning the `calculate_length` function is not allowed to modify the value `s` refers to.
+To make a reference mutable, we prefix it with the `mut` keyword but there can only ever be a single mutable reference to a
+particular piece of data at a time. We can have any number of immutable references to data but as soon as we have mutable
+reference, having immutable references is not allowed. [@doc-rust-lang]
+
+These restrictions make it possible for Rust to eliminate data races which are similar situations to race conditions:
+
+- two or more pointers access the same data at the same time
+- at least one of the pointers is being used to write to the data
+- there’s no mechanism being used to synchronize access to the data
+
+> Data races cause undefined behavior and can be difficult to diagnose and fix when you’re trying to track them down at runtime;
+> Rust prevents this problem from happening because it won’t even compile code with data races!
+> [@doc-rust-lang]
+
+The concept of a dangling pointer must be very familiar to C/C++ developers. A pointer becomes dangling when the object it points
+to is deallocated but the pointer itself is not updated. This situation is impossible in Rust thanks to its compile-time borrowing rules. 
 
 # Summary
 In my own experience, a statically typed language is a better tool for writing good, working software.
@@ -1196,13 +1279,15 @@ while writing it. From the various type systems features I discussed above, the 
 
 - gradual typing
 - parametric polymorphism
-- sum types (no null values)
+- sum types
 - Rust's ownership system
 
 Gradual typing for its potential to help existing large codebases slowly transition to static type checking, parametric
 polymorphism for its general usefulness when trying to design type-safe abstractions, sum types for their ability
 to elegantly express and handle uncertainty and their role in eliminating runtime errors and finally Rust's ownership system
 for its potential to bring static memory safety closer to the mainstream.
+
+**TODO: gyakorlati hasznokról**
 
 # Suggestions for further research
 

@@ -205,3 +205,7 @@ Agda: https://plfa.github.io/
     - http://blog.moertel.com/posts/2006-10-18-a-type-based-solution-to-the-strings-problem.html
 - security and modern type systems
     - https://blog.moertel.com/posts/2007-08-15-a-bright-future-security-and-modern-type-systems.html
+
+**TODO: stanford lecture notes on Memory Safety: https://stanford-cs242.github.io/f19/lectures/06-2-memory-safety.html**
+**TODO: the linked paper: "affine type system": https://gankra.github.io/blah/linear-rust/**
+**TODO: nice paper: https://sergio.bz/docs/rusty-types-2016.pdf**
