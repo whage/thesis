@@ -403,7 +403,7 @@ parts of large programs, static checking makes sure we don't break something els
 having to rely on meticulous testing.
 
 #### A more thoughtful design process
-> Compiler-imposed constraints on data types encouraged rigorous coding and precise thinking.
+> Compiler-imposed constraints on data types encourage rigorous coding and precise thinking.
 > [@oracle-generics]
 
 When we encounter a static type error we stop and think about the inconsistency we were about to introduce.
@@ -1022,8 +1022,8 @@ case event of
 
 The above Elm snippet is a `case` expression. The language enforces that these expressions go through all variants
 of the used type so the programmer can not forget to check some condition. It also makes sure that the `x` and `y`
-coordinates of a `ClickEvent` are only accessible (only within the scope of the `ClickEvent` case) if the event is
-indeed a `ClickEvent`. This makes it a robust base for an error handling model.
+coordinates of a `ClickEvent` are only accessible within the scope of the `ClickEvent`.
+This makes it a robust base for an error handling model.
 
 The following Elm code shows how the programmer is forced to handle all the possible types of HTTP errors:
 
@@ -1255,7 +1255,25 @@ These restrictions make it possible for Rust to eliminate data races which are s
 > [@doc-rust-lang]
 
 The concept of a dangling pointer must be very familiar to C/C++ developers. A pointer becomes dangling when the object it points
-to is deallocated but the pointer itself is not updated. This situation is impossible in Rust thanks to its compile-time borrowing rules. 
+to is deallocated but the pointer itself is not updated. This situation is impossible in Rust thanks to its compile-time borrowing rules.
+
+Rust's standard library (a large set of functions that provide interfaces to the OS kernel) is optional, which means it is suitable
+for writing programs that will run on platforms without operating systems: embedded systems with minimal resources.
+Just like C or C++, Rust also gives the programmer fine-grained control on when and how memory is allocated which helps
+create programs with predictable performances. [@microsoft-why-rust]
+
+> 70% of security vulnerabilities that Microsoft fixes and assigns a CVE (Common Vulnerabilities and Exposures) are due to
+> memory safety issues. This is despite mitigations including intense code review, training, static analysis, and more.
+> [@microsoft-we-need]
+
+Development teams at Microsoft started adopting Rust for systems programming tasks as an alternative to C/C++ to mitigate
+the huge cost that memory-safety bugs can bring [@microsoft-we-need]. Dropbox rewrote their sync engine in Rust [@dropbox-rust].
+Cloudflare wrote BoringTun, an open source WireGuard VPN implementation in Rust
+so that it is based on a solid memory model that matches the needs of a modern cryptography and security-oriented project 
+[@cloudflare-rust]. The industry is clearly interested in a language like Rust that puts safety and performance at the center.
+
+**TODO: lifetimes?**
+- https://blog.logrocket.com/understanding-lifetimes-in-rust/
 
 # Summary
 In my own experience, a statically typed language is a better tool for writing good, working software.
