@@ -1270,10 +1270,9 @@ Development teams at Microsoft started adopting Rust for systems programming tas
 the huge cost that memory-safety bugs can bring [@microsoft-we-need]. Dropbox rewrote their sync engine in Rust [@dropbox-rust].
 Cloudflare wrote BoringTun, an open source WireGuard VPN implementation in Rust
 so that it is based on a solid memory model that matches the needs of a modern cryptography and security-oriented project 
-[@cloudflare-rust]. The industry is clearly interested in a language like Rust that puts safety and performance at the center.
-
-**TODO: lifetimes?**
-- https://blog.logrocket.com/understanding-lifetimes-in-rust/
+[@cloudflare-rust]. The Oxide Computer Company on their mission to reinvent the physical server is also betting big on Rust:
+their software systems (firmware, embedded systems) are almost exclusively written in Rust and they are also
+very satisfied with it [@cantrill-rust].
 
 # Summary
 In my own experience, a statically typed language is a better tool for writing good, working software.

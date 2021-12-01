@@ -19,7 +19,6 @@ konzulens
 - típusrendszer elemek megjelnése nyelvekben
 
 # 3. dia: Problémák a gyakorlatban
-- széles körben elterjedt dinamikus nyelvek
 - dinamikus vs statikus
     - nem kimutatott, hogy egyik jobb volna, mint a másik
     - szubjektív
