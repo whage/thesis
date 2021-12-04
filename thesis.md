@@ -6,7 +6,7 @@
 \pagebreak
 \pagenumbering{arabic}
 
-# Bevezető
+# Bevezető {-}
 Statikus nyelvekkel először az egyetemi tanulmányaim során találkoztam C# és Java tárgyakon.
 Ekkor már volt pár év programozói tapasztalatom, de csak dinamikus nyelvekkel.
 Kezdetben rendkívül körülményesnek éreztem a munkát C#-ban vagy Java-ban. A kód terjengősnek tűnt, a programok
@@ -1329,6 +1329,22 @@ Many originally dynamic languages (javascript, python, ruby, php) seem to be add
 development, this suggests a dissatisfaction with dynamic typing as projects grow larger.
 As software grows in complexity and its components spread out to more parts the safety net of static type checking -
 knowing after every change that we didn't break something trivial - becomes invaluable.
+
+# Összefoglaló
+Szakdolgozatom első felében áttekintettem a típuselméletet, hogy lefektessem az alapokat a típusrendszerekhez. Ezt követően
+bemutattam, mit jelent a típusbiztosság és a típusellenőrzés két fő fajtáját, a statikus és dinamikus típusellenőrzést.
+A dolgozat második felében megvizsgáltam számos típusrendszer fogalmat az egyszerűbbektől a kifinomultabbakig, ismert
+nyelvek kódrészletein keresztül bemutattam ezeket és kitértem a fontosságukra és szerepükre a szofteverminőség tekintetében.
+
+A különböző típusrendszer koncepciók közül a következőket tartom legfontosabbak:
+
+- graduális típusosság
+- algebrai típusok
+- a Rust nyelv ownership rendszere
+
+Az graduális típusosságot a nagy kódbázisok fokozatos statikus ellenőrzésre való átvezetésének képességéért, az algebrai típusokat,
+mert elegánsan kifejezhető és modellezhető általuk a bizonytalanság illetve komoly szerepet töltenek be a futásidejű hibák eliminálásában
+és végezetül a Rust ownership rendszerét **TODO: folytatni**
 
 # Suggestions for further research
 
