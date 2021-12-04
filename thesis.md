@@ -4,19 +4,41 @@
 \tableofcontents
 
 \pagebreak
-\pagenumbering{arabic} 
+\pagenumbering{arabic}
 
-# Introduction, personal motivation {-}
-I started programming with dynamically typed languages. I enjoyed the quick results and rapid feedback during development.
+# Bevezető
+Statikus nyelvekkel először az egyetemi tanulmányaim során találkoztam C# és Java tárgyakon.
+Ekkor már volt pár év programozói tapasztalatom, de csak dinamikus nyelvekkel.
+Kezdetben rendkívül körülményesnek éreztem a munkát C#-ban vagy Java-ban. A kód terjengősnek tűnt, a programok
+nem  működtek, amíg látszólag minden a helyén nem volt, apró változtatások is hibák egész áradatát hozták
+magukkal, amiket mind ki kellett javítanom, mielőtt újra futtathattam volna a kódomat.
+Nem tartott ám sokáig, mire elkezdtem érezni az előnyeiket. Miután kezdtem megszokni őket, ha újra elővettem
+munkámhoz a megszokott dinamikus nyelveket, úgy éreztem, visszafelé teszek egy lépést. Folyamatos próbálgatás,
+változtatás majd újra próbálgatás, bizonytalanság a program helyességét illetően.
+A statikus nyelvek segítségével hatékonyabban és magabiztosabban dolgoztam.
+A type checker segítségével jobban átgondoltam a megoldásaimat, magabiztosságot adott a változtatásokhoz.
+Egyre inkább kezdtek érdekelni a statikus típusellenőrzés és a típusrendszerek.
+Kíváncsi lettem, mit mutathatnak még fel programnyelvek, amivel segíthetik a programozó munkáját
+és növelhetik a szoftverek minőségét. Ez a kíváncsiság vezetett ahhoz, hogy a típusrendszereket válasszam
+szakdolgozatom témájaként.
+A célom e munkával, hogy mélyebb megértést szerezzek a programnyelvek működéséről - statikus és dinamikus
+nyelvekről egyaránt.
+Először áttekintem a típusrendszerek elméleti hátterét és történetét.
+Megvizsgálom, hogy a típuselmélet elemei hogyan formálták az ismert programnyelveket.
+Bemutatom kódrészleteken keresztül, hogy bizonyos típusrendszer elemek hogyan segíthetik a programozót munkájában.
+Összehasonlítom ismert nyelvek típusrendszereit és megpróbálok egy áttekintést adni a típuselmélet
+újabb keletű gyakorlati vívmányairól.
+
+# Introduction {-}
 My first real exposure to statically typed languages was at the university with C# and Java.
-At first, those languages felt cumbersome. The code seemed too verbose, programs didn't work until everything was right,
+I already had a few years of programming experience but only with dynamically typed languages.
+At first, C# and Java felt cumbersome. The code seemed too verbose, programs didn't work until everything was right,
 even a small change triggered a whole chain of errors and the whole thing had to be fixed before I could run my code again.
 But it didn't take long until I started seeing their benefits. After spending some time with statically typed languages,
 each time I went back to the dynamic ones it felt like a step backwards. Continuous trial and error, edit-run-debug cycles,
 uncertainty about the correctness of my code.
 Static languages helped me write code more effectively and more confidently.
-The typechecker made me to think more thoroughly, it gave me confidence when changing parts of the program.
-At this point of my journey in the world of programming, I feel like statically typed languages are superior.
+The type checker made me to think more thoroughly, it gave me confidence when changing parts of the program.
 I became more and more interested in the possibilities of static checking and type systems.
 I wondered what features can programming languages provide to increase programmer productivity
 and improve software quality. This curiosity led me to choosing type systems as the topic of this work.
@@ -85,12 +107,12 @@ us when we later change parts of the program or add new components to it.
 
 The way I see it, type systems are the glue between mathematical logic and computer programs. They make it possible to
 prove that our programs behave correctly. Advanced, sophisticated type systems allow us to express
-a finer, more precise structure and thus more properties of our sofware may be proven by automated tools
+a finer, more precise structure and thus more properties of our software may be proven by automated tools
 and more optimization may be carried out to improve performance.
 
 ## Type theory
 Type theory is a branch of mathematical symbolic logic: a system of representing logical expressions
-through the use of symbols. It was concieved in the beginning of the 20th century by Bertrand Russell
+through the use of symbols. It was conceived in the beginning of the 20th century by Bertrand Russell
 in order to resolve contradictions present in set theory. Type theories (there are many,
 like Alonzo Church's Simply Typed Lambda calculus or Per Martin-Löf's Intuitionistic Type Theory)
 are formal systems which means they define rules for inferring theorems (statements) from axioms.
@@ -101,7 +123,7 @@ are formal systems which means they define rules for inferring theorems (stateme
 > [@ncatlab-tt]
 
 Type theory lays down the theoretical foundation for the type systems found in programming languages and
-the typechecking algorithms behind them.
+the type checking algorithms behind them.
 
 ## Formalization of type systems
 > How can we guarantee that well typed programs are really well behaved? [...]
@@ -118,7 +140,7 @@ discussing formal type systems.
 ### Judgements and rules
 An expression is a syntactically correct fragment of a program that can be evaluated to a value.
 Type systems associate expressions with types. We call this the _has type_ relationship:
-$e : M$, where expression $e$ has type $M$. This is called a typing judgement or just judgement. [@tspl-2000]
+$e : M$, where the expression $e$ has type $M$. This is called a typing judgement or just judgement. [@tspl-2000]
 
 Judgements are used to build inference rules of the form
 
@@ -148,7 +170,7 @@ We can think of context as a lookup table of (variable, type) pairs:
 > the context in which they occur.
 > [@pfpl-2016, p. 36]
 
-In the standard notaton, context is denoted by the greek letter Gamma:
+In the standard notation, context is denoted by the greek letter Gamma:
 
 \begin{equation*}
     \Gamma \vdash e : T
@@ -166,7 +188,7 @@ Which we read as "expression $e$ has type $T$ in context $\Gamma$".
 If we can construct a derivation for a judgement then we can say that the judgement is valid.
 
 Once the inference rules are constructed, a type checking algorithm can take a program and
-through constructing derivations decide if the program is well typed or not. If a program fragment
+through constructing derivations, decide if the program is well typed or not. If a program fragment
 violates the rules of the type system then we say it has a typing error. Most languages report
 a "Type Error" in such cases.
 
@@ -197,7 +219,7 @@ In the 1960s, the Curry-Howard correspondence was discovered by Haskell Curry an
 It is the direct relationship between computer programs and mathematical proofs, the link between logic and computation.
 [@wiki-curry-howard]
 
-The Pascal programming language with "strong typing" was developed in the 1970s (Wirth), so was Martin Löf's Type Thery
+The Pascal programming language with "strong typing" was developed in the 1970s (Wirth), so was Martin Löf's Type Theory
 born and the ML family of languages created.
 
 > In the late 1950s and early 1960s, this classification was extended to structured data (arrays of records, etc.)
@@ -211,7 +233,7 @@ born and the ML family of languages created.
 The 1980s brought existential types, dependent types and effect systems. Object calculus (an attempt at clarifying 
 the fundamental features of object oriented languages) and typed intermediate languages (a way of preserving type information
 through compilation, possibly even in the final target language) have been pioneered in the 1990s by Cardelli [@cardelli-object-calculus]
-and Monnier [@monnier-et-al] respectively. Most of these topic, unfortunately, remain hidden within academic papers and research projects.
+and Monnier [@monnier-et-al] respectively. Most of these topics, unfortunately, remain hidden within academic papers and research projects.
 
 # Language/type safety
 > A safe language is one that protects its own abstractions [...]
@@ -231,12 +253,12 @@ Chappell [@types-primer] says that a programming language or language construct 
 operations that are incorrect for the types on which they operate. The author notes that some languages
 may discourage incorrect operations or make them difficult without completely forbidding them.
 
-Cardelli [@cardelli-96] differentiates between trapped errors, that cause execution to stop immadiately and
+Cardelli [@cardelli-96] differentiates between trapped errors, that cause execution to stop immediately and
 untrapped errors that go unnoticed and later cause arbitrary behaviour. An untrapped error, for example, is
 accessing data past the end of an array in absence of run time bounds checks. A trapped error would be division
 by zero or accessing an illegal address. He calls a language safe if untrapped errors are impossible in it.
 The author suggests declaring a subset of possible execution errors as forbidden errors
-(all of the untrapped and some of the trapped erros) and says that a program can be called
+(all of the untrapped and some of the trapped errors) and says that a program can be called
 "well behaved" if no such forbidden errors can happen during execution.
 
 > Most programming languages exhibit a phase distinction between the static and dynamic phases of
@@ -251,7 +273,7 @@ In a theoretical context, "type soundness" is usually used instead of safety but
 
 In a more practical sense, soundness is the ability for a type checker to catch every single error that might happen at runtime.
 This sometimes means catching errors that will not actually happen at run time.
-As a sidenote "completeness" in type systems means the "inverse" of soundness: it is the ability for a
+As a side note "completeness" in type systems means the "inverse" of soundness: it is the ability for a
 type checker to only ever catch errors that would happen at runtime.
 This comes at the cost of sometimes missing errors that will happen at runtime. [@flowjs]
 
@@ -265,7 +287,7 @@ This comes at the cost of sometimes missing errors that will happen at runtime. 
 Regardless of whether type checking happens statically (before running the program) or dynamically (while the program is running),
 a language may or may not be called safe.
 For example, there might be operations that would pass type checking but produce an error during runtime, like division by zero.
-Enhancing a type system so that it could protect against division by zero erros would make it too restrictive
+Enhancing a type system so that it could protect against division by zero errors would make it too restrictive
 (too many programs would be ruled out as ill-formed).
 It is not possible to predict statically that an expression would evaluate to zero,
 so if we want our language to be safe, we need to add dynamic (runtime) checks. Even though it is not part
@@ -301,12 +323,12 @@ Bonnaire-Sergeant [@uiut] summarizes "preservation" beautifully:
 > and this model should not lose accuracy as the program evaluates.
 
 ## Should languages be safe?
-Safety reduces debugging time by adding fail-stop behavior in case of execution erros.
+Safety reduces debugging time by adding fail-stop behavior in case of execution errors.
 Many security problems exist because of buffer overflows made possible by unsafe
 casting and pointer arithmetic operations. Languages that provide safety through bounds checking provide protection
 against such sources of exploits. Safety guarantees the integrity of run time structures,
 and therefore enables garbage collection. [@cardelli-96] Yet there are still unsafe languages
-in widspread use, mainly for one reason: performance.
+in widespread use, mainly for one reason: performance.
 
 > Some languages, like C, are deliberately unsafe because of performance considerations: the run
 > time checks needed to achieve safety are sometimes considered too expensive.
@@ -317,7 +339,7 @@ in widspread use, mainly for one reason: performance.
 # Type checking
 Type checking is the process of deciding whether a term is well typed or not.
 A type checker verifies that the constraints posed by the type system are not violated
-by the program. Type checking can be done by automated tools called typecheckers, which are usually
+by the program. Type checking can be done by automated tools called type checkers, which are usually
 built into compilers or linkers. [@debating-type-systems]
 
 There are two main branches of languages with regards to type checking (or "typing"): static and dynamic.
@@ -358,7 +380,7 @@ in programs. The most popular of these consistency checks is called static type 
 > We do static checking without any input to the program [@cse-341, p. 13]
 
 Static type systems help us detect programming errors even before we could run our programs.
-It is not just the simple mistakes (like forgetting toconvert a string to a number) that can be caught by a type checker.
+It is not just the simple mistakes (like forgetting to convert a string to a number) that can be caught by a type checker.
 A language with a rich set of types offers the opportunity to encode complex information about structure in terms of types
 but it requires attention and willingness from the programmer to make good use of the language's facilities.
 
@@ -376,7 +398,7 @@ if <complex test> then 5 else <type error>
 ```
 
 will always be rejected as ill-typed even if `<complex test>` always evaluates to true, because
-static analysis cannot deftermine that this is the case. [@tapl]
+static analysis cannot determine that this is the case. [@tapl]
 For this reason, they are often criticized as too rigid: static type systems might reject programs that 
 never produce type errors in practice.
 
@@ -391,13 +413,13 @@ This is what makes static type checking possible (and effective). [@py-s-vs-d]
 ### Advantages of static languages
 
 #### Peace of mind
-Static typechecking provides a basic set of guarantees about our code. We know that if it compiles, we used
+Static type checking provides a basic set of guarantees about our code. We know that if it compiles, we used
 the types correctly. This is not a proof of correctness in general as well-typed programs can easily contain logic
-errors, bugs that cause the program to compute incorrect results even though it is a syntactiaclly valid program.
+errors, bugs that cause the program to compute incorrect results even though it is a syntactically valid program.
 Logic errors are mistakes in the implementation that static typing cannot fix for us but they can provide us
 a safety net against a whole class of errors.
 
-A static typechecker checks the whole of the program in contrast with a dynamic typechecker that only checks
+A static type checker checks the whole of the program in contrast with a dynamic type checker that only checks
 the parts that actually get executed when the program is running. Especially when changing
 parts of large programs, static checking makes sure we don't break something elsewhere in the code without
 having to rely on meticulous testing.
@@ -409,7 +431,7 @@ having to rely on meticulous testing.
 When we encounter a static type error we stop and think about the inconsistency we were about to introduce.
 That record type is missing a field? Should I pass just an index instead of the whole list?
 This function is working with arrays but I was building a linked list in that other one?
-Typechecker warnings provide useful guidance during development and greatly reduce debugging time.
+Type checker warnings provide useful guidance during development and greatly reduce debugging time.
 
 > Good types lead to better code maintainability and faster failure on bad code
 > [@abrahamson-quora]
@@ -451,7 +473,7 @@ can't give any warning about updating them: they "drift" from the code, often st
 > about behavior. [@tapl, p. 5]
 
 Type annotations - explicit indications of types - are "living documentation". They provide information about the
-code and since they are verified by the typechecker they cannot drift, they always stay up to date.
+code and since they are verified by the type checker they cannot drift, they always stay up to date.
 
 > Static type systems build ideas that help explain a system and what it does. [...]
 > They capture information about the inputs and outputs of various functions and modules. [...]
@@ -467,7 +489,7 @@ aspect of these languages is still valid because static type information can be 
 > [@cardelli-96, p. 3]
 
 In dynamically typed languages the types of program constructs don't have to be associated with a fixed type.
-Such languages let us, for example define functions that can accept multiple types of values. The exact type of the arguments
+Such languages let us, for example, define functions that can accept multiple types of values. The exact type of the arguments
 will only be known when the program is running and if the types don't match the operations performed
 on them, they only report that at run-time.
 Such languages don't attempt static checks. In order to maintain type safety (prevent unintended program behavior) these
@@ -480,7 +502,7 @@ the program stay consistent. Typical runtime checks include
 - null pointer dereference check
 
 When a dynamic check fails, the language runtime produces a runtime error. It depends on the language if a certain
-runtim error is recoverable or not: the language may allow the programmer to write error handling code and
+runtime error is recoverable or not: the language may allow the programmer to write error handling code and
 resume program execution after the error was handled. [@wiki-type-systems]
 
 > We need to come to terms with persistency, inconsistency and change in programming
@@ -514,8 +536,8 @@ There is a great deal of difference in how static and dynamic languages make use
 no sense in one context, while others might be used in both so let's clarify a few things first.
 
 For static languages, the whole point of having type systems is to help us put constraints on parts of our code
-and have some automated tool (the typechecker) verify that our constraints hold across our program.
-To make the most of the typechecker, we try to define as much of our program as we
+and have some automated tool (the type checker) verify that our constraints hold across our program.
+To make the most of the type checker, we try to define as much of our program as we
 can in terms of types. Different static languages provide different facilities for defining types and connections between them.
 
 Dynamic languages must know the types of their values to do run-time checks in order to avoid illegal or undefined operations.
@@ -526,7 +548,7 @@ leverage these facilities to increase correctness in our code.
 
 ## No types - most assembly languages
 An assembly language is one where there is a strong correspondence between the language's instructions and the instructions
-of the machine's instruction set architecture (ISA). That is, most languge constructs have a 1-to-1 mapping to a CPU instruction.
+of the machine's instruction set architecture (ISA). That is, most language constructs have a 1-to-1 mapping to a CPU instruction.
 Since there are many types of different CPU ISAs, there are also many different assembly languages.
 There are some so called typed assembly languages (TAL) mostly within academic circles, but most assembly languages are 
 said to be untyped.
@@ -586,13 +608,13 @@ a subtype must explicitly declare itself to be related to the supertype. Nominal
 [@typescript-docs]
 
 ## Gradual typing
-Gradual typing orignates in Siek & Taha's [@siek-taha-gradual] 2006 paper. The idea is that a language should provide
+Gradual typing originates in Siek & Taha's [@siek-taha-gradual] 2006 paper. The idea is that a language should provide
 static and dynamic typing at the same time with the programmer controlling the degree of static checking by annotating function parameters
 with types [@siek-taha-gradual]. Gradually typed languages usually (but not always) have an interesting property:
 an unsound type system, as is the case with TypeScript:
 
 > The designers of TypeScript made a conscious decision not to insist on static soundness. [...]
-> it is possible for a program, even one with abundant type annotations, to pass the TypeScript typechecker but to fail
+> it is possible for a program, even one with abundant type annotations, to pass the TypeScript type checker but to fail
 > at run-time with a dynamic type error [...]
 > This decision stems from the widespread usage of TypeScript to ascribe types to existing JavaScript libraries and codebases,
 > not just code written from scratch in TypeScript. It is crucial to the usability of the language that it allows for common
@@ -608,7 +630,7 @@ for type errors at runtime (maybe only in unrealistic scenarios) but that still 
 Even though Python 3 is dynamically typed, the language allows optional "type hints" which are similar to
 type declarations in languages like Java. These annotations may be used together with type checkers like `mypy`,
 `pyre-check` or `pytype` [@py-type]. The programmer is free to annotate only parts of the source code.
-The Python 3 runtime itself doesn't typecheck the type hints. Due to python's dynamic nature,
+The Python 3 runtime itself doesn't type check the type hints. Due to python's dynamic nature,
 the following code will be executed without any type errors in Python 3.5.2:
 
 ```python
@@ -621,11 +643,11 @@ print(f(1, 2))
 
 The programmer has to use one of the external type checkers to make use of type hints. Running `mypy`
 on the above code indeed reports type errors complaining about an incompatible return type declaration and incompatible
-argument types when calling the the function with integer values.
+argument types when calling the function with integer values.
 
 In my own experience, on one hand, gradual typing tends to make the programmer lazy. Omitting type annotations can help finish writing certain parts
 of the program faster. The program might even run without error when tested. The problem is that we likely didn't cover all the
-possible execution paths and by "shutting down" the typechecker we made it harder to find the possible inconsistencies in the code.
+possible execution paths and by "shutting down" the type checker we made it harder to find the possible inconsistencies in the code.
 The program seems to behave correctly but had we defined types properly, we could have been warned about type errors
 that will now show themselves later at an unexpected time.
 
@@ -643,7 +665,7 @@ to expressions in a program by examining the operations that are performed on th
 > [@debating-type-systems]
 
 Type inference should not to be confused with dynamic typing.
-Even though types may not be visible in the source code in an inferred language, it might check those type statically (before execution).
+Even though types may not be visible in the source code in an inferred language, it might check those types statically (before execution).
 
 The challenge of type inference is not assigning a type to untyped terms in a program, but rather to find the balance between the
 most general and most specific type that could have been declared in the program.
@@ -670,7 +692,7 @@ and so they can be used interchangeably. It is the programmer's task to declare 
 between different types. Of course it is not only about declaring similarity; the programmer has to
 create some structure like implementing a common method or placing the types in the same hierarchy
 or wrapping them with the same structure. The way we do this is by using some sort of polymorphism that
-the language at hand provides. The point of the whole thing is to decaler similarity and iterchangeability
+the language at hand provides. The point of the whole thing is to decaler similarity and interchangeability
 on the type level so that we can utilize the type checker. 
 
 To facilitate code-reuse, most programming languages feature a polymorphic type system.
@@ -684,8 +706,8 @@ Ad-hoc polymorphism means polymorphic functions, that is, functions that can be 
 the implementation depends on the types of the arguments.
 Ad-hoc here means that this is not a feature of the type system but instead a mechanism that is about using
 the same name for different (but related) operations. [@wiki-polymorphism]
-The typical example are method or operator overloading in most OOP languages. Method overloading is the provision of different
-implementations depending on the type of arguments the method (function) is called on and this can happen statically or dynamicall. [@tapl]
+The typical examples are method or operator overloading in most OOP languages. Method overloading is the provision of different
+implementations depending on the type of arguments the method (function) is called on and this can happen statically or dynamically. [@tapl]
 
 ### Subtype polymorphism - Subtyping
 Subtype polymorphism or runtime polymorphism is the process of taking a type (the base type)
@@ -703,12 +725,12 @@ types that may not otherwise be related.
 #### Difference between subtyping and inheritance
 Go is a good example of how subtyping is a different concept from inheritance.
 In Go, structs (a collection of related attributes) with methods resemble classes of classical OOP languages but in Go there isn't
-any kind of polymorphism for stucts. Struct types can embed other stuct types where the embedder type
+any kind of polymorphism for structs. Struct types can embed other struct types where the embedder type
 gains access to the methods of the embedded type. This provides a limited form of inheritance through composition. The embedder
 type however is not polymorphic with the embedded one (it doesn't become a subtype of the embedded one).
 
 In Go, we use interfaces to create subtype relationships. An interface is a set of function signatures and any type
-that implmenets all the functions ("methods") that an interface declares is said to implicitly implement
+that implements all the functions ("methods") that an interface declares is said to implicitly implement
 that interface - also a case of structural (instead of nominal, as in most OOP languages) subtyping.
 A type that implements an interface is considered a subtype of that interface (similarly to most OOP languages).
 
@@ -783,7 +805,7 @@ from the implementation and type parameters (or type arguments) are used instead
 based on type variables while providing flexibility since they can take on any type as long as that type is used
 consistently within the scope of the type parameters. The simplest use case for parametric polymorphism is implementing
 generic "container" types where the emphasis is not on the type of the values in the container
-but instead on their consistent use within the container (generic lists or tuples). The typechecker can aid
+but instead on their consistent use within the container (generic lists or tuples). The type checker can aid
 in enforcing the consistent usage without dictating the exact types of the values. Type parameters help us encode the notion
 of composition on the type level.
 
@@ -847,7 +869,7 @@ Most static programming languages do provide reflection facilities, but with lim
 it is essentially a way of circumventing the static type system.
 
 > Reflection enables the changing of systems without the need to rebuild or even restart them.
-> This is an important basis for building the dynamic sytems of the future: Mobile, Ubiquitous, Always-On.
+> This is an important basis for building the dynamic systems of the future: Mobile, Ubiquitous, Always-On.
 > [@revival-2005, p. 6]
 
 When used cautiously, reflection can give the programmer power over parts of a program that would not otherwise
@@ -884,7 +906,7 @@ Within the type system of a programming language, a typing rule can be
 [@wiki-variance]
 
 ### Function parameter bivariance in TypeScript
-TypeScript is a gradually typed superset of the JavaScript language with optional type annotations and provides a typechecker and transpiler
+TypeScript is a gradually typed superset of the JavaScript language with optional type annotations and provides a type checker and transpiler
 for JavaScript programs. Thanks to its type inference, every valid JavaScript program is also a valid TypeScript program
 so it is possible to gradually transform a JavaScript codebase into a TypeScript one. TypeScript's static type system is unsound by design
 to allow for "backwards compatibility" and an incremental transition from dynamically typed JavaScript codebases.
@@ -945,7 +967,7 @@ from a type systems standpoint but sum types very much are.
 [@sinclair-algebraic]
 
 ### Sum types
-To understand sum types (also called tagged unions or variant types), first lets define union types.
+To understand sum types (also called tagged unions or variant types), first let's define union types.
 Union types are usually denoted as `A | B` where `A` and `B` are some types.
 A union type between two types `A` and `B` is simply the union of the two sets of values,
 so it may hold any value from either `A` or `B`. For example, the union type `null | int` can hold
@@ -991,13 +1013,13 @@ struct Event {
 };
 ```
 
-The above is an example of a a sum type implementation in C by Chad Austin[@chad-sum-types]. The `EventType` enum serves as the tags
+The above is an example of a sum type implementation in C by Chad Austin[@chad-sum-types]. The `EventType` enum serves as the tags
 of the sum type and the union of the `ClickEvent` and `PaintEvent` serve as the payload. A very important weakness of this C code
 is that nothing prevents the programmer from accessing the `.paint` field on a `CLICK` event or conversely
 the `.click` field on a `PAINT` event and both would lead to subtle bugs that the compiler couldn't warn us about.
 This is an unsafe implementation of sum types.
 
-Here is the definiton of the same sum type in Elm (an language of the ML family):
+Here is the definition of the same sum type in Elm (an language of the ML family):
 
 ```haskell
 type Event
@@ -1070,14 +1092,14 @@ It is a type that says "I either have some value of type `a` or I have `Nothing`
 The key to this type (and the language) is that the programmer can not directly access the underlying value.
 Pattern matching must be performed and that forces to programmer to also handle the case where
 it holds a `Nothing` (the equivalent of a null value in other languages).
-Unline `null` in most imperative languages, `Nothing` is not compatible with other types so it can not be
+Unlike `null` in most imperative languages, `Nothing` is not compatible with other types so it can not be
 returned from functions. Functions where the result may be a "no value" must use a `Maybe` type as their
 return type and so the callers of these functions are forced to explicitly handle the "no value" cases.
 
 In theory, a language that supports `Maybe` or `Option` types (parametric sum types) and
 enforces explicit handling of the `Nothing` case is a language where a `NullPointerException` is no longer
 possible. Tony Hoare called the null value the "billion dollar mistake" because he believes that the amount
-of man-hourse wasted examining and fixing software bugs related to invalid pointers could already be translated to losses of that
+of man-hours wasted examining and fixing software bugs related to invalid pointers could already be translated to losses of that
 magnitude for the software industry. If we believe Prof. Hoare's estimate to be correct, it would
 make a lot of sense to start using languages and libraries that are built around the notion of sum types.
 
@@ -1105,7 +1127,7 @@ Then there are exceptions, which are a mechanism based on automatically propagat
 until it is handled explicitly or until it reaches the top at which point the runtime handles it by issuing some kind of 
 runtime error.
 
-The exception mechanism has its weeknesses too. It makes error handling more implicit (execution may continue at
+The exception mechanism has its weaknesses too. It makes error handling more implicit (execution may continue at
 unexpected places), it can be overused to implement branching logic and handling them is usually not enforced
 (checked and unchecked exceptions in Java).
 
@@ -1145,7 +1167,7 @@ that are not checked for consistency. Execution enters these branches based sole
 boolean valued "functions". This means that by mistake, they can overlap or fail to handle all possible cases.
 In functional languages, with the help of pattern matching, sum types facilitate a type safe
 implementation of conditional expressions. They let us define the branching logic in terms 
-of a composite type and allow the type system to check whether we we covered all the cases. [@parmer-type-systems]
+of a composite type and allow the type system to check whether we covered all the cases. [@parmer-type-systems]
 
 ## Ownership
 The ownership system is one of the main innovations of the Rust programming language, whereby it can statically determine
@@ -1164,14 +1186,14 @@ are common causes of severe bugs and vulnerabilities. Automatic memory managemen
 in the form of garbage collection (GC), but it might not be a feasible solution under every circumstance: programs written for
 embedded systems with very constrained resources can't afford to keep allocating memory and wait for a garbage collector to kick in.
 Similarly, systems with real-time requirements can't be stopped while the garbage collector does its work. In these scenarios
-the programmer is often left with the only choice of doing manualy memory management and hope for the best. Providing memory safety without
-sacrificing performance is considered to be one of the next big challanges of programming language design and rust might have an answer
+the programmer is often left with the only choice of doing manual memory management and hope for the best. Providing memory safety without
+sacrificing performance is considered to be one of the next big challenges of programming language design and rust might have an answer
 to this problem with its ownership system.
 
 Aliasing is the situation when a location in memory can be accessed through different symbolic names in a program. Modifying the data
 through one name implicitly modifies the values associated with all aliased names which may not be expected by the programmer.
 Such implicit changes during the execution of a program make it very difficult to understand and reason about. [@ownership-types]  [@wiki-aliasing]
-Controlling and statically checking aliasing is the main theme of the ownership system and the so called "borrow checker" in Rust.
+Controlling and statically checking aliasing is the main theme of the ownership system and the so-called "borrow checker" in Rust.
 The borrow checker is the component in the Rust compiler that is responsible for enforcing the rules of the ownership system.
 The ownership system is based on the following 3 rules [@rust-book-ownership]:
 
@@ -1224,12 +1246,12 @@ println!("x = {}, y = {}", x, y);
 ```
 
 The above code is valid, because `x` and `y` are two distinct owners with two distinct values.
-The same rules apply for passing a value to a function. It will either move or copy the value just as assigmnent does.
-In case of a move, the ownership of the value is transferred to the function's local variable tha was declared as its input
+The same rules apply for passing a value to a function. It will either move or copy the value just as assignment does.
+In case of a move, the ownership of the value is transferred to the function's local variable that was declared as its input
 parameter. This means that if we don't also return it from the function (even if it doesn't modify it) then we lose
 the value in the outer scope where we called the function. This is where references and the concept of "borrowing" come in.
 
-Borrowing is he action of creating a reference. References allow us to refer to a value without taking ownership of it:
+Borrowing is the action of creating a reference. References allow us to refer to a value without taking ownership of it:
 
 ```rust
 fn calculate_length(s: &String) -> usize {
@@ -1275,36 +1297,38 @@ their software systems (firmware, embedded systems) are almost exclusively writt
 very satisfied with it [@cantrill-rust].
 
 # Summary
-In my own experience, a statically typed language is a better tool for writing good, working software.
-I am surprised by the lack of evidence that can back this claim. In fact, all the studies I could find conclude that there is no objective, measurable
-difference between the quality of software produced with dynamicall or statically typed languages [@large-scale].
+In the first half of my thesis, I looked at type theory to lay down the fundamentals of type systems. Then I talked about what it
+means for a language to be type safe or "sound" and then examined the two main types of type checking languages perform to achieve it:
+static and dynamic checking. In the second half, I examined a list of type systems concepts from simpler to more advanced, illustrated
+them with examples of common programming languages and talked about their importance and potential to increase the quality of software
+produced by the industry.
+
+From the various type systems features I discussed above, the ones that I find the most important are:
+
+- gradual typing
+- sum types
+- Rust's ownership system
+
+Gradual typing for its potential to help existing large codebases slowly transition to static type checking, sum types for their ability
+to elegantly express and handle uncertainty and their role in eliminating runtime errors and finally Rust's ownership system
+for its potential to bring static memory safety closer to the mainstream.
+
+Part of my goal was to gather evidence that shows that static typing is superior to dynamic typing.
+In my mind, there is no doubt about that a statically typed language is a better tool for writing good, working software but I
+am surprised by the lack of evidence that can support this claim. In fact, all the studies I could find conclude that there is no objective, measurable
+difference between the quality of software produced with dynamically or statically typed languages [@large-scale].
 This suggests that it is a matter of personal taste that someone might feel more productive or confident with one or the other.
 
 In my view (which might change in the future) dynamic languages do have their place which is small-scale sofware development, typically small services
 or scripts that are not expected to grow much (if only we could know...). The small size usually means a smaller "input space", less things to go wrong
 and less things in which a static type system might really help and on the other hand, being free from type constraints
-increases the speed of development.
-Dynamic languages offer a low barrier to entry and agility that provides quick results with short development times.
+increases the speed of development. Dynamic languages also offer a low barrier to entry for people new to programming which is also
+a crucial role to fill.
 
 Many originally dynamic languages (javascript, python, ruby, php) seem to be adding support for some form of optional typing later in their
 development, this suggests a dissatisfaction with dynamic typing as projects grow larger.
-This is exactly my feeling too. As software grows in complexity and its components spread out to more parts
-the safety net of static type checking - knowing after every change that we didn't break something trivial - becomes invaluable.
-
-I spent much more time on this thesis than I expected but I'm very happy about all the things that I learned
-while writing it. From the various type systems features I discussed above, the ones that I find the most important are:
-
-- gradual typing
-- parametric polymorphism
-- sum types
-- Rust's ownership system
-
-Gradual typing for its potential to help existing large codebases slowly transition to static type checking, parametric
-polymorphism for its general usefulness when trying to design type-safe abstractions, sum types for their ability
-to elegantly express and handle uncertainty and their role in eliminating runtime errors and finally Rust's ownership system
-for its potential to bring static memory safety closer to the mainstream.
-
-**TODO: gyakorlati hasznokról**
+As software grows in complexity and its components spread out to more parts the safety net of static type checking -
+knowing after every change that we didn't break something trivial - becomes invaluable.
 
 # Suggestions for further research
 
@@ -1313,7 +1337,7 @@ The following topics are closely related to the theme of this work and could be 
 ## Dependent types
 Dependent types are based on the idea of using scalars or values to more precisely describe the type
 of some other value. [@wiki-type-systems] Dependent types can express for example that an `append` function
-that takes two list of length `m` and `n` should return a list of length `m+n`. Similarly, the rules of matrix
+that takes two lists of length `m` and `n` should return a list of length `m+n`. Similarly, the rules of matrix
 multiplication can be expressed:
 
 \begin{equation*}
@@ -1336,8 +1360,8 @@ might not be affordable in scenarios like real-time systems. [@region-inference]
 
 Region inference is a memory management discipline. It is a technique for determining when objects become dead
 by a static analysis of the program [@mem-mgmt-org]. The ML Kit compiler (a compiler from Standard ML to assembly)
-features a so called "region inference algorith" which is a static analysis technique to examine the lifetime of
-dynamically allocated values in a prgram that makes it possible to replace garbage collection with stack-based
+features a so called "region inference algorithm" which is a static analysis technique to examine the lifetime of
+dynamically allocated values in a program that makes it possible to replace garbage collection with stack-based
 memory management. [@region-inference]
 
 In region inference's runtime model the store (memory) consists of a stack of regions.
