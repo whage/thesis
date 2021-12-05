@@ -1332,7 +1332,7 @@ a crucial role to fill.
 Szakdolgozatom első felében áttekintettem a típuselméletet, hogy lefektessem az alapokat a típusrendszerekhez. Ezt követően
 bemutattam, mit jelent a típusbiztosság illetve a típusellenőrzés két fő fajtáját, a statikus és dinamikus típusellenőrzést.
 A dolgozat második felében megvizsgáltam számos típusrendszer fogalmat az egyszerűbbtől a kifinomultabbig, ismert
-nyelvek kódrészletein keresztül bemutattam ezeket és kitértem a fontosságukra és szerepükre a szofteverminőség tekintetében.
+nyelvek kódrészletein keresztül bemutattam ezeket és kitértem a fontosságukra és szerepükre a szoftverminőség tekintetében.
 
 A különböző típusrendszer koncepciók közül a következőket tartom legfontosabbak:
 
@@ -1350,7 +1350,7 @@ Ez továbbra is meggyőződésem, hogy a statikus nyelvek jobb eszközök helyes
 ezt kutatások nem támasztják alá. Az általam vizsgált kutatások közül egy sem talált objektív, mérhető különbséget a dinamikus és a statikus
 nyelveken írt szoftverek között a minőség vagy a fejlesztés sebessége tekintetében [@large-scale].
 Ez arra enged következtetni, hogy pusztán személyes preferencia kérdése, hogy ki mely irányzatot követve érzi produktívabbnak magát.
-Ugyanakkor számos dinamikus nyelvhezkészülnek graduális típusokat felvonultató variánsok és statikus típusellenőrzők,
+Ugyanakkor számos dinamikus nyelvhez készülnek graduális típusokat felvonultató variánsok és statikus típusellenőrzők,
 ezek elszaporodása a dinamikus nyelvek hiányosságaira utalnak.
 
 Saját véleményem - ami könnyen változhat a jövőben -, hogy a dinamikus nyelveknek is megvan a helyük, leginkább a kis támogató szoftverek,
