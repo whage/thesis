@@ -29,6 +29,8 @@ Bemutatom kódrészleteken keresztül, hogy bizonyos típusrendszer elemek hogya
 Összehasonlítom ismert nyelvek típusrendszereit és megpróbálok egy áttekintést adni a típuselmélet
 újabb keletű gyakorlati vívmányairól.
 
+\pagebreak
+
 # Introduction {-}
 My first real exposure to statically typed languages was at the university with C# and Java.
 I already had a few years of programming experience but only with dynamically typed languages.
@@ -1186,9 +1188,28 @@ are common causes of severe bugs and vulnerabilities. Automatic memory managemen
 in the form of garbage collection (GC), but it might not be a feasible solution under every circumstance: programs written for
 embedded systems with very constrained resources can't afford to keep allocating memory and wait for a garbage collector to kick in.
 Similarly, systems with real-time requirements can't be stopped while the garbage collector does its work. In these scenarios
-the programmer is often left with the only choice of doing manual memory management and hope for the best. Providing memory safety without
-sacrificing performance is considered to be one of the next big challenges of programming language design and rust might have an answer
-to this problem with its ownership system.
+the programmer is often left with the only choice of doing manual memory management and hope for the best.
+
+The problem with manual memory management is that it puts the burden on the programmer and deallocating memory at the right time is a
+difficult problem. Too conservative memory management might result in use-after-free types of errors while being too generous with
+memory is the source of memory leaks. Garbage collection solves the problem of safety but it makes the program unpredictable which
+might not be affordable in scenarios like real-time systems. [@region-inference]
+Providing memory safety without sacrificing performance is considered to be one of the next big challenges of
+programming language design and rust might have an answer to this problem with its ownership system.
+
+Rust's ownership system is based on a technique called region inference. Region inference is a memory management discipline.
+It is a technique for determining when objects become dead by a static analysis of the program [@mem-mgmt-org]. The ML Kit compiler
+(a compiler from Standard ML to assembly) features a so called "region inference algorithm" which is a static analysis technique to
+examine the lifetime of dynamically allocated values in a program that makes it possible to replace garbage collection with stack-based
+memory management. [@region-inference]
+
+In region inference's runtime model the store (memory) consists of a stack of regions.
+At runtime, all values are put into regions. All decisions about where to allocate and deallocate regions are made statically,
+by region inference. For every value-producing expression, region inference decides into which region the
+value is to be put. [@region-based]  [@region-inference]
+
+> In some cases, the compiler can prove the absence of memory leaks or warn about the possibility of memory leaks
+> [@region-inference, p. 725.]
 
 Aliasing is the situation when a location in memory can be accessed through different symbolic names in a program. Modifying the data
 through one name implicitly modifies the values associated with all aliased names which may not be expected by the programmer.
@@ -1293,8 +1314,48 @@ the huge cost that memory-safety bugs can bring [@microsoft-we-need]. Dropbox re
 Cloudflare wrote BoringTun, an open source WireGuard VPN implementation in Rust
 so that it is based on a solid memory model that matches the needs of a modern cryptography and security-oriented project 
 [@cloudflare-rust]. The Oxide Computer Company on their mission to reinvent the physical server is also betting big on Rust:
-their software systems (firmware, embedded systems) are almost exclusively written in Rust and they are also
-very satisfied with it [@cantrill-rust].
+their software systems (firmware, embedded systems) are almost exclusively written in Rust and they are
+very pleased with their results [@cantrill-rust].
+
+# Suggestions for further research
+
+The following topics are closely related to the theme of this work and could be interesting continuations.
+
+## Dependent types
+Dependent types are based on the idea of using scalars or values to more precisely describe the type
+of some other value. [@wiki-type-systems] Dependent types can express for example that an `append` function
+that takes two lists of length `m` and `n` should return a list of length `m+n`. Similarly, the rules of matrix
+multiplication can be expressed:
+
+\begin{equation*}
+    \frac{\Gamma \vdash A : matrix(l,m), \ \Gamma \vdash B : matrix(m,n)}{\Gamma \vdash A \times B : matrix(l,n)}
+\end{equation*}
+
+Which we read as "if $A$ is an $l \times m$ matrix and $B$ is a $m \times n$ matrix, then their product is an $l \times n$ matrix".
+
+With dependent types, a large set of logic errors can be ruled out statically.
+Dependently typed languages are rare and are mostly academic in nature. The most well known languages that feature
+dependent typing are Coq, Agda and Idris.
+
+## Linear types
+Linear types are the manifestation of Jean-Yves Girard's "linear logic" in programming languages.
+It is about modeling resource usage and inferring statically how many times resources are used; "linearity" in this
+case means "used exactly once" which is a useful concept when talking about memory allocation and deallocation.
+Walker and Watkins' paper [@on-regions-and-linear] explores the connection between regions, effects and linear types.
+There is ongoing work to extend Haskell with linear types. [@tweag-linear]
+
+## Effect systems
+Effect systems aim to model the side effects of computation.
+Resorting to the definitions of functional programming languages, a "pure function" is a unit of code whose output 
+depends only on its inputs and doesn't cause any observable effect besides returning a value. In contrast, an "effectful" 
+or "impure" function is one that can cause some observable effect besides its return value: perform I/O or - and this
+might sound odd - fail. Failure here means that some runtime mechanism is triggered to handle some unexpected condition,
+this is usually implemented as exceptions. A function that doesn't terminate (infinite loop or recursion) is also
+considered effectful. Determining such properties of functions and checking their consistent use could help produce
+more bug-free software and this is the goal of effect systems. Such features are not yet found in mainstream languages
+but Microsoft Research's Koka language is an example of a research project in this direction. [@exotic-effects]  [@microsoft-koka]
+
+\pagebreak
 
 # Summary
 In the first half of my thesis, I looked at type theory to lay down the fundamentals of type systems. Then I talked about what it
@@ -1328,8 +1389,10 @@ less execution paths and less things in which a static type system would show it
 means we can get usable results more quickly. Dynamic languages also offer a low barrier to entry for people new to programming which is also
 a crucial role to fill.
 
+\pagebreak
+
 # Összefoglaló
-Szakdolgozatom első felében áttekintettem a típuselméletet, hogy lefektessem az alapokat a típusrendszerekhez. Ezt követően
+Szakdolgozatom első felében áttekintettem a típuselméletet, hogy lefektessem a típusrendszerek alapjait. Ezt követően
 bemutattam, mit jelent a típusbiztosság illetve a típusellenőrzés két fő fajtáját, a statikus és dinamikus típusellenőrzést.
 A dolgozat második felében megvizsgáltam számos típusrendszer fogalmat az egyszerűbbtől a kifinomultabbig, ismert
 nyelvek kódrészletein keresztül bemutattam ezeket és kitértem a fontosságukra és szerepükre a szoftverminőség tekintetében.
@@ -1358,67 +1421,5 @@ automatizáló scriptek vagy kísérleti jellegű szoftverek fejlesztésében, a
 A kis méret általában kis "input teret" is jelent, ez kevesebb lehetséges végrehajtási utat, vagyis kisebb a statikus típusellenőrzés hozzáadott értéke,
 viszont a laza típuskezelés által hamarabb juthatunk használható eredményhez. Ezen kívül a dinamikus nyelvek egy alacsony belépési korlátot adnak azoknak,
 akik még csak ismerkednek a programozással, ez pedig egy rendkívül fontos szerep.
-
-# Suggestions for further research
-
-The following topics are closely related to the theme of this work and could be interesting continuations.
-
-## Dependent types
-Dependent types are based on the idea of using scalars or values to more precisely describe the type
-of some other value. [@wiki-type-systems] Dependent types can express for example that an `append` function
-that takes two lists of length `m` and `n` should return a list of length `m+n`. Similarly, the rules of matrix
-multiplication can be expressed:
-
-\begin{equation*}
-    \frac{\Gamma \vdash A : matrix(l,m), \ \Gamma \vdash B : matrix(m,n)}{\Gamma \vdash A \times B : matrix(l,n)}
-\end{equation*}
-
-Which we read as "if $A$ is an $l \times m$ matrix and $B$ is a $m \times n$ matrix, then their product is an $l \times n$ matrix".
-
-With dependent types, a large set of logic errors can be ruled out statically.
-Dependently typed languages are rare and are mostly academic in nature. The most well known languages that feature
-dependent typing are Coq, Agda and Idris.
-
-## Region inference
-Programming languages with manual memory management allow the programmer to allocate and deallocate memory for cases
-where a stack based automatic process is insufficient. The problem with manual memory management is that it puts
-the burden on the programmer and deallocating memory at the right time is a difficult problem. Too conservative
-memory management might result in use-after-free types of errors while being too generous with memory is the source
-of memory leaks. Garbage collection solves the problem of safety but it makes the program unpredictable which
-might not be affordable in scenarios like real-time systems. [@region-inference]
-
-Region inference is a memory management discipline. It is a technique for determining when objects become dead
-by a static analysis of the program [@mem-mgmt-org]. The ML Kit compiler (a compiler from Standard ML to assembly)
-features a so called "region inference algorithm" which is a static analysis technique to examine the lifetime of
-dynamically allocated values in a program that makes it possible to replace garbage collection with stack-based
-memory management. [@region-inference]
-
-In region inference's runtime model the store (memory) consists of a stack of regions.
-At runtime, all values are put into regions. All decisions about where to allocate and deallocate regions are made statically,
-by region inference. For every value-producing expression, region inference decides into which region the
-value is to be put. [@region-based]  [@region-inference]
-
-> In some cases, the compiler can prove the absence of memory leaks or warn about the possibility of memory leaks
-> [@region-inference, p. 725.]
-
-## Linear types
-Linear types are the manifestation of Jean-Yves Girard's "linear logic" in programming languages.
-It is about modeling resource usage and inferring statically how many times resources are used; "linearity" in this
-case means "used exactly once" which is a useful concept when talking about memory allocation and deallocation.
-Walker and Watkins' paper [@on-regions-and-linear] explores the connection between regions, effects and linear types.
-There is ongoing work to extend Haskell with linear types. [@tweag-linear]
-
-## Effect systems
-Effect systems aim to model the side effects of computation.
-Resorting to the definitions of functional programming languages, a "pure function" is a unit of code whose output 
-depends only on its inputs and doesn't cause any observable effect besides returning a value. In contrast, an "effectful" 
-or "impure" function is one that can cause some observable effect besides its return value: perform I/O or - and this
-might sound odd - fail. Failure here means that some runtime mechanism is triggered to handle some unexpected condition,
-this is usually implemented as exceptions. A function that doesn't terminate (infinite loop or recursion) is also
-considered effectful. Determining such properties of functions and checking their consistent use could help produce
-more bug-free software and this is the goal of effect systems. Such features are not yet found in mainstream languages
-but Microsoft Research's Koka language is an example of a research project in this direction. [@exotic-effects]  [@microsoft-koka]
-
-\pagebreak
 
 # References
