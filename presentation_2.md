@@ -6,15 +6,13 @@ konzulens
 
 # 1. dia: Témaválasztás
 - programnyelvek: szakmai érdeklődésem központja
-- saját tapasztalat az iparban
+- meglévő programozó tapasztalatok -> elméleti jellegű témaválasztás
 - elégedetlenségem az elterjed dinamikus nyelvekkel
-    - JavaScript
-    - Python
-    - Shell scripts
+    - JavaScript, Python, Shell scripts
 
 # 2. dia: Téma áttekintése
 - típuselmélet
-- dinamikus / statikus típusosság
+- dinamikus / statikus nyelvek, típusellenőrzés
 - típusrendszer fogalmak
 - típusrendszer elemek megjelnése nyelvekben
 
@@ -22,23 +20,29 @@ konzulens
 - dinamikus vs statikus
     - nem kimutatott, hogy egyik jobb volna, mint a másik
     - szubjektív
-- saját tapasztalat: egyértelműen a statikus oldal
-
-# 4. dia: Lehetőségek
+- saját tapasztalat: egyértelműen jobbnak érzem a statikus nyelveket
 - erős, statikus nyelvek gyakorlati haszna nagy kódbázisokban
     - védőháló funkció
     - trial-and-error ciklus rövidítése
 
-# 5. dia: Konkrét gyakorlati példák
-- Gradual typing - Typescript, Python
-    - fortifying large dynamic codebases
-- Sum types - Elm, Haskell, Rust
-    - no more NullPointerException-s
-    - elimination of run-time errors
-    - a form of statically verified, "complete" error handling
-- Ownership system - Rust
-    - memory safety
-    - data race elimination
+# 4. dia: Gyakorlati lehetőségek I. : graduális típusosság
+- graduális típusosság - Typescript, Python
+    - dinamikus nyelven íródott kódbázis fokozatos megerősítése
+    - fokozatos átállás, nem akasztja meg a projektet
 
-# 6. dia
+# 5. dia: Gyakorlati lehetőségek II. : algebrai típusok
+- algebrai típusok (sum types) - Elm, Haskell, Rust
+    - NullPointerException kiiktatása
+    - futás idejű hibák megszüntetése
+    - "teljes hibakezelés", másként le sem fordul
+
+# 6. dia: Gyakorlati lehetőségek III. : Rust - Ownership rendszer
+- Ownership rendszer - Rust
+    - fordítási időben megoldott biztonságos memóriakezelés
+    - memóriakezelésből eredő hibák kiiktatása
+        - overflow
+        - memory leak
+        - data race
+
+# 7. dia
 - "Várom a kérdéseket, köszönöm a figyelmet"

@@ -39,6 +39,27 @@
     - https://www.rpi.edu/dept/arc/training/latex/LaTeX_symbols.pdf
     - https://www.overleaf.com/learn/latex/Subscripts_and_superscripts
 
+# alternatív témák
+
+## linux security téma
+- konténerizáció
+- sérülékenység típusok
+- security-vel kapcsolatos technológiák fejlődése
+
+## adatforgalom a világhálón: optimalizációs lehetőségek
+- egy meeting közben jutott eszembe a cégnél. Mit akartam ezzel?
+
+## Evaluation of hardware design tools vs high level programming languages
+- elmaradottak a hardware-es eszközök?
+- segíthet rajtuk fejlettebb típusrendszerek használata?
+- megvizsgálni a népszerű hardware leíró nyelveket
+- hol tartanak a magas szintű programnyelvekhez képest?
+- mik az elvárások egyikkel/másikkal szemben?
+- lehetőségek?
+- reconfigure.io?
+- http://insights.sigasi.com/opinion/lacking-open-source-vhdl-simulator.html
+
+
 # Related topics, decided to leave them out
 
 ## Implementing a type checker (?)
