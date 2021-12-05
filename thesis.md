@@ -1310,30 +1310,28 @@ From the various type systems features I discussed above, the ones that I find t
 - Rust's ownership system
 
 Gradual typing for its potential to help existing large codebases slowly transition to static type checking, sum types for their ability
-to elegantly express and handle uncertainty and their role in eliminating runtime errors and finally Rust's ownership system
-for its potential to bring static memory safety closer to the mainstream.
+to elegantly express and model uncertainty, their excellent fit  for implementing robust error handling and their role in eliminating runtime errors and
+finally Rust's ownership system for its potential to bring static memory safety closer to the mainstream and provide an alternative to low-level but
+unsafe systems programming languages.
 
-Part of my goal was to gather evidence that shows that static typing is superior to dynamic typing.
-In my mind, there is no doubt about that a statically typed language is a better tool for writing good, working software but I
+Part of my goal was to gather evidence that shows that static typing is superior to dynamic typing for large scale software development.
+I am still convinced that a statically typed language is a better tool for writing correct, high quality software but I
 am surprised by the lack of evidence that can support this claim. In fact, all the studies I could find conclude that there is no objective, measurable
 difference between the quality of software produced with dynamically or statically typed languages [@large-scale].
-This suggests that it is a matter of personal taste that someone might feel more productive or confident with one or the other.
+This suggests that it is a matter of personal taste if someone feels more productive or confident with one or the other.
+However, many dynamic languages seem to be adding support for some form of gradual typing, this suggests a dissatisfaction
+with dynamic typing.
 
-In my view (which might change in the future) dynamic languages do have their place which is small-scale sofware development, typically small services
-or scripts that are not expected to grow much (if only we could know...). The small size usually means a smaller "input space", less things to go wrong
-and less things in which a static type system might really help and on the other hand, being free from type constraints
-increases the speed of development. Dynamic languages also offer a low barrier to entry for people new to programming which is also
+In my view - which might change in the future - dynamic languages do have their place which is small-scale sofware development, typically small utilities,
+automation scripts or proof-of-concept software that are not expected to grow much (if only we could know...). The small size usually means a smaller "input space",
+less execution paths and less things in which a static type system would show its real value and on the other hand, being free from type constraints
+means we can get usable results more quickly. Dynamic languages also offer a low barrier to entry for people new to programming which is also
 a crucial role to fill.
-
-Many originally dynamic languages (javascript, python, ruby, php) seem to be adding support for some form of optional typing later in their
-development, this suggests a dissatisfaction with dynamic typing as projects grow larger.
-As software grows in complexity and its components spread out to more parts the safety net of static type checking -
-knowing after every change that we didn't break something trivial - becomes invaluable.
 
 # Összefoglaló
 Szakdolgozatom első felében áttekintettem a típuselméletet, hogy lefektessem az alapokat a típusrendszerekhez. Ezt követően
-bemutattam, mit jelent a típusbiztosság és a típusellenőrzés két fő fajtáját, a statikus és dinamikus típusellenőrzést.
-A dolgozat második felében megvizsgáltam számos típusrendszer fogalmat az egyszerűbbektől a kifinomultabbakig, ismert
+bemutattam, mit jelent a típusbiztosság illetve a típusellenőrzés két fő fajtáját, a statikus és dinamikus típusellenőrzést.
+A dolgozat második felében megvizsgáltam számos típusrendszer fogalmat az egyszerűbbtől a kifinomultabbig, ismert
 nyelvek kódrészletein keresztül bemutattam ezeket és kitértem a fontosságukra és szerepükre a szofteverminőség tekintetében.
 
 A különböző típusrendszer koncepciók közül a következőket tartom legfontosabbak:
@@ -1342,9 +1340,24 @@ A különböző típusrendszer koncepciók közül a következőket tartom legfo
 - algebrai típusok
 - a Rust nyelv ownership rendszere
 
-Az graduális típusosságot a nagy kódbázisok fokozatos statikus ellenőrzésre való átvezetésének képességéért, az algebrai típusokat,
-mert elegánsan kifejezhető és modellezhető általuk a bizonytalanság illetve komoly szerepet töltenek be a futásidejű hibák eliminálásában
-és végezetül a Rust ownership rendszerét **TODO: folytatni**
+A graduális típusosságot, mert kiváló eszköze lehet a nagy, dinamikus nyelven íródott kódbázisok fokozatos statikus ellenőrzésre való átvezetésének,
+az algebrai típusokat, mert elegánsan kifejezhető és modellezhető velük a bizonytalanság, jól alkalmazhatóak robusztus hibakezelés megvalósítására
+illetve komoly szerepet töltenek be a futásidejű hibák eliminálásában és végezetül a Rust ownership rendszerét a statikus memóriakezelésében
+rejlő potenciálért és mert remek alternatívát kínál az alacsony szintű de nem biztonságos rendszerprogramozó nyelvekre.
+
+Dolgozatom egyik célja az volt, hogy alátámasszam, a statikus nyelvek alkalmasabbak nagy szoftverek fejlesztésére, mint a dinamikus nyelvek.
+Ez továbbra is meggyőződésem, hogy a statikus nyelvek jobb eszközök helyes, magas minőségű szoftverek készítésére, ám meglep, hogy
+ezt kutatások nem támasztják alá. Az általam vizsgált kutatások közül egy sem talált objektív, mérhető különbséget a dinamikus és a statikus
+nyelveken írt szoftverek között a minőség vagy a fejlesztés sebessége tekintetében [@large-scale].
+Ez arra enged következtetni, hogy pusztán személyes preferencia kérdése, hogy ki mely irányzatot követve érzi produktívabbnak magát.
+Ugyanakkor számos dinamikus nyelvhezkészülnek graduális típusokat felvonultató variánsok és statikus típusellenőrzők,
+ezek elszaporodása a dinamikus nyelvek hiányosságaira utalnak.
+
+Saját véleményem - ami könnyen változhat a jövőben -, hogy a dinamikus nyelveknek is megvan a helyük, leginkább a kis támogató szoftverek,
+automatizáló scriptek vagy kísérleti jellegű szoftverek fejlesztésében, amelyek várhatóan nem nőnek nagyobbra egy bizonyos szintnél (bár tudnánk ezt előre...).
+A kis méret általában kis "input teret" is jelent, ez kevesebb lehetséges végrehajtási utat, vagyis kisebb a statikus típusellenőrzés hozzáadott értéke,
+viszont a laza típuskezelés által hamarabb juthatunk használható eredményhez. Ezen kívül a dinamikus nyelvek egy alacsony belépési korlátot adnak azoknak,
+akik még csak ismerkednek a programozással, ez pedig egy rendkívül fontos szerep.
 
 # Suggestions for further research
 
