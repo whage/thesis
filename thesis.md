@@ -17,9 +17,9 @@ munkámhoz a megszokott dinamikus nyelveket, úgy éreztem, visszafelé teszek e
 változtatás majd újra próbálgatás, bizonytalanság a program helyességét illetően.
 A statikus nyelvek segítségével hatékonyabban és magabiztosabban dolgoztam.
 A type checker segítségével jobban átgondoltam a megoldásaimat, magabiztosságot adott a változtatásokhoz.
-Egyre inkább kezdtek érdekelni a statikus típusellenőrzés és a típusrendszerek.
+Egyre jobban érdekelt a statikus típusellenőrzés és a típusrendszerek témaköre.
 Kíváncsi lettem, mit mutathatnak még fel programnyelvek, amivel segíthetik a programozó munkáját
-és növelhetik a szoftverek minőségét. Ez a kíváncsiság vezetett ahhoz, hogy a típusrendszereket válasszam
+és növelhetik a szoftverek minőségét, ez a kíváncsiság vezetett ahhoz, hogy a típusrendszereket válasszam
 szakdolgozatom témájaként.
 A célom e munkával, hogy mélyebb megértést szerezzek a programnyelvek működéséről - statikus és dinamikus
 nyelvekről egyaránt.
@@ -43,7 +43,7 @@ Static languages helped me write code more effectively and more confidently.
 The type checker made me to think more thoroughly, it gave me confidence when changing parts of the program.
 I became more and more interested in the possibilities of static checking and type systems.
 I wondered what features can programming languages provide to increase programmer productivity
-and improve software quality. This curiosity led me to choosing type systems as the topic of this work.
+and improve software quality, this curiosity led me to choosing type systems as the topic of this work.
 My goal with this thesis is to gain a more fundamental understanding of the semantics of programming languages -
 both static and dynamic.
 First, I'll survey the history and theoretical background of type systems.
@@ -1409,7 +1409,7 @@ illetve komoly szerepet töltenek be a futásidejű hibák eliminálásában és
 rejlő potenciálért és mert remek alternatívát kínál az alacsony szintű de nem biztonságos rendszerprogramozó nyelvekre.
 
 Dolgozatom egyik célja az volt, hogy alátámasszam, a statikus nyelvek alkalmasabbak nagy szoftverek fejlesztésére, mint a dinamikus nyelvek.
-Ez továbbra is meggyőződésem, hogy a statikus nyelvek jobb eszközök helyes, magas minőségű szoftverek készítésére, ám meglep, hogy
+Továbbra is meggyőződésem, hogy a statikus nyelvek jobb eszközök helyes, magas minőségű szoftverek készítésére, ám meglep, hogy
 ezt kutatások nem támasztják alá. Az általam vizsgált kutatások közül egy sem talált objektív, mérhető különbséget a dinamikus és a statikus
 nyelveken írt szoftverek között a minőség vagy a fejlesztés sebessége tekintetében [@large-scale].
 Ez arra enged következtetni, hogy pusztán személyes preferencia kérdése, hogy ki mely irányzatot követve érzi produktívabbnak magát.
