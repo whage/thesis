@@ -1,54 +1,52 @@
-## 0. dia
+## 1. dia
 cím
 név
 OE logo
 konzulens
 
-# 1. dia: Témaválasztás - típusrendszerek
+# 2. dia: Témaválasztás - típusrendszerek
 - programnyelvek: szakmai érdeklődésem központja
-- meglévő programozó tapasztalatok -> elméleti jellegű témaválasztás
-- elégedetlenségem az elterjed dinamikus nyelvekkel
-    - JavaScript, Python, Shell scripts
+- meglévő programozói tapasztalatok -> elméleti jellegű témaválasztás
+- elégedetlenségem
+    - az elterjed dinamikus nyelvekkel
+    - az általános szoftverminőséggel
 
-# 2. dia: Téma áttekintése
-- típuselmélet
-- dinamikus / statikus nyelvek, típusellenőrzés
+# 3. dia: Téma áttekintése
+- típuselmélet -> típusrendszerek
+- típusellenőrzés: dinamikus / statikus nyelvek
 - típusrendszer fogalmak
-- típusrendszer elemek megjelnése nyelvekben
+- típusrendszer elemek megjelenése nyelvekben
 
-# 3. dia: Problémák a gyakorlatban
-- dinamikus vs statikus
-    - szubjektív - nem kimutatott, hogy egyik jobb volna, mint a másik
-- saját tapasztalat: egyértelműen jobbnak érzem a statikus nyelveket
+# 4. dia: Dinamikus vs. statikus a gyakorlatban
+- szubjektív, nem kimutatott, saját tapasztalat
 - statikus nyelvek általános előnyei
     - védőháló funkció
-    - több garancia a helyességre
-    - trial-and-error ciklus rövidítése
+    - bizonyos szintű garancia a konzisztens kódra (!= helyesség)
     - futásidejű hibák (ügyfélnél) -> fordítási idejű hibák (fejlesztőnél)
+- célom: bemutatni a statikus oldal gyakorlati lehetőségeit
 
-# 4. dia: Gyakorlati lehetőségek I. : graduális típusosság
-- mit jelent?
+# 5. dia: Gyakorlati lehetőségek I.: graduális típusosság
+- Javascript -> Typescript
+- Python -> type hints, Mypy
+- Php -> Hack
 - lehetőségek
-    - Javascript -> Typescript
-    - Python -> type hints, Mypy,
-    - Php -> Hack,
     - dinamikus nyelven íródott kódbázis fokozatos megerősítése
     - fokozatos átállás, nem akasztja meg a projektet
 
-# 5. dia: Gyakorlati lehetőségek II. : algebrai típusok
-- algebrai típusok (sum types) - Elm, Haskell, Rust
+# 6. dia: Gyakorlati lehetőségek II.: algebrai típusok
+- Sum types - ML nyelvcsalád, Rust, Swift
     - elegáns modellezése a bizonytalanságnak
         - NullPointerException kiiktatása
-    - futás idejű hibák megszüntetése
+    - futásidejű hibák eliminálása
         - "teljes hibakezelés", másként le sem fordul
 
-# 6. dia: Gyakorlati lehetőségek III. : Rust - Ownership rendszer
-- Ownership rendszer - Rust
-    - fordítási időben megoldott biztonságos memóriakezelés
-    - memóriakezelésből eredő hibák kiiktatása
-        - out-of-bounds olvasás / írás
-        - memory leak - fel nem szabadított memóra
-        - data race
+# 7. dia: Gyakorlati lehetőségek III.: Rust - Ownership rendszer
+- fordítási időben megoldott biztonságos memóriakezelés
+- memóriakezelésből eredő hibák kiiktatása
+    - out-of-bounds olvasás / írás
+    - memory leak - fel nem szabadított memóra
+    - data race
+- teljesítmény
 
-# 7. dia
+# 8. dia
 - "Várom a kérdéseket, köszönöm a figyelmet"
